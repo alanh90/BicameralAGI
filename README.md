@@ -1,6 +1,6 @@
-# BicameralAI
+# BicameralAGI
 
-BicameralAI is an innovative project aimed at replicating human intellect through artificial intelligence, inspired by Julian Jaynes' bicameral mind theory.
+BicameralAGI is an innovative project aimed at replicating human intellect through artificial intelligence, inspired by Julian Jaynes' bicameral mind theory.
 
 ## Overview
 
