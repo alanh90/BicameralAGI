@@ -34,11 +34,11 @@ BicameralAGI is a groundbreaking project that aims to replicate human-like intel
 
 <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
   <div style="text-align: center; width: 48%;">
-    <img src="media/bicen_man.png" alt="Bicentennial Man" width="100%"/>
+    <img src="media/bicen_man.png" alt="Bicentennial Man" width="48%"/>
     <p style="margin-top: 5px; font-style: italic;">Bicentennial Man (1999)</p>
   </div>
   <div style="text-align: center; width: 48%;">
-    <img src="media/WestWorld_Maeve.png" alt="WestWorld" width="100%"/>
+    <img src="media/WestWorld_Maeve.png" alt="WestWorld" width="48%"/>
     <p style="margin-top: 5px; font-style: italic;">Westworld (2016)</p>
   </div>
 </div>
