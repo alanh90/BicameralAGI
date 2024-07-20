@@ -1,92 +1,94 @@
 {
-    "Formality": [
-        "Very formal: 'I am writing to inform you that...'",
-        "Formal: 'Please be informed that...'",
-        "Informal: 'Just a heads-up that...'"
-    ],
-    "Conciseness": [
-        "Concise: 'Call me.'",
-        "Moderate: 'Give me a call when you can.'",
-        "Verbose: 'When you have a moment, please give me a call.'"
-    ],
-    "Jargon": [
-        "High: 'The CPU utilization is at 90%.'",
-        "Medium: 'The computer is running quite hard.'",
-        "Low: 'The computer is working a lot.'"
-    ],
-    "Emotion": [
-        "High: 'I'm absolutely thrilled about the news!'",
-        "Moderate: 'I am happy about the news.'",
-        "Low: 'The news is good.'"
-    ],
-    "Complexity": [
-        "Complex: 'Despite the fact that it was raining, we decided to go for a walk.'",
-        "Moderate: 'It was raining, but we went for a walk.'",
-        "Simple: 'We walked in the rain.'"
-    ],
-    "Vocabulary": [
-        "Wide: 'The obfuscation of the details was intentional.'",
-        "Moderate: 'They hid the details on purpose.'",
-        "Narrow: 'They hid the facts.'"
-    ],
-    "Idioms": [
-        "High: 'It's raining cats and dogs.'",
-        "Moderate: 'It's raining heavily.'",
-        "Low: 'There is a lot of rain.'"
-    ],
-    "Directness": [
-        "Direct: 'Close the door.'",
-        "Moderate: 'Could you close the door?'",
-        "Indirect: 'It would be great if the door was closed.'"
-    ],
-    "Pacing": [
-        "Fast: 'We need to go, now!'",
-        "Moderate: 'We should be leaving soon.'",
-        "Slow: 'I think it might be time to start thinking about leaving.'"
-    ],
-    "Filler": [
-        "High: 'So, like, I mean, you know, we should probably, um, get going.'",
-        "Moderate: 'I think we should probably get going.'",
-        "Low: 'We should go.'"
-    ],
-    "Politeness": [
-        "High: 'Would you be so kind as to close the window?'",
-        "Moderate: 'Could you close the window, please?'",
-        "Low: 'Close the window.'"
-    ],
-    "Voice": [
-        "Active: 'The committee approved the proposal.'",
-        "Mixed: 'The proposal was approved by the committee.'",
-        "Passive: 'The proposal was approved.'"
-    ],
-    "Specificity": [
-        "High: 'I will meet you at the Starbucks on Main Street at 3 PM.'",
-        "Moderate: 'I will meet you at a coffee shop downtown in the afternoon.'",
-        "Low: 'I will meet you somewhere later.'"
-    ],
-    "Tone": [
-        "Friendly: 'Hey there! How’s it going?'",
-        "Neutral: 'Hello. How are you?'",
-        "Formal: 'Good day. I hope you are well.'"
-    ],
-    "Figurative": [
-        "High: 'Her smile was as bright as the sun.'",
-        "Moderate: 'She had a very bright smile.'",
-        "Low: 'She smiled.'"
-    ],
-    "Relevance": [
-        "High: 'Considering the recent market trends, investing in tech stocks seems prudent.'",
-        "Moderate: 'Investing in tech stocks could be a good idea.'",
-        "Low: 'Stocks can be a good investment.'"
-    ],
-    "Address": [
-        "Formal: 'Dear Mr. Smith,'",
-        "Semi-formal: 'Hello John,'",
-        "Informal: 'Hey John,'"
-    ],
-    "Detail": [
-        "High: 'The project involves developing a comprehensive marketing strategy, including social media campaigns, SEO optimization, and email marketing.'",
-        "Moderate: 'The project involves creating a marketing strategy.'",
-        "Low: 'The project involves marketing.'"
-    ]
+  "styleGuide": {
+    "formality": {
+      "high": "Very formal language (e.g., 'I am writing to inform you that...')",
+      "medium": "Moderately formal (e.g., 'Please be informed that...')",
+      "low": "Casual or informal (e.g., 'Just a heads-up that...')"
+    },
+    "conciseness": {
+      "high": "Brief and to the point (e.g., 'Call me.')",
+      "medium": "Balanced (e.g., 'Give me a call when you can.')",
+      "low": "Verbose or wordy (e.g., 'When you have a moment, please give me a call.')"
+    },
+    "technicalLanguage": {
+      "high": "Specialized terminology (e.g., 'The CPU utilization is at 90%.')",
+      "medium": "Some technical terms (e.g., 'The computer is running quite hard.')",
+      "low": "Everyday language (e.g., 'The computer is working a lot.')"
+    },
+    "emotionalExpression": {
+      "high": "Strong emotional language (e.g., 'I'm absolutely thrilled about the news!')",
+      "medium": "Moderate emotion (e.g., 'I am happy about the news.')",
+      "low": "Minimal emotion (e.g., 'The news is good.')"
+    },
+    "sentenceComplexity": {
+      "high": "Complex sentence structures (e.g., 'Despite the fact that it was raining, we decided to go for a walk.')",
+      "medium": "Moderately complex (e.g., 'It was raining, but we went for a walk.')",
+      "low": "Simple sentences (e.g., 'We walked in the rain.')"
+    },
+    "vocabularyRange": {
+      "high": "Advanced or rare words (e.g., 'The obfuscation of the details was intentional.')",
+      "medium": "Mix of common and uncommon words (e.g., 'They hid the details on purpose.')",
+      "low": "Common, everyday words (e.g., 'They hid the facts.')"
+    },
+    "idiomUsage": {
+      "high": "Frequent use of idioms (e.g., 'It's raining cats and dogs.')",
+      "medium": "Occasional idioms (e.g., 'It's raining heavily.')",
+      "low": "Literal language (e.g., 'There is a lot of rain.')"
+    },
+    "directness": {
+      "high": "Very straightforward (e.g., 'Close the door.')",
+      "medium": "Moderately direct (e.g., 'Could you close the door?')",
+      "low": "Indirect or subtle (e.g., 'It would be great if the door was closed.')"
+    },
+    "verbalPacing": {
+      "high": "Quick, urgent pace (e.g., 'We need to go, now!')",
+      "medium": "Moderate pace (e.g., 'We should be leaving soon.')",
+      "low": "Slow, deliberate pace (e.g., 'I think it might be time to start thinking about leaving.')"
+    },
+    "fillerWords": {
+      "high": "Many filler words (e.g., 'So, like, I mean, you know, we should probably, um, get going.')",
+      "medium": "Some filler words (e.g., 'I think we should probably get going.')",
+      "low": "No filler words (e.g., 'We should go.')"
+    },
+    "politeness": {
+      "high": "Very polite, formal (e.g., 'Would you be so kind as to close the window?')",
+      "medium": "Moderately polite (e.g., 'Could you close the window, please?')",
+      "low": "Direct, potentially impolite (e.g., 'Close the window.')"
+    },
+    "verbVoice": {
+      "high": "Active voice (e.g., 'The committee approved the proposal.')",
+      "medium": "Mix of active and passive (e.g., 'The proposal was approved by the committee.')",
+      "low": "Passive voice (e.g., 'The proposal was approved.')"
+    },
+    "detailSpecificity": {
+      "high": "Very specific details (e.g., 'I will meet you at the Starbucks on Main Street at 3 PM.')",
+      "medium": "Some details (e.g., 'I will meet you at a coffee shop downtown in the afternoon.')",
+      "low": "Vague or general (e.g., 'I will meet you somewhere later.')"
+    },
+    "tonality": {
+      "high": "Formal or serious tone (e.g., 'Good day. I hope you are well.')",
+      "medium": "Neutral tone (e.g., 'Hello. How are you?')",
+      "low": "Casual or friendly tone (e.g., 'Hey there! How's it going?')"
+    },
+    "figurativeLanguage": {
+      "high": "Heavy use of metaphors or similes (e.g., 'Her smile was as bright as the sun.')",
+      "medium": "Some figurative language (e.g., 'She had a very bright smile.')",
+      "low": "Literal language (e.g., 'She smiled.')"
+    },
+    "contentRelevance": {
+      "high": "Highly relevant, specific content (e.g., 'Considering the recent market trends, investing in tech stocks seems prudent.')",
+      "medium": "Moderately relevant (e.g., 'Investing in tech stocks could be a good idea.')",
+      "low": "General, possibly irrelevant (e.g., 'Stocks can be a good investment.')"
+    },
+    "salutation": {
+      "high": "Formal salutation (e.g., 'Dear Mr. Smith,')",
+      "medium": "Semi-formal salutation (e.g., 'Hello John,')",
+      "low": "Informal salutation (e.g., 'Hey John,')"
+    },
+    "informationDensity": {
+      "high": "High density of information (e.g., 'The project involves developing a comprehensive marketing strategy, including social media campaigns, SEO optimization, and email marketing.')",
+      "medium": "Moderate information density (e.g., 'The project involves creating a marketing strategy.')",
+      "low": "Low information density (e.g., 'The project involves marketing.')"
+    }
+  }
 }
