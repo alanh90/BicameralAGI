@@ -10,7 +10,7 @@
 
 *Replicating human-like intelligence through bicameral AI architecture*
 
-[Features](#features) • [Installation](#installation) • [Usage](#usage) • [Contributing](#contributing) • [License](#license)
+[Features](#features-section) • [Installation](#installation-section) • [Usage](#usage-section) • [Contributing](#contributing-section) • [License](#license-section)
 
 </div>
 
@@ -69,7 +69,7 @@ d) **Ethical Reward Structures**: Develop internal rewards reinforcing mutually 
 
 ### 3. Advancing AI Capabilities
 Push the boundaries of current AI development to achieve more human-like thinking using contemporary tools and techniques.
-
+<a name="features-section"></a>
 ## ✨ Features
 
 - Multi-system AI architecture mimicking the theorized bicameral brain structure
@@ -79,6 +79,7 @@ Push the boundaries of current AI development to achieve more human-like thinkin
 - Integration of multiple AI systems working in harmony
 - Novel approach to AI alignment through fundamental emotional and motivational structures
 
+<a name="installation-section"></a>
 ## 🚀 Installation
 
 ```bash
@@ -86,7 +87,7 @@ git clone https://github.com/yourusername/BicameralAGI.git
 cd BicameralAGI
 pip install -r requirements.txt
 ```
-
+<a name="usage-section"></a>
 ## 🖥️ Usage
 
 (To be added at a later date)
@@ -96,11 +97,11 @@ pip install -r requirements.txt
 For over a year, I've been developing various aspects of this AI system, experimenting with different approaches and overcoming challenges. Now, at a crucial juncture, I'm integrating these components into a unified system.
 
 As the integration phase progresses, I'll share regular updates, insights, and breakthroughs. The long-term vision involves compressing this functionality into a more compact transformer model, incorporating various aspects of the architecture into a comprehensive system.
-
+<a name="contributing-section"></a>
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/alanh90/BicameralAGI/issues).
-
+<a name="license-section"></a>
 ## 📜 License
 
 This project is [MIT](https://opensource.org/licenses/MIT) licensed.
