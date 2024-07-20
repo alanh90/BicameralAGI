@@ -32,8 +32,15 @@ BicameralAGI is a groundbreaking project that aims to replicate human-like intel
 
 ### 1. Inspired by Science Fiction
 
-<div align="center">
-  <img src="media/bicen_man.png" alt="Bicentennial Man" width="600"/>
+<div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+  <div style="text-align: center; width: 48%;">
+    <img src="media/bicen_man.png" alt="Bicentennial Man" width="100%"/>
+    <p style="margin-top: 5px; font-style: italic;">Bicentennial Man (1999)</p>
+  </div>
+  <div style="text-align: center; width: 48%;">
+    <img src="media/WestWorld_Maeve.png" alt="WestWorld" width="100%"/>
+    <p style="margin-top: 5px; font-style: italic;">Westworld (2016)</p>
+  </div>
 </div>
 
 My lifelong fascination with human-like AI, as portrayed in works like "Bicentennial Man," "A.I. Artificial Intelligence," "Westworld," and "Star Trek," drives this project. I believe we're at a point where these visions of AI are within reach.
@@ -41,7 +48,7 @@ My lifelong fascination with human-like AI, as portrayed in works like "Bicenten
 ### 2. Mutualism-Inspired AI Alignment
 
 <div align="center">
-  <img src="media/mutualism.png" alt="Mutualism in Nature" width="600"/>
+  <img src="media/mutualism.png" alt="Mutualism in Nature" width="900"/>
 </div>
 
 ### Mutualism in Nature
@@ -63,7 +70,7 @@ d) **Ethical Reward Structures**: Develop internal rewards reinforcing mutually 
 ### 3. Advancing AI Capabilities
 Push the boundaries of current AI development to achieve more human-like thinking using contemporary tools and techniques.
 
-## ✨ Key Features
+## ✨ Features
 
 - Multi-system AI architecture mimicking the theorized bicameral brain structure
 - Simulated internal dialogue for decision-making processes
