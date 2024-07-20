@@ -32,24 +32,35 @@ BicameralAGI is a groundbreaking project that aims to replicate human-like intel
 
 ### 1. Inspired by Science Fiction
 
-<div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-  <div style="text-align: center; width: 48%;">
-    <img src="media/bicen_man.png" alt="Bicentennial Man" width="48%"/>
-    <p style="margin-top: 5px; font-style: italic;">Bicentennial Man (1999)</p>
-  </div>
-  <div style="text-align: center; width: 48%;">
-    <img src="media/WestWorld_Maeve.png" alt="WestWorld" width="48%"/>
-    <p style="margin-top: 5px; font-style: italic;">Westworld (2016)</p>
-  </div>
-</div>
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="media/bicen_mangif.gif" alt="Bicentennial Man" style="height: 300px; width: auto;"/><br>
+      <em>Bicentennial Man (1999) "One of my personal favorite films starring Robin Williams"</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="media/westworld_maeveGif.gif" alt="Westworld" style="height: 300px; width: auto;"/><br>
+      <em>Westworld (2016) "This scene was interesting, it showed a type of LLM generating her logic"</em>
+    </td>
+  </tr>
+</table>
 
 My lifelong fascination with human-like AI, as portrayed in works like "Bicentennial Man," "A.I. Artificial Intelligence," "Westworld," and "Star Trek," drives this project. I believe we're at a point where these visions of AI are within reach.
 
 ### 2. Mutualism-Inspired AI Alignment
 
-<div align="center">
-  <img src="media/mutualism.png" alt="Mutualism in Nature" width="900"/>
-</div>
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="media/clownfish_seaanemone.gif" alt="Clownfish gif" style="height: 300px; width: auto;"/><br>
+      <em>Clownfish and Sea Anemone</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="media/mutualism_warthog.gif" alt="Warthog gif" style="height: 300px; width: auto;"/><br>
+      <em>Warthog and Mongoose</em>
+    </td>
+  </tr>
+</table>
 
 ### Mutualism in Nature
 Mutualism is a symbiotic relationship where two different species interact for mutual benefit. Examples include:
