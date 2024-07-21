@@ -122,6 +122,16 @@ For over a year, I've been developing various aspects of this AI system, experim
 As the integration phase progresses, I'll share regular updates, insights, and breakthroughs. The long-term vision involves compressing this functionality into a more compact transformer model, incorporating various aspects of the architecture into a comprehensive system.
 <a name="contributing-section"></a>
 ## 🤝 Contributing
+We welcome contributions to BicameralAGI! Here's how you can help:
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/AmazingFeature`)
+3. Make your changes
+4. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+5. Push to the branch (`git push origin feature/AmazingFeature`)
+6. Open a Pull Request
+
+Please read `CONTRIBUTING.md` for detailed guidelines on our code of conduct and the process for submitting pull requests.
 
 Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/alanh90/BicameralAGI/issues).
 <a name="license-section"></a>
