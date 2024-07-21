@@ -32,31 +32,39 @@ BicameralAGI is a groundbreaking project that aims to replicate human-like intel
 
 ### 1. Inspired by Science Fiction
 
-<div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-  <div style="flex: 1 1 300px; max-width: 45%; text-align: center; margin: 10px;">
-    <img src="media/bicen_mangif.gif" alt="Bicentennial Man" style="max-width: 100%; height: auto;"/>
-    <p><em>Bicentennial Man (1999) "One of my personal favorite films starring Robin Williams"</em></p>
-  </div>
-  <div style="flex: 1 1 300px; max-width: 45%; text-align: center; margin: 10px;">
-    <img src="media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
-    <p><em>Westworld (2016) "This scene was interesting, it showed a type of LLM generating her logic"</em></p>
-  </div>
-</div>
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="media/bicen_mangif.gif" alt="Bicentennial Man" style="max-width: 100%; height: auto;"/>
+      <br>
+      <em>Bicentennial Man (1999) "One of my personal favorite films starring Robin Williams"</em>
+    </td>
+    <td width="50%" align="center">
+      <img src="media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
+      <br>
+      <em>Westworld (2016) "This scene was interesting, it showed a type of LLM generating her logic"</em>
+    </td>
+  </tr>
+</table>
 
 My lifelong fascination with human-like AI, as portrayed in works like "Bicentennial Man," "A.I. Artificial Intelligence," "Westworld," and "Star Trek," drives this project. I believe we're at a point where these visions of AI are within reach.
 
 ### 2. Mutualism-Inspired AI Alignment
 
-<div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-  <div style="flex: 1 1 300px; max-width: 45%; text-align: center; margin: 10px;">
-    <img src="media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
-    <p><em>Clownfish and Sea Anemone</em></p>
-  </div>
-  <div style="flex: 1 1 300px; max-width: 45%; text-align: center; margin: 10px;">
-    <img src="media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
-    <p><em>Warthog and Mongoose</em></p>
-  </div>
-</div>
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
+      <br>
+      <em>Clownfish and Sea Anemone</em>
+    </td>
+    <td width="50%" align="center">
+      <img src="media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
+      <br>
+      <em>Warthog and Mongoose</em>
+    </td>
+  </tr>
+</table>
 
 ### Understanding Mutualism
 
