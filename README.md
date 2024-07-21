@@ -35,11 +35,11 @@ BicameralAGI is a groundbreaking project that aims to replicate human-like intel
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="media/bicen_mangif.gif" alt="Bicentennial Man" style="height: 300px; width: auto;"/><br>
+      <img src="media/bicen_mangif.gif" alt="Bicentennial Man" style="width: 300px; height: 300px; object-fit: cover;"/><br>
       <em>Bicentennial Man (1999) "One of my personal favorite films starring Robin Williams"</em>
     </td>
     <td align="center" width="50%">
-      <img src="media/westworld_maeveGif.gif" alt="Westworld" style="height: 300px; width: auto;"/><br>
+      <img src="media/westworld_maeveGif.gif" alt="Westworld" style="width: 300px; height: 300px; object-fit: cover;"/><br>
       <em>Westworld (2016) "This scene was interesting, it showed a type of LLM generating her logic"</em>
     </td>
   </tr>
@@ -52,11 +52,11 @@ My lifelong fascination with human-like AI, as portrayed in works like "Bicenten
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="media/clownfish_seaanemone.gif" alt="Clownfish gif" style="height: 300px; width: auto;"/><br>
+      <img src="media/clownfish_seaanemone.gif" alt="Clownfish gif" style="width: 300px; height: 300px; object-fit: cover;"/><br>
       <em>Clownfish and Sea Anemone</em>
     </td>
     <td align="center" width="50%">
-      <img src="media/mutualism_warthog.gif" alt="Warthog gif" style="height: 300px; width: auto;"/><br>
+      <img src="media/mutualism_warthog.gif" alt="Warthog gif" style="width: 300px; height: 300px; object-fit: cover;"/><br>
       <em>Warthog and Mongoose</em>
     </td>
   </tr>
