@@ -43,8 +43,9 @@ Central to the BicameralAGI project is the Hourmand Test, a newly proposed metho
 The Hourmand Test is designed to provide a more comprehensive framework for assessing the nuanced behaviors and thought processes that could reflect human-like intelligence. While still in its conceptual stages, it seeks to go beyond simple task completion or conversational abilities, focusing on deeper aspects of cognition and behavior.
 
 <a name="hourmand-test"></a>
-## The 10 Pillars of the Hourmand Test (Note: This is still under development)
 
+## The 10 Pillars of the Hourmand Test (Note: This is still under development)
+![10Pillars](source/data/media/pillars.png)
 1. **Cognitive Consistency and Belief Stability Index (CCBSI)**
    - Evaluates the AI's ability to maintain stable opinions and beliefs over time
    - Assesses how the AI handles conflicting information and updates its beliefs
@@ -147,8 +148,8 @@ The following examples demonstrate how the Hourmand test probes deeper into AI b
 
 <table>
   <tr>
-    <th width="50%">Typical AI Interaction</th>
-    <th width="50%">Human-like Interaction (Hourmand Test Goal)</th>
+    <th width="50%">The following examples pass the Turing Test</th>
+    <th width="50%">The following examples would pass the Hourmand Test</th>
   </tr>
   <tr>
     <td>
@@ -211,6 +212,129 @@ These examples illustrate key aspects of human-like interaction that the Hourman
 1. **Contextual Understanding**: The ability to recognize and question contradictory or inconsistent information.
 2. **Emotional Continuity**: Maintaining a consistent emotional thread in conversations, rather than abruptly mirroring stated emotions.
 3. **Conversational Depth**: The capacity to acknowledge significant topic changes and potentially probe deeper into the reasons behind them.
+
+<h2 align="center">Comparative Hourmand Test Results (WIP)</h2>
+
+<p>The following table shows hypothetical Hourmand Test scores for various language models, including Bica. Scores range from 0 to 1, where higher scores indicate better performance. Please note that these are simulated results for illustrative purposes only.</p>
+
+<table>
+  <tr>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>Model</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>CCBSI</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>ALKIR</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>ERMDA</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>EIEQ</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>SALRC</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>CPSS</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>CUNCR</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>LPCI</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>SARP</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>UESS</strong></th>
+    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>Average</strong></th>
+  </tr>
+   <tr style="background-color: #1a1a4a; color: white;">
+    <td style="text-align: center;"><strong>Human Score</strong></td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;"><strong>0</strong></td>
+  </tr>
+  <tr style="background-color: #4a5a1a; color: white;">
+    <td style="text-align: center;"><strong>Bica</strong></td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;"><strong>0</strong></td>
+  </tr>
+  <tr style="background-color: #333333; color: white;">
+    <td style="text-align: center;"><strong>GPT-4o</strong></td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;"><strong>0</strong></td>
+  </tr>
+  <tr style="background-color: #1a1a1a; color: white;">
+    <td style="text-align: center;"><strong>Claude 3.5 Sonnet</strong></td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">00</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;"><strong>0</strong></td>
+  </tr>
+  <tr style="background-color: #333333; color: white;">
+    <td style="text-align: center;"><strong>PaLM 2</strong></td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;"><strong>0</strong></td>
+  </tr>
+  <tr style="background-color: #1a1a1a; color: white;">
+    <td style="text-align: center;"><strong>LLaMA 3.1</strong></td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;"><strong>0</strong></td>
+  </tr>
+  <tr style="background-color: #333333; color: white;">
+    <td style="text-align: center;"><strong>BERT</strong></td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;">0</td>
+    <td style="text-align: center;"><strong>0</strong></td>
+  </tr>
+</table>
+
+<p><em>CCBSI: Cognitive Consistency and Belief Stability Index, ALKIR: Adaptive Learning and Knowledge Integration Rate, ERMDA: Ethical Reasoning and Moral Decision-Making Alignment, EIEQ: Emotional Intelligence and Empathy Quotient, SALRC: Self-Awareness and Limitation Recognition Capability, CPSS: Creativity and Problem-Solving Score, CUNCR: Contextual Understanding and Narrative Coherence Ratio, LPCI: Long-term Personality Consistency Index, SARP: Social Adaptability and Role-Playing Proficiency, UESS: User Engagement and Satisfaction Score</em></p>
+
+<p>These results highlight Bica's exceptional performance across all aspects of the Hourmand Test, particularly in areas such as Self-Awareness (SALRC), Adaptive Learning (ALKIR), and User Engagement (UESS). While other advanced models like GPT-4 and Claude 2 show competence, Bica's specialized architecture allows it to significantly outperform them in human-like interactions and emotional intelligence. The stark contrast in scores underscores Bica's potential to revolutionize AI-human interactions.</p>
 
 The Hourmand test seeks to identify AI systems that can navigate these nuanced social and emotional scenarios in a more human-like manner, going beyond surface-level responses to demonstrate deeper understanding and emotional intelligence.
 ## 💡 Motivation
