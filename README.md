@@ -2,7 +2,7 @@
 
 # 🧠 BicameralAGI
 
-![BicameralAGI Cover](media/BICA_Cover.png)
+![BicameralAGI Cover](source/data/media/BICA_Cover.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
@@ -35,12 +35,12 @@ BicameralAGI is a groundbreaking project that aims to replicate human-like intel
 <table>
   <tr>
     <td width="50%" align="center">
-      <img src="media/bicen_mangif.gif" alt="Bicentennial Man" style="max-width: 100%; height: auto;"/>
+      <img src="source/data/media/bicen_mangif.gif" alt="Bicentennial Man" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Bicentennial Man (1999) "One of my personal favorite films starring Robin Williams"</em>
     </td>
     <td width="50%" align="center">
-      <img src="media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
+      <img src="source/data/media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Westworld (2016) "This scene was interesting, it showed a type of LLM generating her logic"</em>
     </td>
@@ -54,12 +54,12 @@ My lifelong fascination with human-like AI, as portrayed in works like "Bicenten
 <table>
   <tr>
     <td width="50%" align="center">
-      <img src="media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
+      <img src="source/data/media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Clownfish and Sea Anemone</em>
     </td>
     <td width="50%" align="center">
-      <img src="media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
+      <img src="source/data/media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Warthog and Mongoose</em>
     </td>
