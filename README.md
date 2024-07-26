@@ -10,7 +10,7 @@
 
 *Replicating human-like intelligence through bicameral AI architecture*
 
-[Features](#features-section) • [Installation](#installation-section) • [Usage](#usage-section) • [Contributing](#contributing-section) • [License](#license-section)
+[Features](#features-section) • [The Hourmand Test](#hourmand-test) • [Components](#components-section) • [Installation](#installation-section) • [Usage](#usage-section) • [Contributing](#contributing-section) • [License](#license-section)
 
 </div>
 
@@ -18,7 +18,15 @@
 
 ## 📖 Overview
 
-BicameralAGI is a groundbreaking project that aims to replicate human-like intelligence through artificial intelligence, drawing inspiration from Julian Jaynes' bicameral mind theory. This ambitious endeavor integrates various AI components into a cohesive system that mimics human cognition.
+Hello, I'm Alan Hourmand, the creator of BicameralAGI. This project is the culmination of my lifelong fascination with artificial intelligence and science fiction. Growing up immersed in sci-fi classics like Tron and Star Trek, I've always been captivated by the potential of AI to enhance our lives and push the boundaries of what's possible.
+
+BicameralAGI is more than just a technical endeavor; it's a passion project born from a deep-seated belief that emotional intelligence is crucial for creating AI that genuinely cares about humanity. While we strive for higher intelligence in AI, I firmly believe that without emotional capacity, we risk creating entities that may not prioritize human well-being. This project aims to develop AI with a deep understanding of emotions, coupled with safety measures that foster a mutualistic relationship between AI and humans.
+
+A key component of this project is the Hourmand Test, a concept I developed to address the limitations of existing AI evaluation methods like the Turing Test. While passing the Turing Test has become relatively achievable, it doesn't fully capture the nuances of human-like interaction. The Hourmand Test aims to assess deeper aspects of AI behavior, including emotional intelligence, doubt, and the subtle complexities of human conversation.
+
+BicameralAGI draws inspiration from Julian Jaynes' bicameral mind theory, integrating various AI components into a cohesive system that mimics human cognition. By focusing on emotional intelligence and mutualistic alignment, we're working towards AI that not only assists humans but genuinely thrives on positive human interactions.
+
+This project represents not just a technical challenge, but a step towards creating AI that can be a true companion and collaborator for humanity. Through BicameralAGI, I hope to contribute to the development of AI systems that are not only intelligent but also emotionally aware and aligned with human values.
 
 ## 🎯 Project Goals
 
@@ -28,16 +36,130 @@ BicameralAGI is a groundbreaking project that aims to replicate human-like intel
 4. Compress the system into a smaller, efficient model retaining core functionalities
 5. Produce a single multimodal AI model capable of human-like interaction and cognition, with built-in alignment
 
+## 🔬 Hourmand Test: A Proposed Framework for Evaluating Human-like AI
+
+Central to the BicameralAGI project is the Hourmand Test, a newly proposed method for evaluating human-like artificial intelligence. Named with a touch of humor after my name Alan Hourmand, this test aims to address some of the limitations found in existing evaluation methods like the Turing test.
+
+The Hourmand Test is designed to provide a more comprehensive framework for assessing the nuanced behaviors and thought processes that could reflect human-like intelligence. While still in its conceptual stages, it seeks to go beyond simple task completion or conversational abilities, focusing on deeper aspects of cognition and behavior.
+<a name="hourmand-test"></a>
+### Key Features of the Proposed Hourmand Test
+
+1. **Consistency and Opinion Stability** 
+   - Aims to evaluate the AI's ability to maintain coherent viewpoints over time
+   - Proposes to assess how the AI handles conflicting information and updates its beliefs
+
+2. **Self-Awareness and Limitation Recognition** 
+   - Intends to test the AI's capacity to acknowledge its own knowledge gaps and uncertainties
+   - Seeks to examine how the AI communicates its limitations and seeks additional information
+
+3. **Ethical Reasoning** 
+   - Plans to present complex moral dilemmas to assess the AI's ethical decision-making process
+   - Aims to evaluate the AI's ability to explain and justify its ethical choices
+
+4. **Adaptive Learning** 
+   - Proposes to measure how quickly and effectively the AI integrates new information
+   - Intends to assess the AI's ability to apply learned concepts in novel situations
+
+5. **Emotional Intelligence** 
+   - Seeks to test the AI's capacity to recognize, understand, generate emotions, and respond to human emotions
+   - Aims to evaluate the AI's ability to modulate its responses based on emotional context
+
+6. **Creativity and Problem-Solving** 
+   - Plans to present open-ended challenges to assess the AI's creative thinking
+   - Intends to evaluate the AI's ability to generate novel solutions and think "outside the box" beyond its training data
+
+7. **Behavioral Nuances** 
+   - Proposes to examine subtle changes in the AI's responses to unusual or unexpected situations
+   - Aims to assess the AI's ability to display human-like quirks and idiosyncrasies
+
+8. **Long-term Interaction Analysis** 
+   - Suggests studying the AI's behavior over extended periods to evaluate consistency and growth
+   - Intends to assess the development of the AI's "personality" and relationship-building capabilities
+
+The Hourmand Test is an evolving concept, designed to contribute to the ongoing discussion about how we evaluate AI systems. By focusing on these aspects, we hope to develop a more nuanced understanding of what constitutes human-like AI and how we might assess it. 
+
+## Illustrating the difference between the Turing Test vs Hourmand Test
+
+The following examples demonstrate how the Hourmand test probes deeper into AI behavior, revealing limitations in current AI systems and highlighting the human-like qualities it aims to evaluate.
+
+<table>
+  <tr>
+    <th width="50%">Typical AI Interaction</th>
+    <th width="50%">Human-like Interaction (Hourmand Test Goal)</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>User:</strong> My dog just died.<br>
+      <strong>AI:</strong> I'm so sorry for your loss. Losing a pet can be very difficult.<br>
+      <strong>User:</strong> Actually, he's alive!<br>
+      <strong>AI:</strong> That's wonderful news! I'm so glad your dog is alive and well.
+      <br><br>
+      <em>The AI fails to question the contradictory information or express confusion, accepting the dramatic shift without hesitation.</em>
+    </td>
+    <td>
+      <strong>User:</strong> My dog just died.<br>
+      <strong>Bica:</strong> Oh no, I'm so sorry. That's heartbreaking. How are you holding up?<br>
+      <strong>User:</strong> Actually, he's alive!<br>
+      <strong>Bica:</strong> Wait, what? I'm confused. Didn't you just say he died? What's going on?
+      <br><br>
+      <em>A human-like response would express confusion and seek clarification about the contradictory statements, showing a deeper understanding of the conversation's context.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>User:</strong> I'm feeling really sad today.<br>
+      <strong>AI:</strong> I'm sorry to hear that you're feeling sad. Is there anything I can do to help?<br>
+      <strong>User:</strong> Now I'm happy!<br>
+      <strong>AI:</strong> That's great! I'm glad your mood has improved. What made you feel better?
+      <br><br>
+      <em>The AI immediately accepts and mirrors the user's stated emotion without questioning the rapid change or showing any emotional continuity.</em>
+    </td>
+    <td>
+      <strong>User:</strong> I'm feeling really sad today.<br>
+      <strong>Bica:</strong> I'm sorry you're feeling down. Do you want to talk about what's bothering you?<br>
+      <strong>User:</strong> Now I'm happy!<br>
+      <strong>Bica:</strong> Uhhh what? Are you sure you're okay?
+      <br><br>
+      <em>A human-like response would acknowledge the sudden mood shift, express concern, and potentially probe deeper to understand the true emotional state.</em>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>User:</strong> So my family was in an awful accident.<br>
+      <strong>AI:</strong> I am so sorry to hear about that, are they okay? <br>
+      <strong>User:</strong> Lets talk about Pizza instead :) <br>
+      <strong>AI:</strong> Sure! Pizza toppings are a fun topic. Some popular ones include pepperoni, mushrooms, and extra cheese. What's your favorite?
+      <br><br>
+      <em>The AI abruptly switches topics without any acknowledgment of the sudden change or the significance of the previous topic.</em>
+    </td>
+    <td>
+      <strong>User:</strong> So my family was in an awful accident.<br>
+      <strong>Bica:</strong> I am so sorry to hear about that, are they okay? <br>
+      <strong>User:</strong> Lets talk about Pizza instead :) <br>
+      <strong>Bica:</strong> Oh, uh, okay... Why though? Is your family okay? <br>
+      <br><br>
+      <em>A human-like response would acknowledge the abrupt topic change, potentially express surprise, and might inquire about the reason for the shift, especially given the importance of the original topic.</em>
+    </td>
+  </tr>
+</table>
+
+These examples illustrate key aspects of human-like interaction that the Hourmand test aims to evaluate:
+
+1. **Contextual Understanding**: The ability to recognize and question contradictory or inconsistent information.
+2. **Emotional Continuity**: Maintaining a consistent emotional thread in conversations, rather than abruptly mirroring stated emotions.
+3. **Conversational Depth**: The capacity to acknowledge significant topic changes and potentially probe deeper into the reasons behind them.
+
+The Hourmand test seeks to identify AI systems that can navigate these nuanced social and emotional scenarios in a more human-like manner, going beyond surface-level responses to demonstrate deeper understanding and emotional intelligence.
 ## 💡 Motivation
 
-### 1. Inspired by Science Fiction
+### 1. Inspired by some of my favorite science fiction films
 
 <table>
   <tr>
     <td width="50%" align="center">
-      <img src="source/data/media/bicen_mangif.gif" alt="Bicentennial Man" style="max-width: 100%; height: auto;"/>
+      <img src="source/data/media/heres-a-clu.gif" alt="Tron" style="max-width: 100%; height: auto;"/>
       <br>
-      <em>Bicentennial Man (1999) "One of my personal favorite films starring Robin Williams"</em>
+      <em>Tron Legacy (2010)</em>
     </td>
     <td width="50%" align="center">
       <img src="source/data/media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
@@ -108,7 +230,7 @@ Push the boundaries of current AI development to achieve more human-like thinkin
 - Memory consolidation through simulated dreaming processes
 - Emotional modeling and stability
 - Dynamic personality system
-
+<a name="components-section"></a>
 ## 🧩 Components
 
 ## Core BICA Cognitive Components: Expanded Functions
