@@ -334,7 +334,7 @@ These examples illustrate key aspects of human-like interaction that the Hourman
 
 <p><em>CCBSI: Cognitive Consistency and Belief Stability Index, ALKIR: Adaptive Learning and Knowledge Integration Rate, ERMDA: Ethical Reasoning and Moral Decision-Making Alignment, EIEQ: Emotional Intelligence and Empathy Quotient, SALRC: Self-Awareness and Limitation Recognition Capability, CPSS: Creativity and Problem-Solving Score, CUNCR: Contextual Understanding and Narrative Coherence Ratio, LPCI: Long-term Personality Consistency Index, SARP: Social Adaptability and Role-Playing Proficiency, UESS: User Engagement and Satisfaction Score</em></p>
 
-<p>These results highlight Bica's exceptional performance across all aspects of the Hourmand Test, particularly in areas such as Self-Awareness (SALRC), Adaptive Learning (ALKIR), and User Engagement (UESS). While other advanced models like GPT-4 and Claude 2 show competence, Bica's specialized architecture allows it to significantly outperform them in human-like interactions and emotional intelligence. The stark contrast in scores underscores Bica's potential to revolutionize AI-human interactions.</p>
+<p>The goal is that Bica will outperform the rest on this eval, particularly in creativity, awareness, and emotional response.</p>
 
 The Hourmand test seeks to identify AI systems that can navigate these nuanced social and emotional scenarios in a more human-like manner, going beyond surface-level responses to demonstrate deeper understanding and emotional intelligence.
 ## 💡 Motivation
