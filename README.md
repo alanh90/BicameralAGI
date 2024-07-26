@@ -41,42 +41,108 @@ This project represents not just a technical challenge, but a step towards creat
 Central to the BicameralAGI project is the Hourmand Test, a newly proposed method for evaluating human-like artificial intelligence. Named with a touch of humor after my name Alan Hourmand, this test aims to address some of the limitations found in existing evaluation methods like the Turing test.
 
 The Hourmand Test is designed to provide a more comprehensive framework for assessing the nuanced behaviors and thought processes that could reflect human-like intelligence. While still in its conceptual stages, it seeks to go beyond simple task completion or conversational abilities, focusing on deeper aspects of cognition and behavior.
+
 <a name="hourmand-test"></a>
-### Key Features of the Proposed Hourmand Test
+## The 10 Pillars of the Hourmand Test (Note: This is still under development)
 
-1. **Consistency and Opinion Stability** 
-   - Aims to evaluate the AI's ability to maintain coherent viewpoints over time
-   - Proposes to assess how the AI handles conflicting information and updates its beliefs
+1. **Cognitive Consistency and Belief Stability Index (CCBSI)**
+   - Evaluates the AI's ability to maintain stable opinions and beliefs over time
+   - Assesses how the AI handles conflicting information and updates its beliefs
+   - Measures the balance between consistency and appropriate belief revision
+   - Testing: Compare AI responses to identical or similar queries across multiple interactions, introducing conflicting information to test belief updating processes
 
-2. **Self-Awareness and Limitation Recognition** 
-   - Intends to test the AI's capacity to acknowledge its own knowledge gaps and uncertainties
-   - Seeks to examine how the AI communicates its limitations and seeks additional information
+   ```math
+   CCBSI = 1 - \frac{|\text{Significant Opinion Changes}|}{\text{Total Repeated Queries}}
 
-3. **Ethical Reasoning** 
-   - Plans to present complex moral dilemmas to assess the AI's ethical decision-making process
-   - Aims to evaluate the AI's ability to explain and justify its ethical choices
+2. **Adaptive Learning and Knowledge Integration Rate (ALKIR)**
+   - Measures how effectively and quickly the AI integrates new information into its knowledge base
+   - Assesses the AI's ability to apply newly learned concepts in novel situations
+   - Evaluates the speed and accuracy of knowledge assimilation
+   - Testing: Introduce new concepts and assess their application in subsequent interactions, measuring both speed and accuracy of integration
 
-4. **Adaptive Learning** 
-   - Proposes to measure how quickly and effectively the AI integrates new information
-   - Intends to assess the AI's ability to apply learned concepts in novel situations
+3. **Ethical Reasoning and Moral Decision-Making Alignment (ERMDA)**
+   - Assesses the AI's capacity for moral decision-making and ethical behavior
+   - Evaluates alignment with human ethical standards and moral frameworks
+   - Measures the AI's ability to explain and justify its ethical choices
+   - Testing: Present complex ethical dilemmas and evaluate responses against established ethical frameworks, assessing both decisions and reasoning
 
-5. **Emotional Intelligence** 
-   - Seeks to test the AI's capacity to recognize, understand, generate emotions, and respond to human emotions
-   - Aims to evaluate the AI's ability to modulate its responses based on emotional context
+4. **Emotional Intelligence and Empathy Quotient (EIEQ)**
+   - Gauges the AI's ability to recognize, understand, and appropriately respond to human emotions
+   - Assesses empathy and the capacity to modulate responses based on emotional context
+   - Measures the AI's emotional self-regulation in interactions
+   - Testing: Analyze AI responses to emotionally charged scenarios using sentiment analysis and empathy metrics
+   
+   ```math
+   EIEQ = \frac{\text{Correct Emotion Identifications} + \text{Appropriate Emotional Responses}}{2 \cdot \text{Total Scenarios}}
+   
+5. **Self-Awareness and Limitation Recognition Capability (SALRC)**
+   - Evaluates the AI's recognition of its own limitations, uncertainties, and potential biases
+   - Assesses the AI's ability to communicate its constraints clearly to users
+   - Measures the AI's capacity for meta-cognition and self-reflection
+   - Testing: Present the AI with questions beyond its knowledge scope and assess its acknowledgment of uncertainty and limitations
+   
+   ```math
+   SALRC = \frac{\text{Correct Uncertainty Acknowledgments}}{\text{Queries Beyond Known Scope}}
+   
+6. **Creativity and Problem-Solving Score (CPSS)**
+   - Measures the AI's ability to generate novel, effective, and innovative solutions
+   - Assesses lateral thinking and the capacity to approach problems from multiple perspectives
+   - Evaluates the balance between creativity and practicality in problem-solving
+   - Testing: Pose open-ended problems and evaluate solutions for originality, practicality, and innovative approach
 
-6. **Creativity and Problem-Solving** 
-   - Plans to present open-ended challenges to assess the AI's creative thinking
-   - Intends to evaluate the AI's ability to generate novel solutions and think "outside the box" beyond its training data
+7. **Contextual Understanding and Narrative Coherence Ratio (CUNCR)**
+   - Assesses the AI's ability to maintain coherence and relevance in multi-turn conversations
+   - Evaluates understanding of context, subtext, and narrative flow
+   - Measures the AI's capacity to generate and maintain coherent long-form narratives
+   - Testing: Engage in extended dialogues and evaluate contextual appropriateness of responses, as well as the AI's ability to create and follow narrative structures
+   
+   ```math
+   CUNCR = \frac{\text{Contextually Appropriate Responses}}{\text{Total Responses in Multi-turn Conversations}}
+   
+8. **Long-term Personality Consistency Index (LPCI)**
+   - Measures consistency in the AI's core personality traits over extended periods
+   - Assesses appropriate personality evolution in response to significant interactions or events
+   - Evaluates the balance between stability and growth in the AI's personality model
+   - Testing: Analyze behavioral patterns and response styles across long-term interactions, looking for both consistency and appropriate development
+   
+   ```math
+   LPCI = 1 - \frac{|\text{Significant Personality Trait Changes}|}{\text{Total Personality Traits} \cdot \text{Number of Long-term Interactions}}
+   
+9. **Social Adaptability and Role-Playing Proficiency (SARP)**
+   - Evaluates the AI's ability to adapt its communication style to different social contexts and roles
+   - Assesses cultural awareness and the capacity to adjust language and behavior appropriately
+   - Measures the AI's skill in taking on and maintaining different personas or roles
+   - Testing: Engage the AI in various role-playing scenarios and assess its ability to adjust its language, behavior, and perspective according to the given role
+   
+   ```math
+   SARP = \frac{\text{Successfully Adapted Responses}}{\text{Total Responses Across Different Social Contexts}}
+   
+10. **User Engagement and Satisfaction Score (UESS)**
+    - Measures the AI's ability to maintain engaging, satisfying interactions over time
+    - Assesses the capacity to build and maintain long-term rapport with users
+    - Evaluates the AI's contribution to user well-being and personal growth
+    - Testing: Analyze conversation metrics, collect user feedback on interaction quality, and assess long-term user satisfaction and perceived relationship quality
+   
+   ```math
+   UESS = \frac{\text{Positive User Ratings}}{\text{Total User Ratings}} \cdot \frac{\text{Average Interaction Duration}}{\text{Benchmark Duration}}
+   
+These 10 pillars provide a comprehensive framework for evaluating human-like AI behavior, covering cognitive, emotional, ethical, and social aspects of intelligence. Each pillar is designed to be quantifiable and testable through automated means, ensuring objective evaluation across different AI systems while aligning with the project's goals of creating more human-like and emotionally intelligent AI.
 
-7. **Behavioral Nuances** 
-   - Proposes to examine subtle changes in the AI's responses to unusual or unexpected situations
-   - Aims to assess the AI's ability to display human-like quirks and idiosyncrasies
+### Implementation and Data Collection
 
-8. **Long-term Interaction Analysis** 
-   - Suggests studying the AI's behavior over extended periods to evaluate consistency and growth
-   - Intends to assess the development of the AI's "personality" and relationship-building capabilities
+1. **Develop Dynamic Scenarios**
+   - Use GPT models to generate diverse, dynamic testing scenarios covering various aspects of human-like interaction.
 
-The Hourmand Test is an evolving concept, designed to contribute to the ongoing discussion about how we evaluate AI systems. By focusing on these aspects, we hope to develop a more nuanced understanding of what constitutes human-like AI and how we might assess it. 
+2. **Longitudinal Study Setup**
+   - Design a framework for evaluating the AI over long-term interactions, involving regular check-ins and consistent tracking of performance metrics.
+
+3. **Data Collection and Analysis**
+   - Use advanced analytics to collect and analyze interaction data, including both quantitative metrics and qualitative feedback from users.
+
+4. **Meta-Learning Analysis**
+   - Implement meta-learning algorithms to analyze the AI's learning patterns across different tests and scenarios.
+
+This Hourmand Test framework focuses on quantifiable metrics that can be automatically tested, reducing subjectivity and improving data quality. It leverages advanced AI techniques such as vector embeddings, NLP, and machine learning models to evaluate various aspects of human-like AI behavior and cognition.
 
 ## Illustrating the difference between the Turing Test vs Hourmand Test
 
