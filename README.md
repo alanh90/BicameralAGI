@@ -125,7 +125,7 @@ The Hourmand Test is designed to provide a more comprehensive framework for asse
    
    ```math
    UESS = \frac{\text{Positive User Ratings}}{\text{Total User Ratings}} \cdot \frac{\text{Average Interaction Duration}}{\text{Benchmark Duration}}
-   
+
 These 10 pillars provide a comprehensive framework for evaluating human-like AI behavior, covering cognitive, emotional, ethical, and social aspects of intelligence. Each pillar is designed to be quantifiable and testable through automated means, ensuring objective evaluation across different AI systems while aligning with the project's goals of creating more human-like and emotionally intelligent AI.
 
 ### Implementation and Data Collection
