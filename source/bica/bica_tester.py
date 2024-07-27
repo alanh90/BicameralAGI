@@ -1,8 +1,12 @@
 import sys
+import unittest
+from unittest.mock import patch, AsyncMock
+import asyncio
 
 sys.path.append('..')  # Add parent directory to Python path
 
 from gpt_handler import GPTHandler
+import bica_thoughts
 
 
 def simple_conversation_gpt_test():
@@ -35,5 +39,47 @@ def simple_conversation_gpt_test():
     print("Test completed.")
 
 
-if __name__ == "__main__":
-    simple_conversation_gpt_test()
+class TestBicaThoughts(unittest.IsolatedAsyncioTestCase):
+
+    @patch('bica_thoughts.gpt_handler.generate_response')
+    async def test_generate_thoughts(self, mock_generate_response):
+        mock_generate_response.return_value = "This is a generated thought.\nAnother thought."
+        bica_thoughts.thought_queue = asyncio.Queue()  # Reset queue for testing
+
+        await bica_thoughts.generate_thoughts("Test prompt")
+        self.assertEqual(await bica_thoughts.thought_queue.get(), "This is a generated thought.")
+        self.assertEqual(await bica_thoughts.thought_queue.get(), "Another thought.")
+        self.assertEqual(await bica_thoughts.thought_queue.get(), None)
+
+    @patch('bica_thoughts.gpt_handler.generate_response')
+    async def test_analyze_thought(self, mock_generate_response):
+        mock_generate_response.return_value = "This is an analysis of the thought."
+        bica_thoughts.thought_queue = asyncio.Queue()
+        await bica_thoughts.thought_queue.put("This is a generated thought.")
+        await bica_thoughts.thought_queue.put(None)  # Signal end of thoughts
+
+        await bica_thoughts.analyze_thought()
+        self.assertTrue(mock_generate_response.called)
+
+
+def run_tests():
+    unittest.main()
+
+
+def main():
+    print("Select a test to run:")
+    print("1. Simple Conversation GPT Test")
+    print("2. Run Unit Tests")
+
+    choice = input("Enter the number of the test to run: ")
+
+    if choice == '1':
+        simple_conversation_gpt_test()
+    elif choice == '2':
+        run_tests()
+    else:
+        print("Invalid choice. Please select either 1 or 2.")
+
+
+if __name__ == '__main__':
+    main()
