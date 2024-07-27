@@ -10,7 +10,7 @@ class GPTHandler:
         if self.api_provider == "openai":
             openai.api_key = util.get_environment_variable("OPENAI_API_KEY")
         else:
-            raise ValueError("Invalid API provider. Choose either 'openai' or 'groq'.")
+            raise ValueError("Invalid API provider")
 
     async def generate_response(self, prompt, temperature=0.7, max_tokens=350, top_p=1, frequency_penalty=0, presence_penalty=0, stop=None):
         if self.api_provider == "openai":
@@ -25,9 +25,6 @@ class GPTHandler:
                 stop=stop
             )
             return response.choices[0].message.content.strip()
-        elif self.api_provider == "groq":
-            # Asynchronous call for Groq client (not shown here)
-            pass
 
     def extract_text_from_response(self, response_content):
         if isinstance(response_content, list):
