@@ -179,7 +179,7 @@ By drawing inspiration from the Bicameral Mind Theory, BicameralAGI aims to crea
 <a name="turing-plus-test"></a>
 ## 🔬 Turing++ Test: A Proposed Framework for Evaluating Human-like AI
 
-Central to the BicameralAGI project is the Turing++ Test, a newly proposed method for evaluating human-like artificial intelligence. Named with a touch of humor after my name Alan Turing++, this test aims to address some of the limitations found in existing evaluation methods like the Turing test.
+Central to the BicameralAGI project is the Turing++ Test, a newly proposed method for evaluating human-like artificial intelligence. This test aims to address some of the limitations found in existing evaluation methods like the Turing test.
 
 The Turing++ Test is designed to provide a more comprehensive framework for assessing the nuanced behaviors and thought processes that could reflect human-like intelligence. While still in its conceptual stages, it seeks to go beyond simple task completion or conversational abilities, focusing on deeper aspects of cognition and behavior.
 
