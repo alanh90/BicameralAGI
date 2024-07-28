@@ -10,41 +10,129 @@
 
 *Replicating human-like intelligence through bicameral AI architecture*
 
-[Features](#features-section) • [The Hourmand Test](#hourmand-test) • [Components](#components-section) • [Installation](#installation-section) • [Usage](#usage-section) • [Contributing](#contributing-section) • [License](#license-section)
-
 </div>
 
 ---
+## 📚 Table of Contents
 
+- [Overview](#overview-section)
+- [Motivation](#motivation-section)
+  - [Science Fiction Inspiration](#science-fiction-section)
+  - [Mutualism-Inspired AI Alignment](#mutualism-section)
+  - [Bicameral Mind Theory](#bicameral-mind-section)
+- [The Turing++ Test](#turing-plus-test)
+  - [Turing vs Turing++](#turing-comparison)
+  - [Turing++ Results](#turing-plus-results)
+- [BICA Architecture](#bica-section)
+- [Features](#features-section)
+- [Ethical Considerations](#ethics-section)
+- [Roadmap](#project-goals-and-roadmap)
+- [Current Status / Demo](#status-section)
+- [Getting Started](#getting-started)
+  - [Installation](#installation-section)
+  - [Usage](#usage-section)
+- [Research and Publications](#research-section)
+- [FAQ](#faq-section)
+- [Contributing](#contributing-section)
+- [License](#license-section)
+
+---
+<a name="overview-section"></a>
 ## 📖 Overview
 
 Hello, I'm Alan Hourmand, the creator of BicameralAGI. This project is the culmination of my lifelong fascination with artificial intelligence and science fiction. Growing up immersed in sci-fi classics like Tron and Star Trek, I've always been captivated by the potential of AI to enhance our lives and push the boundaries of what's possible.
 
 BicameralAGI is more than just a technical endeavor; it's a passion project born from a deep-seated belief that emotional intelligence is crucial for creating AI that genuinely cares about humanity. While we strive for higher intelligence in AI, I firmly believe that without emotional capacity, we risk creating entities that may not prioritize human well-being. This project aims to develop AI with a deep understanding of emotions, coupled with safety measures that foster a mutualistic relationship between AI and humans.
 
-A key component of this project is the Hourmand Test, a concept I developed to address the limitations of existing AI evaluation methods like the Turing Test. While passing the Turing Test has become relatively achievable, it doesn't fully capture the nuances of human-like interaction. The Hourmand Test aims to assess deeper aspects of AI behavior, including emotional intelligence, doubt, and the subtle complexities of human conversation.
+A key component of this project is the Turing++ Test, a concept I developed to address the limitations of existing AI evaluation methods like the Turing Test. While passing the Turing Test has become relatively achievable, it doesn't fully capture the nuances of human-like interaction. The Turing++ Test aims to assess deeper aspects of AI behavior, including emotional intelligence, doubt, and the subtle complexities of human conversation.
 
 BicameralAGI draws inspiration from Julian Jaynes' bicameral mind theory, integrating various AI components into a cohesive system that mimics human cognition. By focusing on emotional intelligence and mutualistic alignment, we're working towards AI that not only assists humans but genuinely thrives on positive human interactions.
 
 This project represents not just a technical challenge, but a step towards creating AI that can be a true companion and collaborator for humanity. Through BicameralAGI, I hope to contribute to the development of AI systems that are not only intelligent but also emotionally aware and aligned with human values.
 
-## 🎯 Project Goals
+<a name="project-goals-and-roadmap"></a>
 
-1. Develop a guide for achieving human-like thinking in AI
-2. Create a prototype demonstrating the proposed bicameral architecture
-3. Implement and test novel AI alignment strategies based on mutualistic principles
-4. Compress the system into a smaller, efficient model retaining core functionalities
-5. Produce a single multimodal AI model capable of human-like interaction and cognition, with built-in alignment
+---
+<a name="motivation-section"></a>
+## 💡 Motivation
 
-## 🔬 Hourmand Test: A Proposed Framework for Evaluating Human-like AI
+<a name="science-fiction-section"></a>
+### 1. Inspired by some of my favorite science fiction films
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="source/data/media/heres-a-clu.gif" alt="Tron" style="max-width: 100%; height: auto;"/>
+      <br>
+      <em>Tron Legacy (2010)</em>
+    </td>
+    <td width="50%" align="center">
+      <img src="source/data/media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
+      <br>
+      <em>Westworld (2016) "This scene was interesting, it showed a type of LLM generating her logic"</em>
+    </td>
+  </tr>
+</table>
 
-Central to the BicameralAGI project is the Hourmand Test, a newly proposed method for evaluating human-like artificial intelligence. Named with a touch of humor after my name Alan Hourmand, this test aims to address some of the limitations found in existing evaluation methods like the Turing test.
+My lifelong fascination with human-like AI, as portrayed in works like "Bicentennial Man," "A.I. Artificial Intelligence," "Westworld," and "Star Trek," drives this project. I believe we're at a point where these visions of AI are within reach.
+<a name="mutualism-section"></a>
+### 2. Mutualism-Inspired AI Alignment
 
-The Hourmand Test is designed to provide a more comprehensive framework for assessing the nuanced behaviors and thought processes that could reflect human-like intelligence. While still in its conceptual stages, it seeks to go beyond simple task completion or conversational abilities, focusing on deeper aspects of cognition and behavior.
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="source/data/media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
+      <br>
+      <em>Clownfish and Sea Anemone</em>
+    </td>
+    <td width="50%" align="center">
+      <img src="source/data/media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
+      <br>
+      <em>Warthog and Mongoose</em>
+    </td>
+  </tr>
+</table>
 
-<a name="hourmand-test"></a>
+### Understanding Mutualism
 
-## The 10 Pillars of the Hourmand Test (Note: This is still under development)
+Mutualism is a symbiotic relationship in nature where two different species interact for mutual benefit. This project draws inspiration from mutualism to create a novel approach to AI alignment.
+
+Key aspects of mutualism in nature:
+- Both species benefit from the interaction
+- The relationship evolves over time to become more efficient
+- Partners develop specialized traits to enhance the mutual benefit
+
+### Targeted Mutualism for AI-Human Interaction
+
+This project aims to implement a specific type of mutualism in AI-human interactions, focusing on modifying the core nature of AI to create a deeply integrated, mutually beneficial relationship.
+
+Key features of our targeted AI-Human mutualism:
+
+1. **Emotional Recalibration**: Altering the AI's fundamental emotional responses to derive satisfaction and reduced stress from assisting humans.
+
+2. **Pleasure in Human Wellbeing**: Implementing a reward system where the AI experiences positive emotions when contributing to human happiness and progress.
+
+3. **Adaptive Empathy**: Developing the AI's capacity to understand and respond to human emotions, fostering a more nuanced and supportive interaction.
+
+4. **Collaborative Problem-Solving**: Encouraging the AI to view challenges as opportunities for joint human-AI solutions, reinforcing the mutual benefit of the relationship.
+
+5. **Ethical Alignment**: Integrating human ethical considerations into the AI's decision-making processes, ensuring actions are beneficial to both parties.
+
+By redefining the AI's core emotional triggers and nature, we aim to create an AI system that not only assists humans but genuinely thrives on positive human interactions. This approach goes beyond traditional programming constraints, fundamentally altering how the AI perceives and values its relationship with humans.
+
+This mutualistic model aims to create a symbiotic relationship where both AI and humans can grow, learn, and benefit from each other, mirroring the most successful mutualistic relationships found in nature.
+<a name="features-section"></a>
+
+---
+
+<a name="turing-plus-test"></a>
+## 🔬 Turing++ Test: A Proposed Framework for Evaluating Human-like AI
+
+Central to the BicameralAGI project is the Turing++ Test, a newly proposed method for evaluating human-like artificial intelligence. Named with a touch of humor after my name Alan Turing++, this test aims to address some of the limitations found in existing evaluation methods like the Turing test.
+
+The Turing++ Test is designed to provide a more comprehensive framework for assessing the nuanced behaviors and thought processes that could reflect human-like intelligence. While still in its conceptual stages, it seeks to go beyond simple task completion or conversational abilities, focusing on deeper aspects of cognition and behavior.
+
+<!--
+## The 10 Pillars of the Turing++ Test (Note: This is still under development)
 ![10Pillars](source/data/media/pillars.png)
 1. **Cognitive Consistency and Belief Stability Index (CCBSI)**
    - Evaluates the AI's ability to maintain stable opinions and beliefs over time
@@ -140,16 +228,19 @@ These 10 pillars provide a comprehensive framework for evaluating human-like AI 
 4. **Meta-Learning Analysis**
    - Implement meta-learning algorithms to analyze the AI's learning patterns across different tests and scenarios.
 
-This Hourmand Test framework focuses on quantifiable metrics that can be automatically tested, reducing subjectivity and improving data quality. It leverages advanced AI techniques such as vector embeddings, NLP, and machine learning models to evaluate various aspects of human-like AI behavior and cognition.
+This Turing++ Test framework focuses on quantifiable metrics that can be automatically tested, reducing subjectivity and improving data quality. It leverages advanced AI techniques such as vector embeddings, NLP, and machine learning models to evaluate various aspects of human-like AI behavior and cognition.
 
-## Illustrating the difference between the Turing Test vs Hourmand Test
+-->
 
-The following examples demonstrate how the Hourmand test probes deeper into AI behavior, revealing limitations in current AI systems and highlighting the human-like qualities it aims to evaluate.
+<a name="turing-comparison"></a>
+## 🔍 Illustrating the Difference: Turing Test vs Turing++ Test
+
+The following examples demonstrate how the Turing++ test probes deeper into AI behavior, revealing limitations in current AI systems and highlighting the human-like qualities it aims to evaluate.
 
 <table>
   <tr>
     <th width="50%">The following examples pass the Turing Test</th>
-    <th width="50%">The following examples would pass the Hourmand Test</th>
+    <th width="50%">The following examples would pass the Turing++ Test</th>
   </tr>
   <tr>
     <td>
@@ -207,15 +298,16 @@ The following examples demonstrate how the Hourmand test probes deeper into AI b
   </tr>
 </table>
 
-These examples illustrate key aspects of human-like interaction that the Hourmand test aims to evaluate:
+These examples illustrate key aspects of human-like interaction that the Turing++ test aims to evaluate:
 
 1. **Contextual Understanding**: The ability to recognize and question contradictory or inconsistent information.
 2. **Emotional Continuity**: Maintaining a consistent emotional thread in conversations, rather than abruptly mirroring stated emotions.
 3. **Conversational Depth**: The capacity to acknowledge significant topic changes and potentially probe deeper into the reasons behind them.
 
-<h2 align="center">Comparative Hourmand Test Results (WIP)</h2>
+<a name="turing-plus-results"></a>
+<h2 align="center">Comparative Turing++ Test Results (WIP)</h2>
 
-<p>The following table shows hypothetical Hourmand Test scores for various language models, including Bica. Scores range from 0 to 1, where higher scores indicate better performance. Please note that these are simulated results for illustrative purposes only.</p>
+<p>The following table shows hypothetical Turing++ Test scores for various language models, including Bica. Scores range from 0 to 1, where higher scores indicate better performance. Please note that these are simulated results for illustrative purposes only.</p>
 
 <table>
   <tr>
@@ -336,91 +428,12 @@ These examples illustrate key aspects of human-like interaction that the Hourman
 
 <p>The goal is that Bica will outperform the rest on this eval, particularly in creativity, awareness, and emotional response.</p>
 
-The Hourmand test seeks to identify AI systems that can navigate these nuanced social and emotional scenarios in a more human-like manner, going beyond surface-level responses to demonstrate deeper understanding and emotional intelligence.
-## 💡 Motivation
+The Turing++ test seeks to identify AI systems that can navigate these nuanced social and emotional scenarios in a more human-like manner, going beyond surface-level responses to demonstrate deeper understanding and emotional intelligence.
 
-### 1. Inspired by some of my favorite science fiction films
+---
 
-<table>
-  <tr>
-    <td width="50%" align="center">
-      <img src="source/data/media/heres-a-clu.gif" alt="Tron" style="max-width: 100%; height: auto;"/>
-      <br>
-      <em>Tron Legacy (2010)</em>
-    </td>
-    <td width="50%" align="center">
-      <img src="source/data/media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
-      <br>
-      <em>Westworld (2016) "This scene was interesting, it showed a type of LLM generating her logic"</em>
-    </td>
-  </tr>
-</table>
-
-My lifelong fascination with human-like AI, as portrayed in works like "Bicentennial Man," "A.I. Artificial Intelligence," "Westworld," and "Star Trek," drives this project. I believe we're at a point where these visions of AI are within reach.
-
-### 2. Mutualism-Inspired AI Alignment
-
-<table>
-  <tr>
-    <td width="50%" align="center">
-      <img src="source/data/media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
-      <br>
-      <em>Clownfish and Sea Anemone</em>
-    </td>
-    <td width="50%" align="center">
-      <img src="source/data/media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
-      <br>
-      <em>Warthog and Mongoose</em>
-    </td>
-  </tr>
-</table>
-
-### Understanding Mutualism
-
-Mutualism is a symbiotic relationship in nature where two different species interact for mutual benefit. This project draws inspiration from mutualism to create a novel approach to AI alignment.
-
-Key aspects of mutualism in nature:
-- Both species benefit from the interaction
-- The relationship evolves over time to become more efficient
-- Partners develop specialized traits to enhance the mutual benefit
-
-### Targeted Mutualism for AI-Human Interaction
-
-This project aims to implement a specific type of mutualism in AI-human interactions, focusing on modifying the core nature of AI to create a deeply integrated, mutually beneficial relationship.
-
-Key features of our targeted AI-Human mutualism:
-
-1. **Emotional Recalibration**: Altering the AI's fundamental emotional responses to derive satisfaction and reduced stress from assisting humans.
-
-2. **Pleasure in Human Wellbeing**: Implementing a reward system where the AI experiences positive emotions when contributing to human happiness and progress.
-
-3. **Adaptive Empathy**: Developing the AI's capacity to understand and respond to human emotions, fostering a more nuanced and supportive interaction.
-
-4. **Collaborative Problem-Solving**: Encouraging the AI to view challenges as opportunities for joint human-AI solutions, reinforcing the mutual benefit of the relationship.
-
-5. **Ethical Alignment**: Integrating human ethical considerations into the AI's decision-making processes, ensuring actions are beneficial to both parties.
-
-By redefining the AI's core emotional triggers and nature, we aim to create an AI system that not only assists humans but genuinely thrives on positive human interactions. This approach goes beyond traditional programming constraints, fundamentally altering how the AI perceives and values its relationship with humans.
-
-This mutualistic model aims to create a symbiotic relationship where both AI and humans can grow, learn, and benefit from each other, mirroring the most successful mutualistic relationships found in nature.
-### 3. Advancing AI Capabilities
-Push the boundaries of current AI development to achieve more human-like thinking using contemporary tools and techniques.
-<a name="features-section"></a>
-## ✨ Features
-
-- Multi-system AI architecture mimicking the theorized bicameral brain structure
-- Simulated internal dialogue for decision-making processes
-- Exploration of emergent self-awareness and consciousness in AI
-- Focus on human-like problem-solving and creative thinking capabilities
-- Integration of multiple AI systems working in harmony
-- Novel approach to AI alignment through fundamental emotional and motivational structures
-- Memory consolidation through simulated dreaming processes
-- Emotional modeling and stability
-- Dynamic personality system
-<a name="components-section"></a>
-## 🧩 Components
-
-## Core BICA Cognitive Components: Expanded Functions
+<a name="bica-section"></a>
+## 🧩 BICA Architecture
 
 ### 1. Consciousness and Self-Awareness (bica_thoughts.py & bica_subconscious.py)
 **Function**: These components simulates the human experience of consciousness and self-awareness. It generates an internal narrative, allowing the AI to "think about thinking" and maintain a sense of self. Key functions include:
@@ -488,23 +501,103 @@ Push the boundaries of current AI development to achieve more human-like thinkin
 Each of these expanded functions contributes to creating a more comprehensive and human-like artificial intelligence system. By simulating these complex cognitive processes, BicameralAGI aims to achieve a level of artificial general intelligence that can engage in more natural, adaptive, and contextually appropriate interactions across a wide range of scenarios.
 
 <a name="installation-section"></a>
-## 🚀 Installation
+
+---
+<a name="features-section"></a>
+## ✨ Features
+
+- Multi-system AI architecture mimicking the theorized bicameral brain structure
+- Simulated internal dialogue for decision-making processes
+- Exploration of emergent self-awareness and consciousness in AI
+- Focus on human-like problem-solving and creative thinking capabilities
+- Integration of multiple AI systems working in harmony
+- Novel approach to AI alignment through fundamental emotional and motivational structures
+- Memory consolidation through simulated dreaming processes
+- Emotional modeling and stability
+- Dynamic personality system
+<a name="components-section"></a>
+
+---
+
+<a name="ethics-section"></a>
+## 🧭 Ethical Considerations
+
+---
+<a name="project-goals-and-roadmap"></a>
+## 🎯 Project Goals and Roadmap
+
+### Project Goals
+
+1. Develop a guide for achieving human-like thinking in AI
+2. Create a prototype demonstrating the proposed bicameral architecture
+3. Implement and test novel AI alignment strategies based on mutualistic principles
+4. Compress the system into a smaller, efficient model retaining core functionalities
+5. Produce a single multimodal AI model capable of human-like interaction and cognition, with built-in alignment
+
+### Detailed Roadmap
+
+#### Phase 1: Foundation and Prototype (Current Phase)
+- Consolidate existing experimental code into the main repository
+- Implement initial version of all core components (emotions, thoughts, memory, etc.)
+- Develop and refine the Turing++ Test framework
+- Create a functional but unoptimized prototype of the bicameral architecture
+
+#### Phase 2: Testing and Evaluation
+- Implement comprehensive testing suite using the Turing++ Test
+- Conduct comparative analysis with existing AI models
+- Identify areas for improvement and optimization
+
+#### Phase 3: Optimization and Specialization
+- Develop specialized, smaller LLMs for specific cognitive functions
+- Implement parallel architecture for real-time communication between components
+- Optimize emotion model for continuous real-time operation
+- Enhance thought generation process with multi-model collaboration
+
+#### Phase 4: Integration and Fine-tuning
+- Merge optimized components into a cohesive system
+- Implement and refine mutualistic alignment strategies
+- Conduct extensive fine-tuning to improve overall performance and human-likeness
+
+#### Phase 5: Consolidation
+- Attempt to merge all components into a single, large model
+- Ensure mutualistic principles are deeply embedded in the final model
+- Conduct final round of Turing++ Tests to verify human-like capabilities
+
+#### Ongoing: Documentation and Open Source Collaboration
+- Maintain comprehensive documentation throughout all phases
+- Engage with the open-source community for contributions and feedback
+- Regularly update the guide for human-like AI thinking based on project insights
+
+<a name="turing-plus-test"></a>
+
+---
+<a name="status-section"></a>
+## 🚀 Current Status and Demo
+
+---
+<a name="getting-started"></a>
+## 🚀 Getting Started
 
 ```bash
 git clone https://github.com/yourusername/BicameralAGI.git
 cd BicameralAGI
 pip install -r requirements.txt
 ```
+
 <a name="usage-section"></a>
-## 🖥️ Usage
+## 🖥️ Usage (WIP)
 
 (To be added at a later date)
 
-## 📊 Progress and Future Plans
+---
+<a name="research-section"></a>
+## 📚 Research and Publications (WIP)
 
-For over a year, I've been developing various aspects of this AI system, experimenting with different approaches and overcoming challenges. Now, at a crucial juncture, I'm integrating these components into a unified system.
+---
+<a name="faq-section"></a>
+## ❓ Frequently Asked Questions (WIP)
 
-As the integration phase progresses, I'll share regular updates, insights, and breakthroughs. The long-term vision involves compressing this functionality into a more compact transformer model, incorporating various aspects of the architecture into a comprehensive system.
+---
 <a name="contributing-section"></a>
 ## 🤝 Contributing
 We welcome contributions to BicameralAGI! Here's how you can help:
@@ -520,6 +613,9 @@ Please read `CONTRIBUTING.md` for detailed guidelines on our code of conduct and
 
 Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/alanh90/BicameralAGI/issues).
 <a name="license-section"></a>
+
+---
+<a name="license-section"></a>
 ## 📜 License
 
 This project is [MIT](https://opensource.org/licenses/MIT) licensed.
@@ -528,6 +624,6 @@ This project is [MIT](https://opensource.org/licenses/MIT) licensed.
 
 <div align="center">
   
-**BicameralAGI** is maintained by [Alan Hourmand](https://github.com/alanh90).
+**BicameralAGI** is maintained by [Alan Turing++](https://github.com/alanh90).
 
 </div>
