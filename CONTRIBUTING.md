@@ -10,9 +10,6 @@ We appreciate your interest in contributing! We strive to make the contribution 
 
 ## Our Development Process
 
-### We Use GitHub
-Our code is hosted on GitHub, where we also track issues and feature requests and accept pull requests.
-
 ### We Follow [GitHub Flow](https://guides.github.com/introduction/flow/index.html)
 All code changes occur through pull requests. We actively welcome your pull requests:
 
