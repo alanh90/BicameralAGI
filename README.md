@@ -665,7 +665,37 @@ pip install -r requirements.txt
 
 ---
 <a name="faq-section"></a>
-## ❓ Frequently Asked Questions (WIP)
+## ❓ Frequently Asked Questions (FAQ)
+
+### Q: What is BicameralAGI?
+A: BicameralAGI is an experimental AI project inspired by Julian Jaynes' bicameral mind theory. It aims to create a more human-like AI by implementing a multi-system architecture that mimics the complexity of human cognition.
+
+### Q: Is BicameralAGI a functioning AI system?
+A: Currently, BicameralAGI is in the early stages of development. It's a proof-of-concept and research project, not a fully functioning AI system "yet".
+
+### Q: How does BicameralAGI differ from other AI projects?
+A: BicameralAGI's unique approach lies in its multi-system architecture with a focus on emotional intelligence, dreaming, and an artificial subconscious. Unlike many AI systems that use a single large model, BicameralAGI aims to create an "orchestra" of AI subsystems that communicate in real-time.
+
+### Q: Can I use BicameralAGI in my own projects?
+A: While BicameralAGI is open-source, it's currently more suitable for research and experimentation rather than practical applications. Feel free to explore and learn from the code, but be aware of its experimental nature.
+
+### Q: How can I contribute to the project?
+A: Contributions are welcome! Check out the CONTRIBUTING.md file in the repository for guidelines on how to get involved. We appreciate code contributions, documentation improvements, and even theoretical inputs.
+
+### Q: What are the ethical considerations for this project?
+A: We take AI ethics seriously. The project aims to explore AI alignment through mutualism, prioritizing beneficial human-AI interaction. However, as with any AI research, we encourage critical thinking about potential implications.
+
+### Q: Do I need specialized hardware to run BicameralAGI?
+A: The hardware requirements may vary depending on the current state of the project. 
+
+### Q: Is BicameralAGI associated with any company or institution?
+A: No, currently BicameralAGI is an independent, open-source project developed by Alan Hourmand. 
+
+### Q: How does emotional intelligence factor into BicameralAGI?
+A: Emotional intelligence is a key component of BicameralAGI. The project aims to integrate emotional processing as a fundamental aspect of the AI's decision-making and interaction capabilities, not just as an add-on feature.
+
+### Q: What's the long-term goal for BicameralAGI?
+A: The long-term vision is to contribute to the development of more human-like AGI systems that can interact naturally and beneficially with humans.
 
 ---
 <a name="contributing-section"></a>
