@@ -20,6 +20,7 @@
   - [Science Fiction Inspiration](#science-fiction-section)
   - [Mutualism-Inspired AI Alignment](#mutualism-section)
   - [AGI Requires Emotion](#agi-emotion-section)
+  - [Caring and Seeking AI](#caring-agi)
 - [Bicameral Mind Theory](#bicameral-mind-theory)
 - [The Turing++ Test](#turing-plus-test)
   - [Turing vs Turing++](#turing-comparison)
@@ -55,7 +56,7 @@ This project represents not just a technical challenge, but a step towards creat
 
 ---
 <a name="motivation-section"></a>
-## 💡 My 3 Personal Motivations
+## 💡 My 4 Personal Motivations
 
 <a name="science-fiction-section"></a>
 ### 1. Inspired by some of my favorite science fiction stories
@@ -151,6 +152,15 @@ By incorporating emotions into AGI:
 - We pave the way for more natural, intuitive human-AI interactions.
 
 In essence, emotions aren't just a "nice to have" feature for AGI—they're a fundamental requirement for creating AI systems that can truly coexist and cooperate with humanity in meaningful ways.
+<a name="caring-agi"></a>
+### 4. The Importance of Artificial Caring and Seeking
+
+A key aspect of human intelligence is not just the ability to process information, but to care about outcomes and proactively seek beneficial solutions. BicameralAGI aims to incorporate these crucial elements:
+
+- **Artificial Caring**: Implementing a fundamental drive to care about humanity's wellbeing, ensuring the AI's goals align with human flourishing.
+- **Proactive Seeking**: Developing mechanisms for the AI to initiate actions and explorations aimed at benefiting humanity, rather than passively waiting for instructions.
+
+By integrating caring and seeking behaviors, BicameralAGI strives to create AI systems that are not only intelligent but also inherently motivated to pursue positive outcomes for humanity.
 
 ---
 <a name="bicameral-mind-theory"></a>
