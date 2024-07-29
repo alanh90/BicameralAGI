@@ -1,84 +1,93 @@
 import sys
-import unittest
-from unittest.mock import patch, AsyncMock
-import asyncio
 
 sys.path.append('..')  # Add parent directory to Python path
 
 from gpt_handler import GPTHandler
-import bica_thoughts
+from bica_context import Context
+from bica_thoughts import Thoughts
 
 
-def simple_conversation_gpt_test():
+def simple_conversation_test():
     gpt_handler = GPTHandler(api_provider="openai", model="gpt-4o-mini")
-    memory = []
-
-    print("Starting simple conversation test with memory...")
+    print("Starting simple conversation test with GPT-4o-mini...")
 
     user_input = input("User: ")
-
     while user_input.lower() != "exit":
-        # Add user input to memory
-        memory.append(f"User: {user_input}")
-
-        # Construct context from memory
-        context = "\n".join(memory[-5:])  # Use last 5 interactions for context
-
-        # Generate AI response
-        prompt = f"Given the following conversation:\n{context}\n\nRespond as a friendly AI assistant with knowledge of the conversation history."
-        ai_response = gpt_handler.generate_response(prompt)
-
-        # Add AI response to memory
-        memory.append(f"AI: {ai_response}")
-
+        prompt = f"Respond as a friendly AI assistant to: {user_input}"
+        ai_response = next(gpt_handler.generate_response(prompt))
         print(f"AI: {ai_response}")
-
-        # Get next user input
         user_input = input("User: ")
 
     print("Test completed.")
 
 
-class TestBicaThoughts(unittest.IsolatedAsyncioTestCase):
+def thought_enhanced_conversation_test():
+    gpt_handler = GPTHandler(api_provider="openai", model="gpt-4o-mini")
+    conversation = []
+    thoughts_manager = Thoughts()
+    print("Starting thought-enhanced conversation test with GPT-4o-mini...")
 
-    @patch('bica_thoughts.gpt_handler.generate_response')
-    async def test_generate_thoughts(self, mock_generate_response):
-        mock_generate_response.return_value = "This is a generated thought.\nAnother thought."
-        bica_thoughts.thought_queue = asyncio.Queue()  # Reset queue for testing
+    user_input = input("User: ")
+    while user_input.lower() != "exit":
+        conversation.append(f"User: {user_input}")
+        conversation_history = "\n".join(conversation[-5:])  # Last 5 interactions
 
-        await bica_thoughts.generate_thoughts("Test prompt")
-        self.assertEqual(await bica_thoughts.thought_queue.get(), "This is a generated thought.")
-        self.assertEqual(await bica_thoughts.thought_queue.get(), "Another thought.")
-        self.assertEqual(await bica_thoughts.thought_queue.get(), None)
+        thought_prompt = conversation_history
+        print("AI is thinking...")
+        thought = thoughts_manager.generate_thoughts(thought_prompt)
+        print(f"AI thought: {thought}")
 
-    @patch('bica_thoughts.gpt_handler.generate_response')
-    async def test_analyze_thought(self, mock_generate_response):
-        mock_generate_response.return_value = "This is an analysis of the thought."
-        bica_thoughts.thought_queue = asyncio.Queue()
-        await bica_thoughts.thought_queue.put("This is a generated thought.")
-        await bica_thoughts.thought_queue.put(None)  # Signal end of thoughts
+        response_prompt = f"Given the conversation history and your thoughts:\n{conversation_history}\n\nYour thoughts: {thought}\n\nRespond as a friendly AI assistant."
+        ai_response = next(gpt_handler.generate_response(response_prompt))
+        conversation.append(f"AI: {ai_response}")
+        print(f"AI: {ai_response}")
 
-        await bica_thoughts.analyze_thought()
-        self.assertTrue(mock_generate_response.called)
+        user_input = input("User: ")
+
+    print("Test completed.")
 
 
-def run_tests():
-    unittest.main()
+def context_aware_conversation_test():
+    gpt_handler = GPTHandler(api_provider="openai", model="gpt-4o-mini")
+    context_manager = Context()
+    print("Starting context-aware conversation test with GPT-4o-mini...")
+
+    user_input = input("User: ")
+    while user_input.lower() != "exit":
+        if user_input.lower() == "wipe context":
+            context_manager.wipe_context()
+            user_input = input("User: ")
+            continue
+
+        context_manager.update_context(f"User: {user_input}")
+        current_context = context_manager.get_context()
+
+        response_prompt = f"Given the following context:\n{current_context}\n\nRespond as a friendly AI assistant with awareness of the conversation history."
+        ai_response = next(gpt_handler.generate_response(response_prompt))
+        context_manager.update_context(f"AI: {ai_response}")
+        print(f"AI: {ai_response}")
+
+        user_input = input("User: ")
+
+    print("Test completed.")
 
 
 def main():
     print("Select a test to run:")
-    print("1. Simple Conversation GPT Test")
-    print("2. Run Unit Tests")
+    print("1. Simple Conversation Test")
+    print("2. Thought-Enhanced Conversation Test")
+    print("3. Context-Aware Conversation Test")
 
     choice = input("Enter the number of the test to run: ")
 
     if choice == '1':
-        simple_conversation_gpt_test()
+        simple_conversation_test()
     elif choice == '2':
-        run_tests()
+        thought_enhanced_conversation_test()
+    elif choice == '3':
+        context_aware_conversation_test()
     else:
-        print("Invalid choice. Please select either 1 or 2.")
+        print("Invalid choice. Please select 1, 2, or 3.")
 
 
 if __name__ == '__main__':

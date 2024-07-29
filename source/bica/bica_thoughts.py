@@ -1,32 +1,39 @@
-import asyncio
 from gpt_handler import GPTHandler
+import random
 
-gpt_handler = GPTHandler(api_provider="openai", model="gpt-4")
-thought_queue = asyncio.Queue()
 
-async def generate_thoughts(prompt):
-    async for thought in gpt_handler.generate_response(prompt, stream=True):
-        if thought.strip():
-            print(f"Generated Thought: {thought.strip()}")
-            await thought_queue.put(thought.strip())
-    await thought_queue.put(None)  # Signal that thought generation is done
+class Thoughts:
+    def __init__(self, api_provider="openai", model="gpt-4o-mini"):
+        self.gpt_handler = GPTHandler(api_provider=api_provider, model=model)
 
-async def analyze_thought():
-    while True:
-        thought = await thought_queue.get()
-        if thought is None:
-            break
-        analysis_prompt = f"Analyze the following thought: {thought}"
-        async for analysis in gpt_handler.generate_response(analysis_prompt):
-            print(f"Thought Analysis: {analysis.strip()}")
-            break  # We only need the first (and only) analysis
+    def generate_thoughts(self, context):
+        temperature = round(random.uniform(0.1, 0.4), 2)
+        prompt = f"""Generate a few short thoughts about the following context. Each thought should be a complete sentence or idea. Consider these aspects if any of them are unknown:
+        - Purpose of the conversation
+        - Who you might be speaking with
+        - Possible environment of the interaction
+        - Potential emotional states involved
+        - Relevant background knowledge
+        - Possible implications or consequences
+        - Uncertainties or assumptions
+        Context: {context}
+        Thoughts:
+        """
+        stream = self.gpt_handler.generate_response(prompt, temperature=temperature, stream=True)
+        thoughts = ""
+        for chunk in stream:
+            thoughts += chunk
+        print(f"Temperature used: {temperature}")
+        return thoughts.strip()
 
-async def main():
-    initial_prompt = "Start generating thoughts about the nature of existence."
-    await asyncio.gather(
-        generate_thoughts(initial_prompt),
-        analyze_thought()
-    )
+
+def main():
+    thoughts_generator = Thoughts()
+    context = input("Enter a context for thought generation: ")
+    thoughts = thoughts_generator.generate_thoughts(context)
+    print("\nGenerated thoughts:")
+    print(thoughts)
+
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
