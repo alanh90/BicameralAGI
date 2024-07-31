@@ -2,7 +2,7 @@ from gpt_handler import GPTHandler
 import random
 
 
-class Thoughts:
+class BicaThoughts:
     def __init__(self, api_provider="openai", model="gpt-4o-mini"):
         self.gpt_handler = GPTHandler(api_provider=api_provider, model=model)
 
@@ -28,7 +28,7 @@ class Thoughts:
 
 
 def main():
-    thoughts_generator = Thoughts()
+    thoughts_generator = BicaThoughts()
     context = input("Enter a context for thought generation: ")
     thoughts = thoughts_generator.generate_thoughts(context)
     print("\nGenerated thoughts:")

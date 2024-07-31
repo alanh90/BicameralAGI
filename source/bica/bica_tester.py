@@ -3,8 +3,8 @@ import sys
 sys.path.append('..')  # Add parent directory to Python path
 
 from gpt_handler import GPTHandler
-from bica_context import Context
-from bica_thoughts import Thoughts
+from bica_context import BicaContext
+from bica_thoughts import BicaThoughts
 
 
 def simple_conversation_test():
@@ -24,7 +24,7 @@ def simple_conversation_test():
 def thought_enhanced_conversation_test():
     gpt_handler = GPTHandler(api_provider="openai", model="gpt-4o-mini")
     conversation = []
-    thoughts_manager = Thoughts()
+    thoughts_manager = BicaThoughts()
     print("Starting thought-enhanced conversation test with GPT-4o-mini...")
 
     user_input = input("User: ")
@@ -49,7 +49,7 @@ def thought_enhanced_conversation_test():
 
 def context_aware_conversation_test():
     gpt_handler = GPTHandler(api_provider="openai", model="gpt-4o-mini")
-    context_manager = Context()
+    context_manager = BicaContext()
     print("Starting context-aware conversation test with GPT-4o-mini...")
 
     user_input = input("User: ")

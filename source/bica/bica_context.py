@@ -1,7 +1,7 @@
 from gpt_handler import GPTHandler
 
 
-class Context:
+class BicaContext:
     def __init__(self, max_length=1000):
         self.context = ""
         self.max_length = max_length
