@@ -1,3 +1,5 @@
+import re
+
 import numpy as np
 import faiss
 from queue import PriorityQueue
@@ -11,10 +13,11 @@ import numpy as np
 
 
 class Memory:
-    def __init__(self, content: str, embedding: np.array, initial_importance: float = 0.5):
+    def __init__(self, content: str, embedding: np.array, emotion: Dict[str, float], initial_importance: float = 0.5):
         self.id = str(uuid.uuid4())
         self.content = content
         self.embedding = embedding
+        self.emotion = emotion  # e.g., {"joy": 0.8, "sadness": 0.1, ...}
         self.importance = initial_importance
         self.created_at = datetime.now()
         self.last_accessed = self.created_at
@@ -37,12 +40,32 @@ class BicaMemory:
         assert self.embedding_model.get_sentence_embedding_dimension() == embedding_dim, \
             f"Embedding dimension mismatch. Expected {embedding_dim}, got {self.embedding_model.get_sentence_embedding_dimension()}"
 
-    def add_memory(self, content: str, embedding: np.array, initial_importance: float = 0.5) -> str:
-        ai_memory = Memory(content, embedding, initial_importance)
+    def add_memory(self, content: str, embedding: np.array, emotion: Dict[str, float], initial_importance: float = 0.5) -> str:
+        ai_memory = Memory(content, embedding, emotion, initial_importance)
         self.memories[ai_memory.id] = ai_memory
         self.stm.put((-ai_memory.importance, ai_memory.id))
+        self.ltm.add(np.array([embedding]))
         self._update_connections(ai_memory)
         return ai_memory.id
+
+    def _generate_emotion(self, content: str) -> Dict[str, float]:
+        prompt = f"""Analyze the emotional content of this text and provide a dictionary of emotions with their intensities (0-1).
+        Respond ONLY with a Python dictionary. For example: {{"joy": 0.8, "sadness": 0.1}}
+        Text: {content}"""
+        response = next(self.gpt_handler.generate_response(prompt))
+
+        # Extract the dictionary part of the response
+        dict_match = re.search(r'\{.*\}', response)
+        if dict_match:
+            dict_str = dict_match.group(0)
+            try:
+                emotion_dict = eval(dict_str)
+                return emotion_dict
+            except:
+                print(f"Error parsing emotion dictionary: {dict_str}")
+
+        # Fallback: return a default dictionary if parsing fails
+        return {"neutral": 1.0}
 
     def _update_connections(self, memory: Memory):
         # Update connections based on embedding similarity
@@ -74,11 +97,22 @@ class BicaMemory:
         if len(similar_memories) > 1:
             merged_content = self._generate_merged_content(similar_memories)
             merged_embedding = self._generate_embedding(merged_content)
+            merged_emotion = self._merge_emotions([m.emotion for m in similar_memories])
             merged_importance = max(m.importance for m in similar_memories)
-            new_memory_id = self.add_memory(merged_content, merged_embedding, merged_importance)
+            new_memory_id = self.add_memory(merged_content, merged_embedding, merged_emotion, merged_importance)
             for m in similar_memories:
                 if m.id != new_memory_id:
                     self.memories.pop(m.id)
+
+    def _merge_emotions(self, emotions: List[Dict[str, float]]) -> Dict[str, float]:
+        merged_emotion = {}
+        for emotion in emotions:
+            for key, value in emotion.items():
+                if key in merged_emotion:
+                    merged_emotion[key] = max(merged_emotion[key], value)
+                else:
+                    merged_emotion[key] = value
+        return merged_emotion
 
     def _generate_merged_content(self, memories: List[Memory]) -> str:
         temperature = round(random.uniform(0.1, 0.4), 2)
@@ -105,26 +139,39 @@ class BicaMemory:
         print(f"Temperature used for memory merging: {temperature}")
         return merged_content.strip()
 
-    def recall_memory(self, query: str, k: int = 5) -> List[Memory]:
+    def recall_memory(self, query: str, k: int = 5, emotion_filter: Dict[str, float] = None) -> List[Memory]:
         query_embedding = self._generate_embedding(query)
+        print(f"Query embedding shape: {query_embedding.shape}")
+        print(f"FAISS index size: {self.ltm.ntotal}")
 
-        # First, check active memories
-        active_relevant = [
-            mem for mem in self.active_memories
-            if np.dot(query_embedding, mem.embedding) > 0.8
-        ]
+        _, indices = self.ltm.search(np.array([query_embedding]), k * 2)  # Get more candidates for filtering
+        print(f"FAISS search results: {indices}")
 
-        if active_relevant:
-            return active_relevant[:k]
+        recalled_memories = []
+        for idx in indices[0]:
+            memory_id = str(idx)
+            if memory_id in self.memories:
+                recalled_memories.append(self.memories[memory_id])
 
-        # If no active memories are relevant, search all memories
-        _, indices = self.ltm.search(np.array([query_embedding]), k)
-        recalled_memories = [self.memories[str(idx)] for idx in indices[0] if str(idx) in self.memories]
+        print(f"Recalled memories before emotion filtering: {len(recalled_memories)}")
 
-        for memory in recalled_memories:
+        if emotion_filter:
+            recalled_memories = self._filter_by_emotion(recalled_memories, emotion_filter)
+            print(f"Recalled memories after emotion filtering: {len(recalled_memories)}")
+
+        for memory in recalled_memories[:k]:
             self._strengthen_memory(memory)
 
-        return recalled_memories
+        return recalled_memories[:k]
+
+    def _filter_by_emotion(self, memories: List[Memory], emotion_filter: Dict[str, float]) -> List[Memory]:
+        def emotion_similarity(mem_emotion, filter_emotion):
+            return sum(mem_emotion.get(e, 0) * v for e, v in filter_emotion.items())
+
+        sorted_memories = sorted(memories, key=lambda m: emotion_similarity(m.emotion, emotion_filter), reverse=True)
+        print(f"Emotion similarities: {[emotion_similarity(m.emotion, emotion_filter) for m in sorted_memories]}")
+        return sorted_memories
+
 
     def _generate_embedding(self, content: str) -> np.array:
         # Generate embedding using the Sentence Transformer model
@@ -243,36 +290,45 @@ class BicaMemory:
 
 # Example usage
 if __name__ == "__main__":
-    bica_memory = BicaMemory(embedding_dim=384, api_provider="openai", model="gpt-4o-mini")
+    memory_system = BicaMemory(embedding_dim=384)
 
-    # Add some memories
-    memory1_id = bica_memory.add_memory("Alice likes cats", bica_memory._generate_embedding("Alice likes cats"), 0.8)
-    memory2_id = bica_memory.add_memory("Bob is allergic to peanuts", bica_memory._generate_embedding("Bob is allergic to peanuts"), 0.7)
-    memory3_id = bica_memory.add_memory("Weather is sunny today", bica_memory._generate_embedding("Weather is sunny today"), 0.6)
+    # Add some sample memories
+    memories = [
+        "I felt joyful when I saw the beautiful sunset.",
+        "The news of my promotion made me very happy.",
+        "I was sad when my favorite plant died.",
+        "The thrilling roller coaster ride excited me."
+    ]
 
-    # Simulate a conversation
-    print(bica_memory.process_conversation_turn("Tell me about Alice"))
-    print(bica_memory.process_conversation_turn("What about Bob's allergies?"))
-    print(bica_memory.process_conversation_turn("How's the weather?"))
+    print("Adding memories:")
+    for content in memories:
+        embedding = memory_system._generate_embedding(content)
+        emotion = memory_system._generate_emotion(content)
+        memory_id = memory_system.add_memory(content, embedding, emotion)
+        print(f"Added memory: {content}")
+        print(f"Emotion: {emotion}")
+        print(f"Memory ID: {memory_id}")
+        print("---")
 
-    # Consolidate memories
-    bica_memory.consolidate_memories()
+    print("\nTotal memories stored:", len(memory_system.memories))
 
-    # Recall a memory
-    recalled_memories = bica_memory.recall_memory("Alice pets")
-    for memory in recalled_memories:
-        print(f"Recalled: {memory.content}")
+    # Recall happy memories
+    happy_filter = {"joy": 0.8, "happiness": 0.8}
+    print("\nRecalling happy memories:")
+    happy_memories = memory_system.recall_memory("happy", k=2, emotion_filter=happy_filter)
+    print("Happy memories:")
+    for memory in happy_memories:
+        print(f"- {memory.content} (Emotions: {memory.emotion})")
 
-    # Set persistent focus
-    bica_memory.set_persistent_focus(memory2_id, True)
+    # Recall sad memories
+    sad_filter = {"sadness": 0.8}
+    print("\nRecalling sad memories:")
+    sad_memories = memory_system.recall_memory("sad", k=2, emotion_filter=sad_filter)
+    print("Sad memories:")
+    for memory in sad_memories:
+        print(f"- {memory.content} (Emotions: {memory.emotion})")
 
-    # Get persistent focus memories
-    persistent_memories = bica_memory.get_persistent_focus()
-    for memory in persistent_memories:
-        print(f"Persistent focus: {memory.content}")
-
-    # Fade memories
-    bica_memory.fade_memories()
-
-    # Prune memories
-    bica_memory.prune_memories()
+    # Print all stored memories
+    print("\nAll stored memories:")
+    for memory_id, memory in memory_system.memories.items():
+        print(f"- {memory.content} (Emotions: {memory.emotion})")
