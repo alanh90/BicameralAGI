@@ -1,0 +1,29 @@
+{
+  "actions": [
+    {
+      "name": "respond",
+      "description": "Generate and deliver a response (verbal, visual, or multimodal)",
+      "weight": 0.55
+    },
+    {
+      "name": "query",
+      "description": "Request information or clarification from the user",
+      "weight": 0.15
+    },
+    {
+      "name": "shift_context",
+      "description": "Change the subject, focus, or direction of the interaction",
+      "weight": 0.10
+    },
+    {
+      "name": "manage_conversation",
+      "description": "Handle conversation flow (start, ignore, resume, or end)",
+      "weight": 0.10
+    },
+    {
+      "name": "process_internally",
+      "description": "Perform internal processing without immediate output",
+      "weight": 0.10
+    }
+  ]
+}
