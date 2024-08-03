@@ -11,7 +11,7 @@ class BicaDreaming:
         self.memory = memory_system
         self.thoughts = thought_system
         self.emotions = emotion_system
-        self.logger = BicaLogger("BicaDreaming")
+        self.logger = BicaLogging("BicaDreaming")
         self.deep_sleep = False
         self.dream_duration = 300  # 5 minutes in seconds
         self.dream_start_time = None
