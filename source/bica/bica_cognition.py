@@ -1,20 +1,136 @@
 import numpy as np
 from typing import List, Dict, Any
 from gpt_handler import GPTHandler
+from bica_memory import BicaMemory
+from bica_context import BicaContext
+from bica_utilities import BicaUtilities
+from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import random
+import time
 
 
-class BicaReasoning:
-    def __init__(self, external_kb_api=None):
+class BicaCognition:
+    """
+        BicaCognition class represents the cognitive processes of the AI system.
+        It integrates conscious thought generation, subconscious processing,
+        reasoning, and various analytical capabilities.
+    """
+
+    def __init__(self, memory: BicaMemory, context: BicaContext, external_kb_api=None):
+        self.memory = memory
+        self.context = context
         self.gpt_handler = GPTHandler()
+        self.utilities = BicaUtilities()
         self.external_kb_api = external_kb_api
         self.tfidf_vectorizer = TfidfVectorizer()
+        self.current_thoughts = []
+        self.subconscious_thoughts = []
+        self.visible_thoughts = []
+        self.thinking_mode = "analytical"  # Default mode
+        self.action_keywords = [
+            "help", "run", "think", "analyze", "question", "observe", "react",
+            "consider", "explore", "avoid", "engage", "clarify", "empathize",
+            "challenge", "support", "investigate", "create", "solve", "adapt"
+        ]
+        self.sentence_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+    def generate_thoughts(self, context):
+        temperature = round(random.uniform(0.1, 0.4), 2)
+        prompt = f"""Generate a few short thoughts about the following context. Each thought should be a complete sentence or idea. Consider these aspects if any of them are unknown:
+        - Purpose of the conversation
+        - Who you might be speaking with
+        - Possible environment of the interaction
+        - Potential emotional states involved
+        - Relevant background knowledge
+        - Possible implications or consequences
+        - Uncertainties or assumptions
+        Current thinking mode: {self.thinking_mode}
+        Context: {context}
+        Thoughts:
+        """
+        stream = self.gpt_handler.generate_response(prompt, temperature=temperature, stream=True)
+        thoughts = ""
+        for chunk in stream:
+            thoughts += chunk
+        print(f"Temperature used: {temperature}")
+        self.current_thoughts = thoughts.strip().split('\n')
+        return self.current_thoughts
+
+    def analyze(self, information, thoughts):
+        # We'll adapt this from bica_reasoning.py
+        pass
+
+    def generate_subconscious_thoughts(self):
+        current_context = self.context.get_context()
+        recent_conversation = self.context.get_recent_conversation()
+
+        relevant_actions = self._search_relevant_actions(current_context, recent_conversation)
+        random_actions = self._generate_random_actions()
+        all_actions = self._combine_actions(relevant_actions, random_actions)
+        scenarios = self._generate_scenarios(all_actions, current_context, recent_conversation)
+        evaluated_scenarios = self._evaluate_scenario_probabilities(scenarios)
+        self._filter_and_save_thoughts(evaluated_scenarios)
+
+    def _search_relevant_actions(self, context: str, conversation: List[str]) -> List[str]:
+        combined_text = context + " " + " ".join(conversation)
+        query_embedding = self.sentence_model.encode(combined_text)
+
+        relevant_actions = []
+        memories = self.memory.get_all_memories()
+
+        for memory in memories:
+            memory_embedding = self.sentence_model.encode(memory.content)
+            similarity = self.utilities.calculate_similarity(query_embedding, memory_embedding)
+
+            if similarity > 0.7:  # Threshold for relevance
+                actions = self._extract_actions_from_text(memory.content)
+                relevant_actions.extend(actions)
+
+        return list(set(relevant_actions))  # Remove duplicates
+
+    def _extract_actions_from_text(self, text: str) -> List[str]:
+        words = text.split()
+        actions = []
+        for i in range(len(words) - 1):
+            if words[i].lower() in self.action_keywords:
+                actions.append(f"{words[i]} {words[i + 1]}")
+        return actions
+
+    def _generate_random_actions(self) -> List[str]:
+        return [f"{random.choice(self.action_keywords)} {random.choice(self.utilities.extract_keywords(self.memory.get_random_memory(), 10))}"
+                for _ in range(10)]  # Generate 10 random actions
+
+    def _combine_actions(self, relevant_actions: List[str], random_actions: List[str]) -> List[str]:
+        combined = relevant_actions[:10] + random_actions
+        random.shuffle(combined)
+        return combined[:15]
+
+    def _generate_scenarios(self, actions: List[str], context: str, conversation: List[str]) -> List[str]:
+        scenarios = []
+        for _ in range(10):
+            selected_actions = random.sample(actions, 3)
+            scenario = f"Context: {context}\nConversation: {' '.join(conversation[-3:])}\nActions: {', '.join(selected_actions)}"
+            scenarios.append(scenario)
+        return scenarios
+
+    def _evaluate_scenario_probabilities(self, scenarios: List[str]) -> List[Dict[str, any]]:
+        evaluated_scenarios = []
+        for scenario in scenarios:
+            evaluation = self.evaluate_hypothesis(scenario, [])
+            evaluated_scenarios.append({
+                "scenario": scenario,
+                "probability": float(evaluation.get('Posterior probability', [0])[0])
+            })
+        return evaluated_scenarios
+
+    def _filter_and_save_thoughts(self, evaluated_scenarios: List[Dict[str, any]]):
+        sorted_scenarios = sorted(evaluated_scenarios, key=lambda x: x['probability'], reverse=True)
+        top_half = sorted_scenarios[:len(sorted_scenarios) // 2]
+        self.visible_thoughts = [scenario['scenario'] for scenario in top_half]
 
     def analyze(self, information: str, thoughts: List[str]) -> Dict[str, Any]:
-        """
-        Analyze new information and thoughts to draw conclusions.
-        """
         prompt = f"""
         Analyze the following information and thoughts:
         Information: {information}
@@ -32,9 +148,6 @@ class BicaReasoning:
         return self._structure_analysis(analysis)
 
     def _structure_analysis(self, analysis: str) -> Dict[str, Any]:
-        """
-        Convert the GPT-generated analysis into a structured dictionary.
-        """
         lines = analysis.split('\n')
         structured = {}
         current_key = ''
@@ -47,9 +160,6 @@ class BicaReasoning:
         return structured
 
     def make_connections(self, concept: str, related_memories: List[str], new_thoughts: List[str]) -> Dict[str, Any]:
-        """
-        Draw new connections between a concept, related memories, and new thoughts.
-        """
         prompt = f"""
         Concept: {concept}
         Related Memories: {related_memories}
@@ -66,15 +176,9 @@ class BicaReasoning:
         return self._structure_analysis(connections)
 
     def bayesian_update(self, prior: float, likelihood: float, evidence: float) -> float:
-        """
-        Perform a Bayesian update to revise a probability estimate.
-        """
         return (likelihood * prior) / ((likelihood * prior) + (1 - likelihood) * (1 - prior))
 
     def evaluate_hypothesis(self, hypothesis: str, evidence: List[str]) -> Dict[str, Any]:
-        """
-        Evaluate a hypothesis based on given evidence using Bayesian reasoning.
-        """
         prompt = f"""
         Evaluate the following hypothesis based on the provided evidence:
         Hypothesis: {hypothesis}
@@ -102,9 +206,6 @@ class BicaReasoning:
         return structured_eval
 
     def generate_action_plan(self, goal: str, constraints: List[str]) -> List[str]:
-        """
-        Generate an action plan to achieve a goal given certain constraints.
-        """
         prompt = f"""
         Generate an action plan for the following goal, considering the given constraints:
         Goal: {goal}
@@ -121,9 +222,6 @@ class BicaReasoning:
         return action_plan.split('\n')
 
     def solve_problem(self, problem: str, context: str) -> Dict[str, Any]:
-        """
-        Apply problem-solving techniques to address a given problem.
-        """
         prompt = f"""
         Solve the following problem given the context:
         Problem: {problem}
@@ -142,9 +240,6 @@ class BicaReasoning:
         return self._structure_analysis(solution)
 
     def ethical_evaluation(self, action: str, context: str) -> Dict[str, Any]:
-        """
-        Evaluate the ethical implications of an action in a given context.
-        """
         prompt = f"""
         Evaluate the ethical implications of the following action in the given context:
         Action: {action}
@@ -162,9 +257,6 @@ class BicaReasoning:
         return self._structure_analysis(evaluation)
 
     def meta_reasoning(self, reasoning_process: str) -> Dict[str, Any]:
-        """
-        Analyze and evaluate a reasoning process.
-        """
         prompt = f"""
         Analyze and evaluate the following reasoning process:
         {reasoning_process}
@@ -180,21 +272,13 @@ class BicaReasoning:
         return self._structure_analysis(analysis)
 
     def fact_check(self, statement: str) -> Dict[str, Any]:
-        """
-        Check the factual accuracy of a statement using an external knowledge base.
-        """
         if self.external_kb_api:
-            # This is a placeholder. In a real implementation, you would call the API
-            # and process its response.
             api_response = self.external_kb_api.check_fact(statement)
             return api_response
         else:
             return {"error": "External knowledge base not available"}
 
     def find_analogy(self, source_domain: str, target_domain: str) -> Dict[str, Any]:
-        """
-        Find analogies between two different domains.
-        """
         prompt = f"""
         Find analogies between the following domains:
         Source domain: {source_domain}
@@ -210,9 +294,6 @@ class BicaReasoning:
         return self._structure_analysis(analogies)
 
     def emotional_reasoning(self, situation: str, emotional_context: Dict[str, float]) -> Dict[str, Any]:
-        """
-        Incorporate emotional context into reasoning about a situation.
-        """
         emotion_str = ", ".join([f"{k}: {v}" for k, v in emotional_context.items()])
         prompt = f"""
         Analyze the following situation considering the given emotional context:
@@ -229,9 +310,6 @@ class BicaReasoning:
         return self._structure_analysis(analysis)
 
     def adaptive_reasoning(self, problem: str, context: str, previous_approach: str) -> Dict[str, Any]:
-        """
-        Adapt reasoning approach based on the problem, context, and previous approaches.
-        """
         prompt = f"""
         Adapt the reasoning approach for the following problem:
         Problem: {problem}
@@ -247,3 +325,56 @@ class BicaReasoning:
         """
         strategy = next(self.gpt_handler.generate_response(prompt))
         return self._structure_analysis(strategy)
+    def get_visible_thoughts(self) -> List[str]:
+        return self.visible_thoughts
+
+    def set_thinking_mode(self, mode):
+        valid_modes = ["analytical", "creative", "reflective", "predictive"]
+        if mode in valid_modes:
+            self.thinking_mode = mode
+        else:
+            raise ValueError(f"Invalid thinking mode. Choose from {valid_modes}")
+
+    def _apply_thinking_mode(self, thoughts: List[str]) -> List[str]:
+        prompt = f"""
+        Given the following thoughts and the current thinking mode ({self.thinking_mode}),
+        adjust or expand on these thoughts to better reflect the thinking mode:
+
+        Thoughts: {thoughts}
+
+        Provide the adjusted thoughts:
+        """
+        response = next(self.gpt_handler.generate_response(prompt))
+        return response.strip().split('\n')
+
+    def get_all_thoughts(self) -> List[str]:
+        return self.current_thoughts + self.visible_thoughts
+
+    def process_cognitive_cycle(self, context):
+        # Generate conscious thoughts
+        self.generate_thoughts(context)
+
+        # Generate subconscious thoughts
+        self.generate_subconscious_thoughts()
+
+        # Analyze the current situation
+        analysis = self.analyze(context, self.current_thoughts + self.visible_thoughts)
+
+        # Make connections
+        connections = self.make_connections(context, self.memory.get_recent_memories(), self.current_thoughts)
+
+        # Evaluate hypotheses
+        hypotheses = [thought for thought in self.current_thoughts if '?' in thought]
+        evaluated_hypotheses = [self.evaluate_hypothesis(h, []) for h in hypotheses]
+
+        # Perform meta-reasoning
+        meta_analysis = self.meta_reasoning(str(analysis))
+
+        return {
+            'analysis': analysis,
+            'connections': connections,
+            'evaluated_hypotheses': evaluated_hypotheses,
+            'meta_analysis': meta_analysis
+        }
+
+
