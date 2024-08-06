@@ -1,30 +1,43 @@
 """
-BicaActions: Core action management and execution module for BicameralAGI
+The BicaActions class serves as a central repository and execution engine for actions within the BicameralAGI system. It manages a collection of possible actions, each with properties such as description, weight, and associated function. This class is responsible for loading actions from a configuration file, providing information about available actions and their weights, executing requested actions, and updating action weights based on system feedback. The action weights play a crucial role in the decision-making process, allowing the system to adapt its behavior over time.
 
-This class manages a predefined set of actions for the AI, loaded from a JSON file. It provides methods to validate, execute, and suggest actions based on the current context and weighted probabilities. The class supports both default GPT-based execution and custom action handlers, allowing for flexible implementation of action logic. It also enables dynamic adjustment of action weights, facilitating adaptive behavior. BicaActions serves as a crucial interface between the AI's decision-making processes and its interactions with the environment or users, playing a key role in the AI's overall behavior and response generation.
+In the broader context of the BicameralAGI system, the BicaActions class interacts primarily with the Orchestrator. The Orchestrator uses the information provided by BicaActions (available actions and their weights) to make decisions about which action to take next. Once an action is chosen, the Orchestrator calls upon BicaActions to execute that action. This separation of concerns allows the Orchestrator to focus on high-level decision-making while BicaActions handles the details of action management and execution. The ability to update action weights provides a feedback mechanism, allowing the system to learn from its experiences and adjust the likelihood of choosing certain actions in the future. Each action method (e.g., execute_response, execute_query) can be implemented to interact with other components of the system as needed, such as the memory module or the language model, to carry out its specific function.
 """
 
+from dataclasses import dataclass
+from typing import Dict, List, Any, Callable
 import json
 from pathlib import Path
-from typing import Dict, List, Any, Callable
-import random
-from gpt_handler import GPTHandler
+from openai import OpenAI
 from bica_logging import BicaLogging
 
 
-class BicaActions:
-    def __init__(self, gpt_handler: GPTHandler):
-        self.actions_file = Path(__file__).resolve().parents[2] / "source" / "data" / "definitions" / "possible_actions.json"
-        self.actions: Dict[str, Dict[str, Any]] = self._load_actions_from_file()
-        self.gpt_handler = gpt_handler
-        self.logger = BicaLogging("BicaActions")
-        self.action_handlers: Dict[str, Callable] = {}
+@dataclass
+class ActionProperties:
+    description: str
+    weight: float
+    function: str
 
-    def _load_actions_from_file(self) -> Dict[str, Dict[str, Any]]:
+
+class BicaActions:
+    def __init__(self, api_key: str):
+        self.actions_file = Path(__file__).resolve().parents[2] / "source" / "data" / "definitions" / "possible_actions.json"
+        self.actions: Dict[str, ActionProperties] = self._load_actions_from_file()
+        self.client = OpenAI(api_key=api_key)
+        self.logger = BicaLogging("BicaActions")
+
+    def _load_actions_from_file(self) -> Dict[str, ActionProperties]:
         try:
             with open(self.actions_file, 'r') as f:
                 actions_data = json.load(f)
-            return {action['name']: action for action in actions_data['actions']}
+            return {
+                name: ActionProperties(
+                    description=action['description'],
+                    weight=action['weight'],
+                    function=action['function']
+                )
+                for name, action in actions_data['actions'].items()
+            }
         except Exception as e:
             self.logger.error(f"Error loading actions file: {e}")
             return {}
@@ -32,68 +45,34 @@ class BicaActions:
     def get_action_names(self) -> List[str]:
         return list(self.actions.keys())
 
-    def get_action_details(self, action: str) -> Dict[str, Any]:
-        return self.actions.get(action, {})
-
     def get_action_weights(self) -> Dict[str, float]:
-        return {name: action.get('weight', 0) for name, action in self.actions.items()}
-
-    def is_valid_action(self, action: str) -> bool:
-        return action in self.actions
-
-    def register_action_handler(self, action: str, handler: Callable):
-        if self.is_valid_action(action):
-            self.action_handlers[action] = handler
-            self.logger.info(f"Registered handler for action: {action}")
-        else:
-            self.logger.warning(f"Attempted to register handler for invalid action: {action}")
+        return {name: action.weight for name, action in self.actions.items()}
 
     def execute_action(self, action: str, context: Dict[str, Any]) -> Dict[str, Any]:
-        if not self.is_valid_action(action):
+        if action not in self.actions:
             self.logger.error(f"Attempted to execute invalid action: {action}")
             return {"error": f"Action '{action}' is not available."}
 
-        if action in self.action_handlers:
-            try:
-                result = self.action_handlers[action](context)
-                self.logger.info(f"Executed action: {action}")
-                return result
-            except Exception as e:
-                self.logger.error(f"Error executing action {action}: {e}")
-                return {"error": f"Error executing action {action}: {str(e)}"}
-        else:
-            # Default behavior if no handler is registered
-            return self._default_action_execution(action, context)
+        action_properties = self.actions[action]
+        function_name = action_properties.function
 
-    def _default_action_execution(self, action: str, context: Dict[str, Any]) -> Dict[str, Any]:
-        prompt = f"Execute the following action: {action}\nContext: {json.dumps(context)}\nProvide a detailed response as if you were carrying out this action."
-        response = next(self.gpt_handler.generate_response(prompt))
-        return {
-            "action": action,
-            "description": self.actions[action].get('description', ''),
-            "result": response,
-            "context": context
-        }
-
-    def suggest_next_action(self, current_context: Dict[str, Any]) -> str:
-        action_weights = self.get_action_weights()
-        context_str = json.dumps(current_context)
-
-        prompt = f"Given the current context: {context_str}\nAnd the following possible actions with their weights: {json.dumps(action_weights)}\nSuggest the most appropriate next action to take."
-
-        suggested_action = next(self.gpt_handler.generate_response(prompt))
-
-        if self.is_valid_action(suggested_action):
-            return suggested_action
-        else:
-            self.logger.warning(f"GPT suggested invalid action: {suggested_action}. Falling back to random selection.")
-            return random.choices(list(action_weights.keys()), weights=list(action_weights.values()))[0]
+        try:
+            method = getattr(self, function_name)
+            result = method(context)
+            self.logger.info(f"Executed action: {action}")
+            return result
+        except AttributeError:
+            self.logger.error(f"Function {function_name} not found for action {action}")
+            return {"error": f"Function {function_name} not found for action {action}"}
+        except Exception as e:
+            self.logger.error(f"Error executing action {action}: {e}")
+            return {"error": f"Error executing action {action}: {str(e)}"}
 
     def update_action_weight(self, action: str, delta: float):
-        if self.is_valid_action(action):
-            current_weight = self.actions[action]['weight']
-            new_weight = max(0, min(1, current_weight + delta))  # Ensure weight stays between 0 and 1
-            self.actions[action]['weight'] = new_weight
+        if action in self.actions:
+            current_weight = self.actions[action].weight
+            new_weight = max(0, min(1, current_weight + delta))
+            self.actions[action].weight = new_weight
             self.logger.info(f"Updated weight for action {action}: {current_weight} -> {new_weight}")
             self._save_actions_to_file()
         else:
@@ -101,45 +80,119 @@ class BicaActions:
 
     def _save_actions_to_file(self):
         try:
+            actions_data = {
+                "actions": {
+                    name: {
+                        "description": props.description,
+                        "weight": props.weight,
+                        "function": props.function
+                    }
+                    for name, props in self.actions.items()
+                }
+            }
             with open(self.actions_file, 'w') as f:
-                json.dump({"actions": list(self.actions.values())}, f, indent=2)
+                json.dump(actions_data, f, indent=2)
             self.logger.info("Saved updated actions to file")
         except Exception as e:
             self.logger.error(f"Error saving actions to file: {e}")
 
+    # Placeholder methods for specific action executions
+    def execute_response(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        print(f"Executing response action with context: {context}")
+        return {"action": "respond", "response": "This is a dummy response."}
 
-# Example usage
+    def execute_query(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        print(f"Executing query action with context: {context}")
+        return {"action": "query", "query": "This is a dummy query?"}
+
+    def execute_context_shift(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        print(f"Executing context shift action with context: {context}")
+        return {"action": "shift_context", "new_context": "This is a new dummy context."}
+
+    def execute_conversation_management(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        print(f"Executing conversation management action with context: {context}")
+        return {"action": "manage_conversation", "management": "This is a dummy conversation management action."}
+
+    def execute_internal_processing(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        print(f"Executing internal processing action with context: {context}")
+        return {"action": "process_internally", "processing": "This is a dummy internal processing action."}
+
+
+# Testing BicaActions
 if __name__ == "__main__":
-    from gpt_handler import GPTHandler
+    import os
+    from openai import OpenAI
+    import util
 
-    gpt_handler = GPTHandler()
-    bica_actions = BicaActions(gpt_handler)
+    # Initialize OpenAI client
+    client = OpenAI(api_key=util.get_environment_variable("OPENAI_API_KEY"))
 
-    print("Available actions:")
-    for action, details in bica_actions.actions.items():
-        print(f"{action}: {details['description']} (weight: {details['weight']})")
+    # Initialize BicaActions
+    bica_actions = BicaActions(api_key=util.get_environment_variable("OPENAI_API_KEY"))
 
+    print("Starting BicaActions test suite...")
 
-    # Register a custom handler for the 'respond' action
-    def custom_respond_handler(context):
-        return {"result": f"Custom response: {context.get('message', 'Hello!')}"}
+    # Test 1: Get action names and weights
+    print("\nTest 1: Get action names and weights")
+    action_names = bica_actions.get_action_names()
+    action_weights = bica_actions.get_action_weights()
+    print(f"Available actions: {action_names}")
+    print(f"Action weights: {action_weights}")
 
+    # Test 2: Execute each action
+    print("\nTest 2: Execute each action")
+    for action in action_names:
+        context = {"user_input": "Hello, AI!", "emotion": "neutral"}
+        result = bica_actions.execute_action(action, context)
+        print(f"Result of {action}: {result}")
 
-    bica_actions.register_action_handler('respond', custom_respond_handler)
+    # Test 3: Update action weight
+    print("\nTest 3: Update action weight")
+    action_to_update = "respond"
+    original_weight = bica_actions.actions[action_to_update].weight
+    bica_actions.update_action_weight(action_to_update, 0.1)
+    new_weight = bica_actions.actions[action_to_update].weight
+    print(f"Updated '{action_to_update}' weight: {original_weight} -> {new_weight}")
 
-    print("\nExecuting 'respond' action with custom handler:")
-    result = bica_actions.execute_action('respond', {"message": "How are you?"})
-    print(json.dumps(result, indent=2))
+    # Test 4: Simulate a conversation using GPT for decision-making
+    print("\nTest 4: Simulate a conversation using GPT for decision-making")
+    conversation_history = []
 
-    print("\nExecuting 'query' action (using default execution):")
-    result = bica_actions.execute_action('query', {"topic": "user's mood"})
-    print(json.dumps(result, indent=2))
+    for i in range(10):  # Simulate 5 turns of conversation
+        user_input = input("User: ")
+        conversation_history.append(f"User: {user_input}")
 
-    print("\nSuggesting next action:")
-    current_context = {"user_input": "Tell me a joke", "mood": "happy"}
-    suggested_action = bica_actions.suggest_next_action(current_context)
-    print(f"Suggested action: {suggested_action}")
+        # Use GPT to decide on the next action
+        gpt_prompt = f"""
+        Given the following conversation history and available actions, decide on the next action to take:
 
-    print("\nUpdating action weight:")
-    bica_actions.update_action_weight('respond', 0.1)
-    print(f"New weight for 'respond': {bica_actions.get_action_weights()['respond']}")
+        Conversation history:
+        {' '.join(conversation_history)}
+
+        Available actions: {', '.join(action_names)}
+
+        Decide on the most appropriate action and respond with just the action name.
+        """
+
+        gpt_response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "system", "content": "You are an AI assistant helping to decide on actions in a conversation."},
+                      {"role": "user", "content": gpt_prompt}]
+        )
+
+        chosen_action = gpt_response.choices[0].message.content.strip().lower()
+
+        # Execute the chosen action
+        context = {"user_input": user_input, "conversation_history": conversation_history}
+        result = bica_actions.execute_action(chosen_action, context)
+
+        # Update conversation history
+        conversation_history.append(f"AI ({chosen_action}): {result}")
+
+        print(f"Turn {i + 1}:")
+        print(f"User: {user_input}")
+        print(f"Chosen action: {chosen_action}")
+        print(f"Result: {result}")
+        print()
+
+    print("BicaActions test suite completed.")
