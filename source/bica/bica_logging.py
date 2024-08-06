@@ -4,6 +4,7 @@ import os
 import traceback
 from datetime import datetime
 
+
 class BicaLogging:
     def __init__(self, name, log_file='bica.log', log_level=logging.INFO):
         self.logger = logging.getLogger(name)
@@ -14,7 +15,7 @@ class BicaLogging:
             os.makedirs(log_dir)
 
         c_handler = logging.StreamHandler()
-        f_handler = RotatingFileHandler(os.path.join(log_dir, log_file), maxBytes=10*1024*1024, backupCount=5)
+        f_handler = RotatingFileHandler(os.path.join(log_dir, log_file), maxBytes=10 * 1024 * 1024, backupCount=5)
 
         log_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         c_handler.setFormatter(log_format)
@@ -71,6 +72,7 @@ class BicaLogging:
 
     def log_error_boundary(self, error_type, message, module=None):
         self.error(f"Error Boundary: {error_type}", message=message, module=module)
+
 
 # Example usage
 if __name__ == "__main__":
