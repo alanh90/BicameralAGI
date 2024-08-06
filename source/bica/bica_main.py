@@ -1,5 +1,7 @@
 """
-For now this file is done, I want to make sure this is very minimal for testing purposes.
+This is where we will be testing the AI. This file will be working with the orchestrator class
+
+Notes: For now this file is done, I want to make sure this is very minimal for testing purposes.
 """
 
 from bica_orchestrator import BicaOrchestrator
