@@ -1,3 +1,9 @@
+"""
+BicaActions: Core action management and execution module for BicameralAGI
+
+This class manages a predefined set of actions for the AI, loaded from a JSON file. It provides methods to validate, execute, and suggest actions based on the current context and weighted probabilities. The class supports both default GPT-based execution and custom action handlers, allowing for flexible implementation of action logic. It also enables dynamic adjustment of action weights, facilitating adaptive behavior. BicaActions serves as a crucial interface between the AI's decision-making processes and its interactions with the environment or users, playing a key role in the AI's overall behavior and response generation.
+"""
+
 import json
 from pathlib import Path
 from typing import Dict, List, Any, Callable
