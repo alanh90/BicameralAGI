@@ -497,68 +497,76 @@ The Turing++ test seeks to identify AI systems that can navigate these nuanced s
 <a name="bica-section"></a>
 ## 🧩 BICA Architecture
 
-### 1. Consciousness and Self-Awareness (bica_thoughts.py & bica_subconscious.py)
-**Function**: These components simulates the human experience of consciousness and self-awareness. It generates an internal narrative, allowing the AI to "think about thinking" and maintain a sense of self. Key functions include:
-- Generating internal monologues to process information and make decisions
-- Monitoring and evaluating the system's own cognitive processes and performance
-- Simulating self-reflection to analyze past actions and plan future behaviors
-- Developing and maintaining a cohesive self-model that evolves with experiences
-- Implementing theory of mind capabilities to understand and predict others' mental states
+BicameralAGI's architecture consists of the following key components:
 
-### 2. Emotional Intelligence (bica_emotions.py)
-**Function**: This module models the complex landscape of human emotions and their impact on cognition and behavior. It aims to create an AI capable of understanding and managing emotions. Core functions include:
-- Generating appropriate emotional responses to stimuli based on context and personality
-- Modulating cognitive processes and decision-making based on current emotional states
-- Recognizing and interpreting emotions in human interactions (text, voice, or visual cues)
-- Simulating emotional memory to influence future responses and learning
-- Implementing emotion regulation strategies to maintain optimal cognitive functioning
+1. **Orchestrator (bica_orchestrator.py)**:
+   - Serves as the central coordination hub for all BicameralAGI modules
+   - Implements a publish-subscribe system for efficient inter-module communication
+   - Manages parallel processing of AI components
+   - Implements a priority queue system for task management
 
-### 3. Memory and Learning (bica_memory.py, bica_learning.py)
-**Function**: These components work together to simulate human-like memory processes and adaptive learning. They manage how information is encoded, stored, retrieved, and used for continuous improvement. Key functions include:
-- Implementing distinct systems for working memory and long-term memory
-- Managing the transfer of information between different memory stores
-- Simulating memory consolidation processes, including forgetting and retrieval
-- Continuously updating knowledge and skills based on new experiences and information
-- Implementing various learning paradigms (e.g., associative, reinforcement, and deep learning)
-- Generating novel solutions by combining existing knowledge in creative ways
+2. **Memory and Learning System (bica_memory.py)**:
+   - Manages short-term, long-term, and working memory
+   - Handles memory formation, consolidation, retrieval, and forgetting
+   - Implements "dreaming" functionality for memory processing and consolidation
+   - Uses vector databases for efficient similarity searches in memory retrieval
+   - Implements various learning strategies (supervised, reinforcement, unsupervised)
+   - Manages knowledge integration and skill acquisition
+   - Generates periodic "learning summaries"
+   - Adapts memory structures based on new experiences and learned information
 
-### 4. Decision Making and Reasoning (bica_reasoning.py, bica_action.py)
-**Function**: These modules handle the AI's ability to make decisions and reason about complex problems. They aim to replicate human-like problem-solving and judgment capabilities. Core functions include:
-- Implementing various reasoning methods (deductive, inductive, abductive)
-- Managing decision-making processes under uncertainty and with incomplete information
-- Balancing short-term rewards with long-term goals in action selection
-- Incorporating ethical considerations and value alignment in decision processes
-- Simulating cognitive biases and heuristics for more human-like reasoning
-- Generating and evaluating multiple hypotheses or solutions for complex problems
-- Utilizes the subconscious as well for generating new solutions
+3. **Cognitive Processing (bica_cognition.py)**:
+   - Generates conscious and subconscious thoughts
+   - Implements various reasoning methods (deductive, inductive, abductive)
+   - Manages decision-making processes under uncertainty
+   - Simulates cognitive biases and heuristics for more human-like reasoning
 
-### 5. Personality and Individuality (bica_personality.py)
-**Function**: This component defines the AI's unique personality, ensuring consistent behavior and individual differences. It aims to create a sense of individuality in the AI. Key functions include:
-- Maintaining a stable set of personality traits that influence behavior and decisions
-- Adapting personality expression based on social context and environmental factors
-- Simulating personal growth and character development over time
-- Influencing other cognitive processes (e.g., emotion, memory, decision-making) based on personality
-- Generating individual preferences, attitudes, and behavioral tendencies
-- Creates a character cognitive map based on user input
-- Generates initial artificial memories based on character input
+4. **Affective System (bica_affect.py)**:
+   - Manages emotions and personality as an integrated system
+   - Maintains emotional stability and implements "emotional inertia"
+   - Creates and maintains a stable personality profile
+   - Generates periodic "self-reflection" reports
 
-### 6. Social Interaction (bica_chat.py)
-**Function**: This module manages the AI's ability to engage in natural, context-appropriate social interactions. It aims to replicate human-like communication skills. Core functions include:
-- Managing turn-taking and conversation flow in dialogues
-- Interpreting and generating appropriate verbal and non-verbal communication cues
-- Adapting communication style based on the social context and conversation partner
-- Maintaining and updating models of ongoing conversations and relationships
-- Implementing pragmatic understanding to interpret implicit meanings and intentions
+5. **Action and Decision Making (bica_action.py)**:
+   - Handles action selection and execution based on inputs from other modules
+   - Implements a weighted probability system for action selection
+   - Manages high-level decision making processes
 
-### 7. Subconscious Processing (bica_subconscious.py, bica_dreaming.py)
-**Function**: These components simulate the background cognitive processes that occur outside of conscious awareness, including sleep-like states for memory consolidation and problem-solving. Key functions include:
-- Continuously processing and integrating information in the background
-- Simulating intuition and gut feelings by rapid, unconscious processing of patterns
-- Implementing priming effects to influence conscious thoughts and behaviors
-- Managing sleep-like states for memory consolidation and reorganization
-- Facilitating creative problem-solving through incubation and random association
-- Generating dreams or dream-like sequences for processing emotional experiences and consolidating memories
-- The subconsious module helps in creating new thoughts that go beyond the training data
+6. **Safety System (bica_safety.py)**:
+   - Implements multiple layers of AI alignment strategies
+   - Continuously monitors thoughts, emotions, and potential actions for safety issues
+   - Generates safety reports and alerts for potential alignment issues
+
+7. **Context Management (bica_context.py)**:
+   - Maintains self-narrative, current context, and world model
+   - Generates and maintains storylines for the AI's existence
+   - Adapts narratives based on recent experiences and changing goals
+
+8. **Interface (bica_interface.py)**:
+   - Manages external interactions and API integrations
+   - Handles input processing and output generation
+   - Implements natural language understanding and generation capabilities
+
+9. **Utilities (bica_utilities.py)**:
+    - Provides common functions and tools used across modules
+    - Implements data processing and optimization utilities
+
+10. **Logging (bica_logging.py)**:
+    - Handles system-wide logging for debugging and analysis
+    - Implements different log levels for various types of information
+
+11. **Writer (bica_writer.py)**:
+    - Generates and manages narrative elements for the AI's self-model
+    - Creates and modifies storylines based on the AI's experiences and goals
+
+12. **Ethics Module (bica_ethics.py)**:
+    - Implements high-level moral reasoning and decision making
+    - Provides ethical guidelines to other modules
+    - Handles complex moral dilemmas and ethical decision-making scenarios
+
+13. **Main Controller (bica_main.py)**:
+    - Serves as the entry point for the system
+    - Manages high-level control flow and system startup/shutdown procedures
 
 Each of these expanded functions contributes to creating a more comprehensive and human-like artificial intelligence system. By simulating these complex cognitive processes, BicameralAGI aims to achieve a level of artificial general intelligence that can engage in more natural, adaptive, and contextually appropriate interactions across a wide range of scenarios.
 
