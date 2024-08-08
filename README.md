@@ -549,7 +549,7 @@ BicameralAGI's architecture consists of the following key components:
     - Handles system-wide logging for debugging and analysis
     - Implements different log levels for various types of information
 
-10. **Writer (bica_writer.py)**:
+10. **Writer (bica_destiny.py)**:
     - Generates and manages narrative elements for the AI's self-model
     - Creates and modifies storylines based on the AI's experiences and goals
 

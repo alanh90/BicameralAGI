@@ -95,6 +95,15 @@ class BicaUtilities:
         else:
             return f"{', '.join(items[:-1])}, {conjunction} {items[-1]}"
 
+    @staticmethod
+    def normalize_weights(items: List[Dict[str, Any]], weight_key: str = "weight") -> List[Dict[str, Any]]:
+        """Normalize the weights of a list of dictionaries."""
+        total_weight = sum(item[weight_key] for item in items)
+        if total_weight > 0:
+            for item in items:
+                item[weight_key] /= total_weight
+        return items
+
 
 def main():
     # Example of loading and saving a JSON file
