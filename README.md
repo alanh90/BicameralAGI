@@ -2,7 +2,7 @@
 
 # 🧠 BicameralAGI
 
-![BicameralAGI Cover](source/data/media/BICA_Cover.png)
+![BicameralAGI Cover](source/data/readme_media/BICA_Cover.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
@@ -63,12 +63,12 @@ This project represents not just a technical challenge, but a step towards creat
 <table>
   <tr>
     <td width="50%" align="center">
-      <img src="source/data/media/heres-a-clu.gif" alt="Tron" style="max-width: 100%; height: auto;"/>
+      <img src="source/data/readme_media/heres-a-clu.gif" alt="Tron" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Tron Legacy (2010)</em>
     </td>
     <td width="50%" align="center">
-      <img src="source/data/media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
+      <img src="source/data/readme_media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Westworld (2016) "This scene was interesting, it showed a type of LLM generating her logic"</em>
     </td>
@@ -82,12 +82,12 @@ My lifelong fascination with human-like AI, as portrayed in works like Bicentenn
 <table>
   <tr>
     <td width="50%" align="center">
-      <img src="source/data/media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
+      <img src="source/data/readme_media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Clownfish and Sea Anemone</em>
     </td>
     <td width="50%" align="center">
-      <img src="source/data/media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
+      <img src="source/data/readme_media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Warthog and Mongoose</em>
     </td>
@@ -125,7 +125,7 @@ This mutualistic model aims to create a symbiotic relationship where both AI and
 
 <a name="agi-requires-emotion"></a>
 ### 3. True AGI Requires Emotion
-![BicameralAGI Cover](source/data/media/emotion_vs_emotionless.png)
+![BicameralAGI Cover](source/data/readme_media/emotion_vs_emotionless.png)
 The development of Artificial General Intelligence (AGI) isn't just about creating systems with high cognitive capabilities; it's about creating entities that can truly understand and interact with the world in a human-like manner. This is where emotions play a crucial role.
 
 Consider this thought experiment: Who would you rather be trapped in a room with?
@@ -195,7 +195,7 @@ The Turing++ Test is designed to provide a more comprehensive framework for asse
 
 <!--
 ## The 10 Pillars of the Turing++ Test (Note: This is still under development)
-![10Pillars](source/data/media/pillars.png)
+![10Pillars](source/data/readme_media/pillars.png)
 1. **Cognitive Consistency and Belief Stability Index (CCBSI)**
    - Evaluates the AI's ability to maintain stable opinions and beliefs over time
    - Assesses how the AI handles conflicting information and updates its beliefs
@@ -533,7 +533,7 @@ BicameralAGI's architecture consists of the following key components:
    - Manages high-level decision making processes
 
 6. **Safety System (bica_safety.py)**:
-   - Implements multiple layers of AI alignment strategies
+   - Implements a dynamic filter that could be planted anywhere between actions or thoughts
    - Continuously monitors thoughts, emotions, and potential actions for safety issues
    - Generates safety reports and alerts for potential alignment issues
 
@@ -542,29 +542,18 @@ BicameralAGI's architecture consists of the following key components:
    - Generates and maintains storylines for the AI's existence
    - Adapts narratives based on recent experiences and changing goals
 
-8. **Interface (bica_interface.py)**:
-   - Manages external interactions and API integrations
-   - Handles input processing and output generation
-   - Implements natural language understanding and generation capabilities
-
-9. **Utilities (bica_utilities.py)**:
+8. **Utilities (bica_utilities.py)**:
     - Provides common functions and tools used across modules
     - Implements data processing and optimization utilities
-
-10. **Logging (bica_logging.py)**:
+9. **Logging (bica_logging.py)**:
     - Handles system-wide logging for debugging and analysis
     - Implements different log levels for various types of information
 
-11. **Writer (bica_writer.py)**:
+10. **Writer (bica_writer.py)**:
     - Generates and manages narrative elements for the AI's self-model
     - Creates and modifies storylines based on the AI's experiences and goals
 
-12. **Ethics Module (bica_ethics.py)**:
-    - Implements high-level moral reasoning and decision making
-    - Provides ethical guidelines to other modules
-    - Handles complex moral dilemmas and ethical decision-making scenarios
-
-13. **Main Controller (bica_main.py)**:
+11. **Main Controller (bica_main.py)**:
     - Serves as the entry point for the system
     - Manages high-level control flow and system startup/shutdown procedures
 

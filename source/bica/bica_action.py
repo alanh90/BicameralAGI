@@ -124,13 +124,13 @@ class BicaActions:
 if __name__ == "__main__":
     import os
     from openai import OpenAI
-    import util
+    import bica_utilities
 
     # Initialize OpenAI client
-    client = OpenAI(api_key=util.get_environment_variable("OPENAI_API_KEY"))
+    client = OpenAI(api_key=bica_utilities.get_environment_variable("OPENAI_API_KEY"))
 
     # Initialize BicaActions
-    bica_actions = BicaActions(api_key=util.get_environment_variable("OPENAI_API_KEY"))
+    bica_actions = BicaActions(api_key=bica_utilities.get_environment_variable("OPENAI_API_KEY"))
 
     print("Starting BicaActions test suite...")
 

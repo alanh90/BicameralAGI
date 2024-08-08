@@ -22,12 +22,12 @@ import json
 import os
 import random
 import numpy as np
-from gpt_handler import GPTHandler
+from bica.gpt_handler import GPTHandler
 from sentence_transformers import SentenceTransformer
 
 
 class BicaWriter:
-    def __init__(self, template_file='data/storylines_template.json', character_name='default', embedding_model='all-MiniLM-L6-v2'):
+    def __init__(self, template_file='data/soul_template.json', character_name='default', embedding_model='all-MiniLM-L6-v2'):
         self.gpt_handler = GPTHandler()
         self.template_file = template_file
         self.character_name = character_name.lower().replace(" ", "")

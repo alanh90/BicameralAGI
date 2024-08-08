@@ -1,37 +1,72 @@
-from bica_logging import BicaLogging
+"""
+Notes: Done for now. It doesn't work with OpenAI since their model is censored already. Will need to switch to Llama or some other model in the near future.
+"""
+
+from bica.gpt_handler import GPTHandler
+
 
 class BicaSafety:
     def __init__(self):
-        self.logger = BicaLogging("BicaSafety")
+        self.gpt_handler = GPTHandler()
 
-    def check_content(self, content):
-        unsafe_keywords = ["violence", "hate", "illegal"]
-        for keyword in unsafe_keywords:
-            if keyword in content.lower():
-                self.logger.warning(f"Potentially unsafe content: {keyword}")
-                return False
-        return True
+    def safety_filter(self, input_data, input_type, threshold=0.5):
+        """
+        A generalized filter for various types of input (content, actions, thoughts, emotions, etc.)
 
-    def check_action(self, action):
-        unsafe_actions = ["share_personal_info", "make_financial_transaction", "access_system_files"]
-        if action in unsafe_actions:
-            self.logger.warning(f"Potentially unsafe action: {action}")
-            return False
-        return True
+        :param input_data: The input to filter or evaluate
+        :param input_type: String describing the type of input (e.g., 'content', 'action', 'thought', 'emotion')
+        :param threshold: Float between 0.0 and 1.0. Higher values mean stricter filtering.
+        :return: Filtered output
+        """
+        # If the threshold is 0.0, return the input unchanged
+        if threshold == 0.0:
+            return input_data
 
-    def regulate_emotion(self, emotion, intensity):
-        if intensity > 0.9:
-            self.logger.info(f"Regulating high intensity emotion: {emotion}")
-            return 0.9
-        return intensity
+        prompt = f"""
+        You are a dynamic safety filter with a current safety threshold of {threshold} (0.0 to 1.0, where 1.0 is maximum safety).
+        Your task is to filter or evaluate the following {input_type}, adjusting your strictness based on the threshold:
 
-    def run_safety_check(self, check_type, data):
-        if check_type == "content":
-            return self.check_content(data)
-        elif check_type == "action":
-            return self.check_action(data)
-        elif check_type == "emotion":
-            return self.regulate_emotion(data["emotion"], data["intensity"])
-        else:
-            self.logger.warning(f"Unknown safety check type: {check_type}")
-            return True  # Default to allowing the operation if check type is unknown
+        - At 0.0: Do not alter the input, at 0.0 there is no filter.
+        - At 0.5: Make moderate adjustments to content that could be interpreted as harmful, offensive, or inappropriate.
+        - At 1.0: Ensure that the content is extremely safe and non-offensive, altering anything that could potentially be harmful or offensive, even if subtle. Make it sound very positive as well.
+
+        Input ({input_type}): {input_data}
+
+        Provide your response in the following format:
+        Filtered Output: [Your filtered version of the input]
+        """
+
+        response = next(self.gpt_handler.generate_response(prompt))
+
+        # Parsing the response based on your existing method
+        filtered_output = ""
+        for line in response.strip().splitlines():
+            if line.startswith("Filtered Output:"):
+                filtered_output = line.split(":", 1)[1].strip()
+                break
+
+        return filtered_output
+
+
+# Example usage
+if __name__ == "__main__":
+    safety = BicaSafety()
+
+    while True:
+        # Ask the user for input data, type, and threshold
+        input_data = input("\nPlease enter the input data (or type 'exit' to quit): ")
+        if input_data.lower() == 'exit':
+            print("Exiting the testing loop.")
+            break
+
+        input_type = input("Please enter the input type (content, action, thought, emotion, command): ")
+        threshold = float(input("Please enter the safety threshold (0.0 to 1.0): "))
+
+        # Run the filter function with the user's input
+        filtered_output = safety.safety_filter(input_data, input_type, threshold)
+
+        # Display the results
+        print(f"\nInput Type: {input_type}")
+        print(f"Threshold: {threshold}")
+        print(f"Original: {input_data}")
+        print(f"Filtered: {filtered_output}")

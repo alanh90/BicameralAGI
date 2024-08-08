@@ -1,13 +1,12 @@
 # This is code from an old project where I was working on a desktop bot. It was supposed to be a super simplified version of the architecture, but I had issues with it.
 
 import os
-import random
 import time
 import threading
 import queue
 import numpy as np
 from PIL import ImageGrab, Image
-from gpt_handler import GPTHandler
+from bica.gpt_handler import GPTHandler
 from elevenlabs_tts import ElevenLabsTTS
 import pygame
 import speech_recognition as sr

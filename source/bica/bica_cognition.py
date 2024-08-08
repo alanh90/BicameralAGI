@@ -1,14 +1,11 @@
-import numpy as np
 from typing import List, Dict, Any
-from gpt_handler import GPTHandler
+from bica.gpt_handler import GPTHandler
 from bica_memory import BicaMemory
 from bica_context import BicaContext
 from bica_utilities import BicaUtilities
 from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 import random
-import time
 
 
 class BicaCognition:

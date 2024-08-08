@@ -1,8 +1,6 @@
 from bica_memory import BicaMemory
-from bica_affect import BicaAffect
-from bica_cognition import BicaCognition
 from bica_context import BicaContext
-from gpt_handler import GPTHandler
+from bica.gpt_handler import GPTHandler
 from bica_logging import BicaLogging
 
 

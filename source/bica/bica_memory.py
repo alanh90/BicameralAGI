@@ -6,7 +6,7 @@ import uuid
 import random
 import time
 import threading
-from gpt_handler import GPTHandler
+from bica.gpt_handler import GPTHandler
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from bica_logging import BicaLogging

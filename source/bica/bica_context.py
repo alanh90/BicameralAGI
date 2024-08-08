@@ -4,9 +4,8 @@ Notes: Class is done for now, will be revisiting for optimization reasons.
 
 from sentence_transformers import SentenceTransformer
 from scipy.spatial.distance import cosine
-from gpt_handler import GPTHandler
+from bica.gpt_handler import GPTHandler
 import json
-import numpy as np
 
 
 class BicaContext:

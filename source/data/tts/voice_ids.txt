@@ -1,5 +1,0 @@
-Elevenlabs voices:
-Ultron = "EYGNk3caLQPpr7IlCEIr"
-HAL = 'XiUDKcvxW6SeUsGFq7Se'
-HER = 'ysA9LHnZ5ZlQz2AXem6f'
-Adam = 'avRyM2OQykhYjan3bLz2'

@@ -1,8 +1,7 @@
 import json
-import random
 import time
 import os
-from gpt_handler import GPTHandler
+from bica.gpt_handler import GPTHandler
 from bica_utilities import BicaUtilities
 
 

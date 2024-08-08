@@ -1,5 +1,5 @@
 from openai import OpenAI
-import util
+from bica_utilities import BicaUtilities
 
 
 class GPTHandler:
@@ -8,7 +8,7 @@ class GPTHandler:
         self.model = model
 
         if self.api_provider == "openai":
-            api_key = util.get_environment_variable("OPENAI_API_KEY")
+            api_key = BicaUtilities.get_environment_variable("OPENAI_API_KEY")
             self.client = OpenAI(api_key=api_key)
         else:
             raise ValueError("Invalid API provider. Choose 'openai'.")
