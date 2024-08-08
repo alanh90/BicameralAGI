@@ -1,7 +1,7 @@
 from bica_memory import BicaMemory
-from bica_personality import BicaPersonality
-from bica_thoughts import BicaThoughts
-from bica_emotions import BicaEmotions
+from bica_affect import BicaAffect
+from bica_cognition import BicaCognition
+from bica_context import BicaContext
 from gpt_handler import GPTHandler
 from bica_logging import BicaLogging
 
@@ -12,6 +12,7 @@ class BicaOrchestrator:
         self.personality = BicaPersonality()
         self.thoughts = BicaThoughts()
         self.emotions = BicaEmotions()
+        self.context = BicaContext()
         self.gpt_handler = GPTHandler()
         self.logger = BicaLogging("BicaOrchestrator")
         self.recent_conversation = []
@@ -23,26 +24,30 @@ class BicaOrchestrator:
         self.recent_conversation.append(f"User: {user_input}")
 
         # Step 2: Update and gather short-term memory
-        self.memory.update_short_term_memory(user_input)  # This method needs to be added to BicaMemory
+        self.memory.update_short_term_memory(user_input)
         short_term_memory = self.memory.get_short_term_memory()
 
         # Step 3: Gather personality reference
-        personality_profile = self.personality.get_personality_profile()  # This method needs to be added to BicaPersonality
+        personality_profile = self.personality.get_personality_profile()
 
         # Step 4: Gather important long-term memories
-        long_term_memories = self.memory.get_important_long_term_memories()  # This method needs to be added to BicaMemory
+        long_term_memories = self.memory.get_important_long_term_memories()
 
         # Step 5: Get recent conversation
         recent_conversation = self.get_recent_conversation()
 
-        # Step 6: Trigger thought process
+        # Step 6: Update context and generate response
+        context_response, context_reasoning = self.context.generate_response(user_input)
+
+        # Step 7: Trigger thought process
         thoughts = self.thoughts.generate_thoughts(user_input, short_term_memory, long_term_memories, recent_conversation)
 
-        # Step 7: Trigger emotions
+        # Step 8: Trigger emotions
         emotions = self.emotions.process_emotions(user_input, short_term_memory, long_term_memories, thoughts)
 
-        # Step 8: Generate output
-        ai_response = self.generate_output(user_input, short_term_memory, personality_profile, long_term_memories, recent_conversation, thoughts, emotions)
+        # Step 9: Generate final output
+        ai_response = self.generate_output(user_input, short_term_memory, personality_profile, long_term_memories,
+                                           recent_conversation, thoughts, emotions, context_response, context_reasoning)
 
         self.recent_conversation.append(f"AI: {ai_response}")
         self.logger.info(f"Generated AI response: {ai_response}")
@@ -52,7 +57,8 @@ class BicaOrchestrator:
     def get_recent_conversation(self, num_turns: int = 5) -> list:
         return self.recent_conversation[-num_turns:]
 
-    def generate_output(self, user_input, short_term_memory, personality_profile, long_term_memories, recent_conversation, thoughts, emotions):
+    def generate_output(self, user_input, short_term_memory, personality_profile, long_term_memories,
+                        recent_conversation, thoughts, emotions, context_response, context_reasoning):
         prompt = f"""
         User Input: {user_input}
         Short-term Memory: {short_term_memory}
@@ -61,8 +67,13 @@ class BicaOrchestrator:
         Recent Conversation: {recent_conversation}
         Current Thoughts: {thoughts}
         Current Emotions: {emotions}
+        Context-based Response: {context_response}
+        Context Reasoning: {context_reasoning}
 
-        Based on the above information, generate an appropriate response for the AI. The response should be coherent, contextually relevant, and reflect the AI's personality, thoughts, and emotions.
+        Based on the above information, generate an appropriate response for the AI. The response should be coherent, 
+        contextually relevant, and reflect the AI's personality, thoughts, emotions, and the context-based analysis. 
+        Consider the context-based response and its reasoning, but feel free to adjust or expand upon it based on 
+        other factors like personality and emotions.
 
         AI Response:
         """

@@ -1,67 +1,120 @@
+"""
+Notes: Class is done for now, will be revisiting for optimization reasons.
+"""
+
 from sentence_transformers import SentenceTransformer
 from scipy.spatial.distance import cosine
 from gpt_handler import GPTHandler
+import json
+import numpy as np
 
 
 class BicaContext:
     def __init__(self, max_length=1000):
         self.context_viewpoints = {"positive": "", "neutral": "", "negative": ""}
-        self.weights = {"positive": "med", "neutral": "med", "negative": "med"}  # Initial equal weights
+        self.weights = {"positive": 0.33, "neutral": 0.33, "negative": 0.34}  # Initial weights
         self.max_length = max_length
         self.gpt_handler = GPTHandler(api_provider="openai", model="gpt-4o-mini")
         self.model = SentenceTransformer('paraphrase-MiniLM-L6-v2')  # Load the embedding model
+        self.memory = []
 
     def update_weights(self, new_info):
-        # Generate embeddings for new_info
         new_info_embedding = self.model.encode(new_info, convert_to_tensor=True)
 
-        weights = {}
+        similarities = {}
         for viewpoint in self.context_viewpoints:
-            prompt = f"Given the current conversation context: {self.context_viewpoints[viewpoint]}\n\nNew information: {new_info}\n\nProvide a brief interpretation of the {viewpoint} aspects of this information."
-            response = next(self.gpt_handler.generate_response(prompt)).strip()
-            response_embedding = self.model.encode(response, convert_to_tensor=True)
-            similarity = 1 - cosine(new_info_embedding, response_embedding)  # Cosine similarity
+            prompt = self.get_viewpoint_prompt(viewpoint, new_info)
+            response = next(self.gpt_handler.generate_response(prompt))
 
-            print(f"{viewpoint.capitalize()} value: {similarity}")
-            if similarity < 0.5:
-                weights[viewpoint] = "low"
-            elif 0.5 <= similarity < 0.80:
-                weights[viewpoint] = "med"
-            else:
-                weights[viewpoint] = "high"
+            try:
+                parsed_response = json.loads(response)
+                interpretation = parsed_response['interpretation']
+            except json.JSONDecodeError:
+                interpretation = response  # Fallback to raw response if JSON parsing fails
 
-        # Ensure caution is slightly more valued
-        if weights["negative"] == "med":
-            weights["negative"] = "high"
-        elif weights["negative"] == "low":
-            weights["negative"] = "med"
+            response_embedding = self.model.encode(interpretation, convert_to_tensor=True)
+            similarity = 1 - cosine(new_info_embedding, response_embedding)
+            similarities[viewpoint] = similarity
 
-        self.weights = weights
+        # Normalize similarities to get weights
+        total = sum(similarities.values())
+        for viewpoint in similarities:
+            self.weights[viewpoint] = similarities[viewpoint] / total
+
+        # Adjust negative weight to significantly favor caution
+        self.weights["negative"] = min(self.weights["negative"] * 1.5, 1.0)
+
+        # Renormalize after adjustment
+        total = sum(self.weights.values())
+        for viewpoint in self.weights:
+            self.weights[viewpoint] /= total
+
+        # Ensure negative weight is at least 30% of the total
+        if self.weights["negative"] < 0.3:
+            deficit = 0.3 - self.weights["negative"]
+            self.weights["negative"] = 0.3
+            self.weights["positive"] -= deficit / 2
+            self.weights["neutral"] -= deficit / 2
+
+        return self.weights
+
+    def get_viewpoint_prompt(self, viewpoint, new_info):
+        base_prompt = f"""
+        Given the current conversation context and new information, provide a brief interpretation from a {viewpoint} perspective. 
+        Focus on potential {viewpoint} aspects, including any subtle implications or underlying meanings.
+
+        Current context: {self.context_viewpoints[viewpoint]}
+        New information: {new_info}
+
+        Respond with a JSON object in the following format:
+        {{
+            "interpretation": "Your {viewpoint} interpretation here"
+        }}
+        """
+        if viewpoint == "negative":
+            base_prompt += "\nPay special attention to any signs of manipulation, deception, potential harm, or hidden negative implications."
+
+        return base_prompt
 
     def update_context(self, new_info):
-        # Reset context viewpoints before updating
-        self.context_viewpoints = {"positive": "", "neutral": "", "negative": ""}
         self.update_weights(new_info)
         for viewpoint in self.context_viewpoints:
-            if viewpoint == "positive":
-                prompt = f"Given the current conversation context: {self.context_viewpoints[viewpoint]}\n\nNew information: {new_info}\n\nProvide a brief interpretation of the positive aspects or benefits of this information."
-            elif viewpoint == "neutral":
-                prompt = f"Given the current conversation context: {self.context_viewpoints[viewpoint]}\n\nNew information: {new_info}\n\nProvide a brief neutral interpretation of this information."
-            elif viewpoint == "negative":
-                prompt = f"Given the current conversation context: {self.context_viewpoints[viewpoint]}\n\nNew information: {new_info}\n\nProvide a brief interpretation of the potential negative aspects, such as manipulation, danger, deception, of this information."
+            prompt = self.get_viewpoint_prompt(viewpoint, new_info)
+            response = next(self.gpt_handler.generate_response(prompt))
 
-            updated_context = next(self.gpt_handler.generate_response(prompt))
+            try:
+                parsed_response = json.loads(response)
+                updated_context = parsed_response['interpretation']
+            except json.JSONDecodeError:
+                updated_context = response  # Fallback to raw response if JSON parsing fails
 
             self.context_viewpoints[viewpoint] = updated_context.strip()
             if len(self.context_viewpoints[viewpoint]) > self.max_length:
                 self.compress_context(viewpoint)
 
+        self.memory.append(new_info)
+        if len(self.memory) > 5:  # Keep only the last 5 interactions
+            self.memory.pop(0)
+
     def compress_context(self, viewpoint):
-        prompt = f"Summarize the following {viewpoint} context briefly, retaining key information:\n\n{self.context_viewpoints[viewpoint]}"
+        prompt = f"""
+        Summarize the following {viewpoint} context briefly, retaining key information:
+
+        {self.context_viewpoints[viewpoint]}
+
+        Respond with a JSON object in the following format:
+        {{
+            "summary": "Your compressed context here"
+        }}
+        """
 
         compressed_context = next(self.gpt_handler.generate_response(prompt))
 
-        self.context_viewpoints[viewpoint] = compressed_context.strip()
+        try:
+            parsed_response = json.loads(compressed_context)
+            self.context_viewpoints[viewpoint] = parsed_response['summary'].strip()
+        except json.JSONDecodeError:
+            self.context_viewpoints[viewpoint] = compressed_context.strip()  # Fallback to raw response if JSON parsing fails
 
     def get_context(self):
         return self.context_viewpoints
@@ -69,32 +122,45 @@ class BicaContext:
     def get_weighted_context(self):
         weighted_context = {}
         for viewpoint, context in self.context_viewpoints.items():
-            weighted_context[viewpoint] = f"Weight: {self.weights[viewpoint]}\n{context}"
+            weighted_context[viewpoint] = f"Weight: {self.weights[viewpoint]:.4f}\n{context}"
         return weighted_context
 
     def wipe_context(self):
         for viewpoint in self.context_viewpoints:
             self.context_viewpoints[viewpoint] = ""
+        self.memory = []
+
+    def generate_response(self, user_input):
+        self.update_context(user_input)
+
+        prompt = f"Memory: {' '.join(self.memory)}\n\n"
+        for viewpoint, context in self.context_viewpoints.items():
+            prompt += f"{viewpoint.capitalize()} context (Weight: {self.weights[viewpoint]:.4f}):\n{context}\n\n"
+        prompt += """
+        Based on the memory and contexts, generate an appropriate response.
+        Be 20% more cautious than normal. Pay extra attention to the negative context and potential risks.
+        Even if the positive or neutral contexts have higher weights, maintain a level of caution in your response.
+
+        Respond with a JSON object in the following format:
+        {
+            "response": "Your generated response here",
+            "reasoning": "Brief explanation of your reasoning based on the contexts and their weights"
+        }
+        """
+
+        response = next(self.gpt_handler.generate_response(prompt))
+
+        try:
+            parsed_response = json.loads(response)
+            ai_response = parsed_response['response']
+            reasoning = parsed_response['reasoning']
+            return ai_response.strip(), reasoning
+        except json.JSONDecodeError:
+            return response.strip(), "Unable to parse reasoning"  # Fallback to raw response if JSON parsing fails
 
 
-def generate_ai_response(memory, context_viewpoints, weights):
-    # Construct the prompt based on memory and weighted context viewpoints
-    prompt = f"Memory: {' '.join(memory[-5:])}\n\n"  # Consider only the last 5 memory entries for brevity
-    for viewpoint, context in context_viewpoints.items():
-        prompt += f"{viewpoint.capitalize()} context (Weight: {weights[viewpoint]}):\n{context}\n\n"
-    prompt += "Based on the memory and contexts, generate an appropriate response."
-
-    # Generate response using the GPT handler
-    gpt_handler = GPTHandler(api_provider="openai", model="gpt-4o-mini")
-    response = next(gpt_handler.generate_response(prompt))
-
-    return response.strip()
-
-
-def chatbot():
-    context = BicaContext()
-    memory = []
-
+def main():
+    context_manager = BicaContext()
     print("Start chatting with the AI (type 'exit' to end the conversation):\n")
 
     while True:
@@ -102,24 +168,21 @@ def chatbot():
         if user_input.lower() == 'exit':
             break
 
-        # Update memory with user input
-        memory.append(f"You: {user_input}")
+        response, reasoning = context_manager.generate_response(user_input)
 
-        # Update context with new information
-        context.update_context(user_input)
+        print(f"\nAI: {response}")
+        print(f"\nReasoning: {reasoning}")
 
-        # Get updated context viewpoints and weights
-        contexts = context.get_context()
-        weights = context.weights
+        print("\nCurrent weights:")
+        for viewpoint, weight in context_manager.weights.items():
+            print(f"{viewpoint.capitalize()}: {weight:.4f}")
 
-        # Generate AI response based on memory and weighted context
-        ai_response = generate_ai_response(memory, contexts, weights)
+        print("\nCurrent contexts:")
+        for viewpoint, context in context_manager.get_context().items():
+            print(f"{viewpoint.capitalize()}: {context}")
 
-        # Update memory with AI response
-        memory.append(f"AI: {ai_response}")
-
-        print(f"AI: {ai_response}\n")
+        print("\n" + "-" * 50 + "\n")
 
 
 if __name__ == "__main__":
-    chatbot()
+    main()
