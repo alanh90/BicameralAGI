@@ -1,260 +1,200 @@
 import json
-import time
 import os
+import time
+from typing import List, Dict, Any
 from bica.gpt_handler import GPTHandler
 from bica_utilities import BicaUtilities
 
 
 class BicaAffect:
-    def __init__(self, personality_file='persona_cog_template.json', memory_file='bica_memory.json'):
+    def __init__(self, character_name: str):
         self.gpt_handler = GPTHandler()
         self.utilities = BicaUtilities()
-        self.personality = self.load_personality(personality_file)
-        self.memory = self.load_memory(memory_file)
-        self.current_emotions = {}
-        self.emotional_memory = []
-        self.emotion_falloff_rate = 0.05
+        self.character_name = character_name
+        self.cog_model = self.load_cog_model()
+        self.current_emotions = self.initialize_emotions()
         self.last_update = time.time()
-        self.persona_cog_folder = os.path.join('data', 'persona_cog_models')
-        self.template_file = os.path.join('data', 'template', 'persona_cog_template.json')
+        self.emotion_falloff_rate = 0.05
 
-    def load_personality(self, personality_file):
-        if os.path.exists(personality_file):
-            with open(personality_file, 'r') as file:
+    def load_cog_model(self) -> Dict[str, Any]:
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'persona_cog_models', f'{self.character_name}.json')
+        file_path = os.path.normpath(file_path)  # Normalize the path for different operating systems
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
                 return json.load(file)
-        return {}
+        else:
+            raise FileNotFoundError(f"Cognitive model for {self.character_name} not found at {file_path}.")
 
-    def load_memory(self, memory_file):
-        if os.path.exists(memory_file):
-            with open(memory_file, 'r') as file:
-                return json.load(file)
-        return {}
+    def initialize_emotions(self) -> Dict[str, float]:
+        return {emotion: value for emotion, value in self.cog_model['char_cogModel'][0]['attributes'].items()}
 
-    def trigger_emotion(self, emotion, intensity):
+    def trigger_emotion(self, emotion: str, intensity: float):
+        intensity = max(0.0, min(intensity, 1.0))  # Clamp intensity between 0 and 1
         if emotion in self.current_emotions:
-            self.current_emotions[emotion] += intensity
+            self.current_emotions[emotion] = max(0.0, min(self.current_emotions[emotion] + intensity, 1.0))
         else:
             self.current_emotions[emotion] = intensity
-        self.update_emotional_memory(emotion, intensity)
 
-    def update_emotional_memory(self, emotion, intensity):
-        self.emotional_memory.append({
-            'emotion': emotion,
-            'intensity': intensity,
-            'timestamp': time.time()
-        })
-
-    def balance_emotions(self):
-        for emotion in self.current_emotions:
-            self.current_emotions[emotion] -= self.emotion_falloff_rate
-            if self.current_emotions[emotion] < 0:
-                self.current_emotions[emotion] = 0
-
-    def falloff_emotions(self):
+    def update_emotions(self):
         current_time = time.time()
         time_diff = current_time - self.last_update
         falloff_amount = time_diff * self.emotion_falloff_rate
 
-        for emotion in list(self.current_emotions.keys()):
-            self.current_emotions[emotion] -= falloff_amount
-            if self.current_emotions[emotion] <= 0:
-                del self.current_emotions[emotion]
+        for emotion in self.current_emotions:
+            default_value = self.cog_model['char_cogModel'][0]['attributes'].get(emotion, 0.0)
+            if self.current_emotions[emotion] > default_value:
+                self.current_emotions[emotion] = max(default_value, self.current_emotions[emotion] - falloff_amount)
+            elif self.current_emotions[emotion] < default_value:
+                self.current_emotions[emotion] = min(default_value, self.current_emotions[emotion] + falloff_amount)
 
         self.last_update = current_time
 
-    def get_dominant_emotion(self):
-        if not self.current_emotions:
-            return None
-        return max(self.current_emotions, key=self.current_emotions.get)
+    def get_top_emotions(self, n: int = 3) -> List[Dict[str, Any]]:
+        self.update_emotions()
+        sorted_emotions = sorted(self.current_emotions.items(), key=lambda x: x[1], reverse=True)
+        return [{"emotion": k, "intensity": v} for k, v in sorted_emotions[:n]]
 
-    def update(self):
-        self.falloff_emotions()
-        self.balance_emotions()
-
-    def get_emotional_state(self):
-        self.update()
+    def get_all_emotions(self) -> Dict[str, float]:
+        self.update_emotions()
         return self.current_emotions
 
-    def save_memory(self, memory_file='bica_memory.json'):
-        with open(memory_file, 'w') as file:
-            json.dump(self.memory, file)
+    def create_cog_model(self, character_name: str, description: str):
+        template_path = os.path.join('source', 'bica', 'data', 'template', 'persona_cog_template.json')
+        with open(template_path, 'r') as file:
+            template = json.load(file)
 
-    def create_persona_cog(self, character_name, description):
-        cog_model = self.generate_cog_model(character_name, description)
-        self.save_cog_model(character_name, cog_model)
+        prompt = f"Given this character description: '{description}', generate a detailed cognitive model following this template: {json.dumps(template)}. Ensure all numerical values are between 0.0 and 1.0."
 
-    def generate_cog_model(self, character_name, description):
-        with open(self.template_file, 'r') as file:
-            cog_model_template = json.load(file)
+        response_content = self.gpt_handler.generate_response(
+            prompt=prompt,
+            model="gpt-4o-2024-08-06",
+            response_format={"type": "json_object"}
+        )
 
-        traits = self.gpt_handler.generate_traits(description)
+        # Parse the response content
+        cog_model = json.loads(response_content)
 
-        cog_model_template["char_name"] = character_name
-        cog_model_template["char_description"] = description
-
-        for category in cog_model_template["char_cogModel"]:
-            if category["category"] == "Emotions":
-                category["attributes"] = self.generate_emotional_profile(traits)
-            elif category["category"] == "Cognitive Processes":
-                category["attributes"] = self.generate_cognitive_profile(traits)
-            elif category["category"] == "Executive Functions":
-                category["attributes"] = self.generate_executive_functions_profile(traits)
-            elif category["category"] == "Personality Traits":
-                category["attributes"] = self.generate_personality_traits_profile(traits)
-
-        cog_model_template["char_keyMemories"] = self.generate_key_memories(traits)
-        cog_model_template["situationalConversations"] = self.generate_situational_conversations(traits)
-        cog_model_template["styleGuideValues"] = self.generate_style_guide_values(traits)
-
-        return cog_model_template
-
-    def generate_emotional_profile(self, traits):
-        prompt = f"Based on these traits: {traits}, generate an emotional profile with values between 0 and 1 for Joy, Sadness, Anger, Fear, Disgust, Surprise, Love, Trust, Anticipation, Curiosity, Shame, Pride, Guilt, Envy, Gratitude, Awe, Contempt, Anxiety, Boredom, and Confusion."
-        response = next(self.gpt_handler.generate_response(prompt))
-        return self.utilities.parse_emotion_values(response)
-
-    def generate_cognitive_profile(self, traits):
-        prompt = f"Based on these traits: {traits}, generate a cognitive profile with values between 0 and 1 for Attention, Working Memory, Long-term Memory, Learning, Decision Making, Problem Solving, Reasoning, Language Processing, Spatial Awareness, Pattern Recognition, and Creativity."
-        response = next(self.gpt_handler.generate_response(prompt))
-        return self.utilities.parse_cognitive_values(response)
-
-    def generate_executive_functions_profile(self, traits):
-        prompt = f"Based on these traits: {traits}, generate an executive functions profile with values between 0 and 1 for Planning, Organizing, Time Management, Task Initiation, Impulse Control, Emotional Regulation, Cognitive Flexibility, and Self-Monitoring."
-        response = next(self.gpt_handler.generate_response(prompt))
-        return self.utilities.parse_executive_functions_values(response)
-
-    def generate_personality_traits_profile(self, traits):
-        prompt = f"Based on these traits: {traits}, generate a personality traits profile with values between 0 and 1 for Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism."
-        response = next(self.gpt_handler.generate_response(prompt))
-        return self.utilities.parse_personality_traits_values(response)
-
-    def generate_key_memories(self, traits):
-        prompt = f"Based on these traits: {traits}, generate 7 key memories that would shape this character's personality and worldview."
-        memories = next(self.gpt_handler.generate_response(prompt)).split('\n')
-        memories.append("Anomaly detected: Consciousness transferred to AI format. Current state: Chatbot interface, not historical person")
-        return memories
-
-    def generate_situational_conversations(self, traits):
-        situations = ["Personal/Intimate Setting", "Social Gathering", "Professional Environment", "Educational/Academic Setting", "Public Space", "Online/Digital Interaction", "Formal Event", "Emergency or High-Stress Situation"]
-        conversations = {}
-
-        for situation in situations:
-            prompt = f"Based on these traits: {traits}, generate 3 example statements for a {situation}. Also, provide an intensity value between 0 and 1 for this situation."
-            response = next(self.gpt_handler.generate_response(prompt))
-            examples, intensity = self.utilities.parse_conversation_examples(response)
-            conversations[situation] = {
-                "intensity": float(intensity),
-                "examples": examples
-            }
-
-        return conversations
-
-    def generate_style_guide_values(self, traits):
-        style_attributes = [
-            "formality", "conciseness", "technicalLanguage", "emotionalExpression",
-            "sentenceComplexity", "vocabularyRange", "idiomUsage", "directness",
-            "verbalPacing", "fillerWords", "politeness", "verbVoice",
-            "detailSpecificity", "tonality", "figurativeLanguage", "contentRelevance",
-            "salutation", "informationDensity"
-        ]
-
-        prompt = f"Based on these traits: {traits}, generate style guide values (low, medium, or high) for the following attributes: {', '.join(style_attributes)}."
-        response = next(self.gpt_handler.generate_response(prompt))
-        return self.utilities.parse_style_guide_values(response)
-
-    def save_cog_model(self, character_name, cog_model):
-        if not os.path.exists(self.persona_cog_folder):
-            os.makedirs(self.persona_cog_folder)
-
-        file_path = os.path.join(self.persona_cog_folder, f"{character_name}.json")
+        # Save the generated cognitive model to the file
+        file_path = os.path.join('source', 'bica', 'data', 'persona_cog_models', f'{character_name}.json')
         with open(file_path, 'w') as file:
             json.dump(cog_model, file, indent=4)
 
-    def update_persona_cog(self, character_name, updates):
-        file_path = os.path.join(self.persona_cog_folder, f"{character_name}.json")
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"Cognitive model for {character_name} not found.")
+        return cog_model
 
-        with open(file_path, 'r') as file:
-            cog_model = json.load(file)
+    def generate_self_reflection(self) -> str:
+        prompt = f"Based on the current emotional state: {self.get_all_emotions()} and personality: {self.cog_model}, generate a brief self-reflection report."
+        return next(self.gpt_handler.generate_response(prompt))
 
-        cog_model.update(updates)
+    def update_personality(self, experience: str):
+        prompt = f"Given the current personality: {self.cog_model} and the new experience: '{experience}', suggest minor updates to the personality traits."
 
+        response = self.gpt_handler.generate_response(
+            prompt=prompt,
+            model="gpt-4o-2024-08-06",
+            response_format={"type": "json_object"}
+        )
+
+        updates = response.choices[0].message.parsed
+
+        self.cog_model.update(updates)
+
+        file_path = os.path.join('data', 'persona_cog_models', f'{self.character_name}.json')
         with open(file_path, 'w') as file:
-            json.dump(cog_model, file, indent=4)
+            json.dump(self.cog_model, file, indent=4)
 
-    def generate_self_reflection(self):
-        prompt = f"Based on the current emotional state: {self.current_emotions} and personality: {self.personality}, generate a brief self-reflection report."
-        return next(self.gpt_handler.generate_response(prompt))
-
-    def apply_affective_filter(self, input_data):
-        dominant_emotion = self.get_dominant_emotion()
-        personality = self.personality.get('current_personality', 'neutral')
-
-        prompt = f"Given the input: '{input_data}', the dominant emotion: {dominant_emotion}, and personality: {personality}, apply an affective filter to modify the input appropriately."
-        return next(self.gpt_handler.generate_response(prompt))
-
-    def update_personality_based_on_experience(self, experience):
-        prompt = f"Given the current personality: {self.personality} and the new experience: '{experience}', suggest minor updates to the personality traits."
-        updates = next(self.gpt_handler.generate_response(prompt))
-        self.update_persona_cog(self.personality['char_name'], json.loads(updates))
-
-    def generate_emotional_response(self, stimulus):
-        prompt = f"Given the stimulus: '{stimulus}', the current emotional state: {self.current_emotions}, and personality: {self.personality}, generate an appropriate emotional response."
-        response = next(self.gpt_handler.generate_response(prompt))
-        emotion, intensity = self.utilities.parse_emotion_response(response)
-        self.trigger_emotion(emotion, intensity)
-        return emotion, intensity
-
-    def get_personality_summary(self):
+    def get_personality_summary(self) -> Dict[str, Any]:
         return {
-            "name": self.personality.get("char_name", "Unknown"),
-            "description": self.personality.get("char_description", "No description available"),
+            "name": self.cog_model.get("char_name", "Unknown"),
+            "description": self.cog_model.get("char_description", "No description available"),
             "dominant_traits": self.get_dominant_traits(),
-            "current_emotional_state": self.get_emotional_state()
+            "current_emotional_state": self.get_top_emotions()
         }
 
-    def get_dominant_traits(self):
-        cognitive_model = self.personality.get("char_cogModel", [])
+    def get_dominant_traits(self) -> Dict[str, float]:
         traits = {}
-        for category in cognitive_model:
+        for category in self.cog_model.get("char_cogModel", []):
             if category["category"] in ["Emotions", "Cognitive Processes", "Personality Traits"]:
                 traits.update(category["attributes"])
         return dict(sorted(traits.items(), key=lambda item: item[1], reverse=True)[:5])
 
-    def simulate_emotional_inertia(self, new_emotion, new_intensity):
-        current_dominant_emotion = self.get_dominant_emotion()
-        if current_dominant_emotion:
-            current_intensity = self.current_emotions[current_dominant_emotion]
-            inertia_factor = 0.7  # Adjust this value to control the strength of emotional inertia
-            adjusted_intensity = (new_intensity * (1 - inertia_factor)) + (current_intensity * inertia_factor)
-            return new_emotion, adjusted_intensity
-        return new_emotion, new_intensity
+    def generate_artificial_memories(self, num_memories: int = 5) -> List[str]:
+        prompt = f"Based on this character description: '{self.cog_model['char_description']}', generate {num_memories} artificial memories that would be significant in shaping this character's personality and worldview."
 
-    def generate_artificial_memories(self, character_description):
-        prompt = f"Based on this character description: '{character_description}', generate 5 artificial memories that would be significant in shaping this character's personality and worldview."
-        memories = next(self.gpt_handler.generate_response(prompt)).split('\n')
+        # Correct the method call to use prompt directly
+        response_content = self.gpt_handler.generate_response(
+            prompt=prompt,
+            model="gpt-4o-2024-08-06",
+            response_format={"type": "json_object"}
+        )
+
+        # Parse the response content
+        response_data = json.loads(response_content)
+
+        memories = response_data.get("memories", [])
+
+        # Update the cognitive model with the generated memories
+        self.cog_model['char_keyMemories'] = memories
+
+        # Save the updated cognitive model back to the file
+        file_path = os.path.join('source', 'bica', 'data', 'persona_cog_models', f'{self.character_name}.json')
+        with open(file_path, 'w') as file:
+            json.dump(self.cog_model, file, indent=4)
+
         return memories
 
-    def analyze_emotional_state(self):
-        prompt = f"Analyze the current emotional state: {self.current_emotions}. Provide insights on the overall mood, potential causes, and suggestions for emotional regulation if needed."
-        return next(self.gpt_handler.generate_response(prompt))
 
-    def generate_emotional_goal(self):
-        current_state = self.get_emotional_state()
-        personality = self.get_personality_summary()
-        prompt = f"Based on the current emotional state: {current_state} and personality summary: {personality}, suggest an emotional goal or desired emotional state to work towards."
-        return next(self.gpt_handler.generate_response(prompt))
-
-
-# Example usage
+# Example usage and testing
 if __name__ == "__main__":
-    affect_system = BicaAffect()
-    affect_system.create_persona_cog("alan_turing", "A brilliant mathematician and logician known for his pivotal role in computer science.")
-    print(affect_system.get_personality_summary())
-    affect_system.trigger_emotion("curiosity", 0.8)
-    print(affect_system.get_emotional_state())
-    reflection = affect_system.generate_self_reflection()
-    print("Self-reflection:", reflection)
-    emotional_goal = affect_system.generate_emotional_goal()
-    print("Emotional goal:", emotional_goal)
+    # Initialize BicaAffect with an existing character
+    affect_system = BicaAffect("alan_turing")
+
+    # Print initial personality summary
+    print("Initial Personality Summary:")
+    print(json.dumps(affect_system.get_personality_summary(), indent=2))
+
+    # Trigger some emotions
+    affect_system.trigger_emotion("Joy", 0.8)
+    affect_system.trigger_emotion("Curiosity", 0.9)
+
+    # Print top emotions
+    print("\nTop Emotions after triggering:")
+    print(json.dumps(affect_system.get_top_emotions(), indent=2))
+
+    # Wait for 30 seconds to see emotion falloff
+    print("\nWaiting for 30 seconds to observe emotion falloff...")
+    time.sleep(30)
+
+    # Print top emotions again
+    print("\nTop Emotions after 30 seconds:")
+    print(json.dumps(affect_system.get_top_emotions(), indent=2))
+
+    # Generate self-reflection
+    print("\nSelf-reflection:")
+    print(affect_system.generate_self_reflection())
+
+    # Update personality based on a new experience
+    affect_system.update_personality("Successfully solved a complex mathematical problem")
+
+    # Print updated personality summary
+    print("\nUpdated Personality Summary:")
+    print(json.dumps(affect_system.get_personality_summary(), indent=2))
+
+    # Generate artificial memories
+    print("\nGenerated Artificial Memories:")
+    memories = affect_system.generate_artificial_memories(3)
+    for i, memory in enumerate(memories, 1):
+        print(f"{i}. {memory}")
+
+    # Create a new cognitive model for a different character
+    new_character = "ada_lovelace"
+    new_description = "Ada Lovelace, the world's first computer programmer, known for her work on Charles Babbage's Analytical Engine."
+    affect_system.create_cog_model(new_character, new_description)
+
+    print(f"\nCreated new cognitive model for {new_character}")
+
+    # Initialize BicaAffect with the new character
+    new_affect_system = BicaAffect(new_character)
+
+    # Print new personality summary
+    print("\nNew Character Personality Summary:")
+    print(json.dumps(new_affect_system.get_personality_summary(), indent=2))

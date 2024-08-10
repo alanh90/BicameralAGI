@@ -1,7 +1,9 @@
 Files:
-bica_affect.py
-bica_cognition.py
+bica_cognition.py - saving the best for last ;)
 bica_memory.py
+
+WIP:
+bica_affect.py
 bica_orchestrator.py
 
 Completed for now until phase 2:

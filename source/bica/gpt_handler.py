@@ -13,9 +13,12 @@ class GPTHandler:
         else:
             raise ValueError("Invalid API provider. Choose 'openai'.")
 
-    def generate_response(self, prompt, temperature=0.7, max_tokens=350, top_p=1, frequency_penalty=0, presence_penalty=0, stop=None, stream=False):
+    def generate_response(self, prompt, temperature=0.7, max_tokens=350, top_p=1, frequency_penalty=0, presence_penalty=0, stop=None, stream=False, model=None, response_format=None):
+        if model is None:
+            model = self.model
+
         response = self.client.chat.completions.create(
-            model=self.model,
+            model=model,
             messages=[{"role": "system", "content": prompt}],
             temperature=temperature,
             max_tokens=max_tokens,
@@ -23,7 +26,8 @@ class GPTHandler:
             frequency_penalty=frequency_penalty,
             presence_penalty=presence_penalty,
             stop=stop,
-            stream=stream
+            stream=stream,
+            response_format=response_format
         )
 
         if stream:
@@ -31,7 +35,7 @@ class GPTHandler:
                 if chunk.choices[0].delta.content is not None:
                     yield chunk.choices[0].delta.content
         else:
-            yield response.choices[0].message.content.strip()
+            return response.choices[0].message.content.strip()
 
     def extract_text_from_response(self, response_content):
         if isinstance(response_content, list):
