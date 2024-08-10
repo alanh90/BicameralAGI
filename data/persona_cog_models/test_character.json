@@ -1,0 +1,27 @@
+{
+    "char_name": "Test Character",
+    "char_description": "A test character for unit testing",
+    "char_cogModel": [
+        {
+            "category": "Emotions",
+            "attributes": {
+                "Joy": 0.5,
+                "Sadness": 0.3,
+                "Anger": 0.2,
+                "Fear": 0.4,
+                "Surprise": 0.6
+            }
+        },
+        {
+            "category": "Personality Traits",
+            "attributes": {
+                "Openness": 0.4,
+                "Conscientiousness": 0.7,
+                "Extraversion": 0.5,
+                "Agreeableness": 0.6,
+                "Neuroticism": 0.3
+            }
+        }
+    ],
+    "char_keyMemories": []
+}

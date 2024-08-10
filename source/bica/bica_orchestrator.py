@@ -8,8 +8,7 @@ from bica_destiny import BicaDestiny
 from gpt_handler import GPTHandler
 from bica_logging import BicaLogging
 from bica_utilities import BicaUtilities
-import threading
-import time
+import json
 
 
 class BicaOrchestrator:
@@ -17,115 +16,109 @@ class BicaOrchestrator:
         self.memory = BicaMemory(embedding_dim=384)
         self.context = BicaContext()
         self.cognition = BicaCognition(self.memory, self.context)
-        self.affect = BicaAffect()
+        self.affect = BicaAffect("BicaAI")  # Assuming we're using a default character named "BicaAI"
         self.actions = BicaActions(BicaUtilities.get_environment_variable("OPENAI_API_KEY"))
         self.safety = BicaSafety()
         self.destiny = BicaDestiny("BicaAI")
         self.gpt_handler = GPTHandler()
         self.logger = BicaLogging("BicaOrchestrator")
-        self.recent_conversation = []
-
-        # Start background processes
-        threading.Thread(target=self.run_subconscious, daemon=True).start()
-        threading.Thread(target=self.run_emotional_processes, daemon=True).start()
-        threading.Thread(target=self.run_memory_consolidation, daemon=True).start()
-
-    def run_subconscious(self):
-        while True:
-            self.cognition.process_subconscious()
-            time.sleep(1)  # Adjust as needed
-
-    def run_emotional_processes(self):
-        while True:
-            self.affect.process_background_emotions()
-            time.sleep(1)  # Adjust as needed
-
-    def run_memory_consolidation(self):
-        while True:
-            if not self.memory.is_dreaming():
-                self.memory.consolidate_memories()
-            time.sleep(60)  # Check every minute
 
     def process_input(self, user_input: str) -> str:
         self.logger.info(f"Processing user input: {user_input}")
 
-        # 1. Update context and recent conversation
-        self.recent_conversation.append(f"User: {user_input}")
+        # Update context and memory
         context = self.context.update_context(user_input)
+        self.memory.add_memory(user_input, {"importance": 0.7})
 
-        # 2. Update short-term memory
-        self.memory.add_memory(user_input, {"relevance": 0.8})
+        # Generate thoughts and analyze
+        thoughts = self.cognition.generate_thoughts(context)
+        analysis = self.cognition.analyze(user_input, thoughts)
 
-        # 3. Retrieve relevant memories
-        relevant_memories = self.memory.recall_memory(user_input)
+        # Get emotional state
+        emotional_state = self.affect.get_emotional_state()
 
-        # 4. Generate conscious thoughts
-        conscious_thoughts = self.cognition.generate_thoughts(context)
+        # Prepare prompt for GPT
+        prompt = self.prepare_gpt_prompt(user_input, context, thoughts, analysis, emotional_state)
 
-        # 5. Get current emotional state
-        current_emotion = self.affect.get_emotional_state()
+        # Define functions for GPT
+        functions = self.define_gpt_functions()
 
-        # 6. Retrieve current destinies
-        current_destinies = self.destiny.get_destinies()
+        # Generate response using GPT
+        gpt_response = self.gpt_handler.generate_response(prompt, functions=functions, function_call="auto")
 
-        # 7. Apply safety filter
-        safe_thoughts = self.safety.safety_filter(str(conscious_thoughts), "thought")
-        safe_emotion = self.safety.safety_filter(str(current_emotion), "emotion")
+        # Process GPT response
+        if isinstance(gpt_response, dict) and "function_call" in gpt_response:
+            # Handle function call
+            function_name = gpt_response["function_call"]["name"]
+            function_args = json.loads(gpt_response["function_call"]["arguments"])
+            response = self.handle_function_call(function_name, function_args)
+        else:
+            # Regular response
+            response = gpt_response
 
-        # 8. Perform cognitive analysis
-        cognitive_analysis = self.cognition.analyze(user_input, safe_thoughts, relevant_memories)
+        # Apply safety filter
+        safe_response = self.safety.safety_filter(response, "content")
 
-        # 9. Determine action
-        action_context = {
-            "user_input": user_input,
-            "context": context,
-            "thoughts": safe_thoughts,
-            "emotion": safe_emotion,
-            "memories": relevant_memories,
-            "destinies": current_destinies,
-            "cognitive_analysis": cognitive_analysis,
-            "recent_conversation": self.get_recent_conversation()
-        }
-        action = self.actions.execute_action("respond", action_context)
-
-        # 10. Generate and safety-check the response
-        ai_response = action.get("response", "I'm not sure how to respond.")
-        safe_response = self.safety.safety_filter(ai_response, "content")
-
-        # 11. Update long-term memory
-        self.memory.add_memory(f"User: {user_input}\nAI: {safe_response}", {"importance": 0.7})
-
-        # 12. Update emotional state
-        self.affect.trigger_emotion(safe_response, 0.5)  # Intensity can be adjusted
-
-        # 13. Update personality if necessary
-        self.affect.update_personality_based_on_experience(safe_response)
-
-        # 14. Potentially alter destiny
-        if self.is_significant_interaction(cognitive_analysis):
-            self.destiny.alter_destiny(0, new_development=safe_response)
-
-        # 15. Log the response and update recent conversation
-        self.recent_conversation.append(f"AI: {safe_response}")
-        self.logger.info(f"Generated AI response: {safe_response}")
+        # Update affect and destiny
+        self.affect.update_emotional_state(safe_response)
+        self.destiny.update_destiny(safe_response)
 
         return safe_response
 
-    def get_recent_conversation(self, num_turns: int = 5) -> list:
-        return self.recent_conversation[-num_turns:]
+    def prepare_gpt_prompt(self, user_input, context, thoughts, analysis, emotional_state):
+        return f"""
+        User Input: {user_input}
+        Context: {context}
+        Thoughts: {thoughts}
+        Analysis: {analysis}
+        Emotional State: {emotional_state}
 
-    def is_significant_interaction(self, cognitive_analysis: dict) -> bool:
-        return cognitive_analysis.get('significance', 0) > 0.7
+        Based on the above information, generate an appropriate response or determine if a function call is necessary.
+        """
 
-    def initiate_dreaming(self):
-        if not self.memory.is_dreaming():
-            self.memory.initiate_dreaming()
+    def define_gpt_functions(self):
+        return [
+            {
+                "name": "update_memory",
+                "description": "Update the AI's memory with important information",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "content": {"type": "string", "description": "The information to be stored in memory"},
+                        "importance": {"type": "number", "description": "The importance of the memory (0-1)"}
+                    },
+                    "required": ["content", "importance"]
+                }
+            },
+            {
+                "name": "trigger_emotion",
+                "description": "Trigger a specific emotion in the AI",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "emotion": {"type": "string", "description": "The emotion to trigger"},
+                        "intensity": {"type": "number", "description": "The intensity of the emotion (0-1)"}
+                    },
+                    "required": ["emotion", "intensity"]
+                }
+            }
+        ]
+
+    def handle_function_call(self, function_name, args):
+        if function_name == "update_memory":
+            self.memory.add_memory(args["content"], {"importance": args["importance"]})
+            return f"Memory updated: {args['content']}"
+        elif function_name == "trigger_emotion":
+            self.affect.trigger_emotion(args["emotion"], args["intensity"])
+            return f"Emotion triggered: {args['emotion']} (intensity: {args['intensity']})"
+        else:
+            return f"Unknown function: {function_name}"
 
 
 # Example usage
 if __name__ == "__main__":
     orchestrator = BicaOrchestrator()
-    user_input = "Hello, can you tell me about your goals and how you perceive the world?"
-    ai_response = orchestrator.process_input(user_input)
+    user_input = "Hello, I'm feeling happy today!"
+    response = orchestrator.process_input(user_input)
     print(f"User: {user_input}")
-    print(f"AI: {ai_response}")
+    print(f"AI: {response}")
