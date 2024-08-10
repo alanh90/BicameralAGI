@@ -19,7 +19,7 @@
 - [Motivation](#motivation-section)
   - [Science Fiction Inspiration](#science-fiction-section)
   - [Mutualism-Inspired AI Alignment](#mutualism-section)
-  - [AGI Requires Emotion](#agi-emotion-section)
+  - [AGI Requires Empathy](#agi-emotion-section)
   - [Caring and Seeking AI](#caring-agi)
 - [Bicameral Mind Theory](#bicameral-mind-theory)
 - [The Turing++ Test](#turing-plus-test)
@@ -123,9 +123,8 @@ By redefining the AI's core emotional triggers and nature, I aim to create an AI
 
 This mutualistic model aims to create a symbiotic relationship where both AI and humans can grow, learn, and benefit from each other, mirroring the most successful mutualistic relationships found in nature.
 
-<a name="agi-requires-emotion"></a>
-### 3. True AGI Requires Emotion
-![BicameralAGI Cover](source/data/readme_media/emotion_vs_emotionless.png)
+<a name="agi-emotion-section"></a>
+### 3. AGI Requires Empathy
 The development of Artificial General Intelligence (AGI) isn't just about creating systems with high cognitive capabilities; it's about creating entities that can truly understand and interact with the world in a human-like manner. This is where emotions play a crucial role.
 
 Consider this thought experiment: Who would you rather be trapped in a room with?
