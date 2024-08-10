@@ -3,10 +3,10 @@ bica_affect.py
 bica_cognition.py
 bica_memory.py
 bica_orchestrator.py
-bica_soul.py
 
 Completed for now until phase 2:
 bica_utilities.py
+bica_destiny.py
 bica_safety.py
 bica_actions.py
 bica_context.py
