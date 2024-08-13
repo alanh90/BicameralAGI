@@ -20,32 +20,6 @@ class BicaAffect:
         self.emotion_falloff_rate = 0.05
         self.last_update = time.time()
 
-        self.negative_emotions = None
-        self.positive_emotions = None
-        self.emotion_decay_time = 90  # 90 seconds for emotion decay
-        self.personality_summary = ""
-        self.emotional_stability = self.calculate_emotional_stability()
-        self.emotional_intelligence = random.uniform(0.3, 0.8)  # Initialize with a random value
-
-        self.logger.info(f"Initialized BicaAffect for character: {character_name}")
-        self.logger.info(f"Base path set to: {self.base_path}")
-        self.logger.info(f"Initial runtime emotions: {json.dumps(self.runtime_emotions)}")
-        self.logger.info(f"Emotional stability: {self.emotional_stability:.2f}")
-        self.logger.info(f"Emotional intelligence: {self.emotional_intelligence:.2f}")
-
-    def calculate_emotional_stability(self):
-        self.logger.info(f"Calculating emotional stability for {self.character_name}")
-
-        try:
-            conscientiousness = self.cog_model['char_cogModel'][1]['attributes'].get('Conscientiousness', 0.5)
-            neuroticism = self.cog_model['char_cogModel'][1]['attributes'].get('Neuroticism', 0.5)
-            es = (conscientiousness + (1 - neuroticism)) / 2
-            self.logger.info(f"Emotional stability calculated: {es:.2f}")
-            return es
-        except (IndexError, KeyError):
-            self.logger.warning("Failed to calculate emotional stability. Using default value.")
-            return 0.5
-
     def load_or_create_cog_model(self) -> Dict[str, Any]:
         self.logger.info(f"Attempting to load cognitive model for {self.character_name}")
         file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
@@ -65,41 +39,35 @@ class BicaAffect:
         self.logger.info(f"Initializing emotions for {self.character_name}")
         try:
             emotions = self.cog_model.get('char_cogModel', [{}])[0].get('attributes', {})
-            self.logger.info(f"Emotions initialized: {json.dumps(emotions)}")
             return {emotion: value for emotion, value in emotions.items() if isinstance(value, (int, float))}
         except IndexError:
             self.logger.warning("Failed to initialize emotions. Using default emotions.")
             return {"Joy": 0.5, "Sadness": 0.5, "Anger": 0.5, "Fear": 0.5, "Surprise": 0.5}
 
-    def trigger_emotion(self, emotion: str, intensity: float, stimulate: bool = False):
-        self.logger.info(f"Triggering emotion for {self.character_name}: {emotion} with intensity {intensity:.2f}")
 
+    def trigger_emotion(self, emotion: str, intensity: float):
+        self.logger.info(f"Triggering emotion for {self.character_name}: {emotion} with intensity {intensity:.2f}")
         intensity = max(0.0, min(intensity, 1.0))
         if emotion in self.runtime_emotions:
-            if stimulate:
-                self.runtime_emotions[emotion] = max(0.0, min(self.runtime_emotions[emotion] + intensity, 1.0))
-            else:
-                self.runtime_emotions[emotion] = intensity
+            self.runtime_emotions[emotion] = max(0.0, min(self.runtime_emotions[emotion] + intensity, 1.0))
         else:
             self.logger.warning(f"Triggering unknown emotion: {emotion}")
             self.runtime_emotions[emotion] = intensity
-        self.logger.info(f"{'Stimulated' if stimulate else 'Set'} emotion {emotion} with intensity {intensity}")
 
     def update_emotions(self):
         self.logger.info(f"Updating emotions for {self.character_name}")
         current_time = time.time()
         time_diff = current_time - self.last_update
-        decay_factor = time_diff / max(self.emotion_decay_time, 0.1)  # Avoid division by zero
+        falloff_amount = time_diff * self.emotion_falloff_rate
 
         for emotion in list(self.runtime_emotions.keys()):
             default_value = self.cog_model['char_cogModel'][0]['attributes'].get(emotion, 0.5)
             current_value = self.runtime_emotions[emotion]
 
             if current_value > default_value:
-                decay_amount = decay_factor * (1 - abs(current_value - default_value))
-                self.runtime_emotions[emotion] = max(default_value, current_value - decay_amount)
+                self.runtime_emotions[emotion] = max(default_value, current_value - falloff_amount)
             elif current_value < default_value:
-                self.runtime_emotions[emotion] = min(default_value, current_value + decay_factor)
+                self.runtime_emotions[emotion] = min(default_value, current_value + falloff_amount)
 
         self.last_update = current_time
         self.logger.info(f"Emotions updated: {json.dumps(self.runtime_emotions)}")
@@ -107,96 +75,50 @@ class BicaAffect:
     def get_top_emotions(self, n: int = 3) -> List[Dict[str, Any]]:
         self.update_emotions()
         sorted_emotions = sorted(self.runtime_emotions.items(), key=lambda x: x[1], reverse=True)
-        return [{"emotion": k, "intensity": v} for k, v in sorted_emotions[:min(n, len(sorted_emotions))]]
+        return [{"emotion": k, "intensity": v} for k, v in sorted_emotions[:n]]
 
     def get_all_emotions(self):
         self.update_emotions()
         return self.runtime_emotions
 
-    def categorize_emotions(self):
-        self.logger.info(f"Categorizing emotions for {self.character_name}")
-        positive_emotions = ['Joy', 'Excitement', 'Contentment']
-        negative_emotions = ['Sadness', 'Anger', 'Fear']
-        self.positive_emotions = {e: v for e, v in self.runtime_emotions.items() if e in positive_emotions}
-        self.negative_emotions = {e: v for e, v in self.runtime_emotions.items() if e in negative_emotions}
-        self.logger.info(f"Positive emotions: {json.dumps(self.positive_emotions)}")
-        self.logger.info(f"Negative emotions: {json.dumps(self.negative_emotions)}")
-
-    def calculate_mood(self):
-        self.logger.info(f"Calculating mood for {self.character_name}")
-        self.categorize_emotions()
-        positive_score = sum(self.positive_emotions.values())
-        negative_score = sum(self.negative_emotions.values())
-        total_emotions = len(self.runtime_emotions)
-
-        if total_emotions == 0:
-            self.logger.warning("No emotions present. Returning neutral mood.")
-            return 0.5
-
-        base_mood = (positive_score - negative_score) / total_emotions
-        optimism = self.cog_model['char_cogModel'][1]['attributes'].get('Optimism', 0.5)
-        mood = (base_mood + optimism) / 2
-        self.logger.info(f"Calculated mood: {mood:.2f}")
-        return mood
-
-    def simulate_emotional_contagion(self, external_emotion: str, intensity: float):
-        self.logger.info(f"Simulating emotional contagion for {self.character_name}: {external_emotion} with intensity {intensity:.2f}")
-        contagion_factor = max(0.1, min(random.uniform(0.1, 0.5), 1.0))  # Ensure factor is between 0.1 and 1.0
-        self.trigger_emotion(external_emotion, intensity * contagion_factor)
-        self.logger.info(f"Emotional contagion result: {external_emotion} triggered with intensity {intensity * contagion_factor:.2f}")
-
     def create_cog_model(self, character_name: str, description: str) -> Dict[str, Any]:
         self.logger.info(f"Creating cognitive model for {character_name}")
-        self.logger.info(f"Character description: {description[:100]}...")
 
         template_path = os.path.join(self.base_path, 'data', 'template', 'persona_cog_template.json')
-        self.logger.info(f"Using template from: {template_path}")
         with open(template_path, 'r') as file:
             template = json.load(file)
 
         prompt = f"""
-            Create a detailed cognitive model for {character_name} based on this description: '{description}'.
-            Follow these specific instructions:
-            1. char_name: Use "{character_name}" exactly.
-            2. char_description: Provide a concise description based on the given information.
-            3. char_keyMemories: Generate exactly 8 key memories that shaped the character's life and personality.
-            4. char_cogModel: Include all categories and attributes from the template, with values between 0.0 and 1.0.
-               Ensure all emotion values sum up to approximately 6.0.
-            5. situationalConversations: For each situation, provide an intensity value between 0.0 and 1.0, and exactly 3 example conversations.
-            6. styleGuideValues: Include all style guide values as in the template, using the exact same keys and value formats.
+        Create a detailed cognitive model for {character_name} based on this description: '{description}'.
+        Follow the structure of this template exactly:
+        {json.dumps(template, indent=2)}
 
-            Ensure that your response exactly matches the structure of the provided template, including all required fields and proper nesting of objects and arrays.
-            """
+        Replace all placeholder values with appropriate content for {character_name}.
+        Ensure that:
+        1. char_name is set to "{character_name}"
+        2. char_description is based on the provided description
+        3. char_cogModel contains exactly two categories: "Emotions" and "Traits", with all listed attributes
+        4. situationalConversations includes all 8 situations with intensity and 3 examples each
+        5. styleGuideValues includes all listed style guide values
+        """
 
         try:
             response = self.gpt_handler.generate_response(
                 messages=[
                     {"role": "system", "content": "You are an AI assistant tasked with creating cognitive models for characters."},
                     {"role": "user", "content": prompt}
-                ],
-                functions=[{
-                    "name": "create_cognitive_model",
-                    "description": "Create a cognitive model based on the template",
-                    "parameters": {
-                        "type": "object",
-                        "properties": template
-                    }
-                }],
-                function_call={"name": "create_cognitive_model"}
+                ]
             )
+            cog_model = json.loads(response)
 
-            if isinstance(response, dict) and "function_call" in response:
-                cog_model = json.loads(response["function_call"]["arguments"])
-                self._validate_cog_model(cog_model, template)
-            else:
-                raise ValueError("Unexpected response format from GPT")
-
+            # Ensure critical keys are present
+            assert "char_keyMemories" in cog_model, "Missing 'char_keyMemories' in generated cognitive model"
+            self._validate_cog_model(cog_model, template)
         except Exception as e:
             self.logger.error(f"Failed to create cognitive model for {character_name}: {str(e)}")
             return self._create_default_cog_model(character_name, description)
 
         file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
-
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'w') as file:
             json.dump(cog_model, file, indent=4)
@@ -216,22 +138,23 @@ class BicaAffect:
                 elif isinstance(value, list):
                     if not isinstance(model[key], list):
                         raise ValueError(f"Expected list for key: {path + key}")
-                    if key == "char_keyMemories" and len(model[key]) != 8:
-                        raise ValueError(f"Expected exactly 8 key memories, got {len(model[key])}")
+                    if len(model[key]) != len(value):
+                        raise ValueError(f"List length mismatch for key: {path + key}")
                     for i, item in enumerate(value):
                         if isinstance(item, dict):
                             validate_structure(model[key][i], item, f"{path + key}[{i}].")
 
         validate_structure(cog_model, template)
 
-        # Additional validations
-        emotions_sum = sum(cog_model['char_cogModel'][0]['attributes'].values())
-        if not 5.9 <= emotions_sum <= 6.1:
-            raise ValueError(f"Sum of emotion values should be approximately 6.0, got {emotions_sum}")
+        assert len(cog_model["char_cogModel"]) == 2, "char_cogModel must contain exactly 2 categories"
+        assert cog_model["char_cogModel"][0]["category"] == "Emotions", "First category in char_cogModel must be Emotions"
+        assert cog_model["char_cogModel"][1]["category"] == "Traits", "Second category in char_cogModel must be Traits"
 
-        for situation in cog_model['situationalConversations'].values():
-            if len(situation['examples']) != 3:
-                raise ValueError(f"Expected exactly 3 examples for each situation, got {len(situation['examples'])}")
+        for situation in cog_model["situationalConversations"].values():
+            assert len(situation["examples"]) == 3, "Each situation must have exactly 3 examples"
+
+        for value in cog_model["styleGuideValues"].values():
+            assert value in ["low", "medium", "high"], "Style guide values must be 'low', 'medium', or 'high'"
 
         self.logger.info("Cognitive model structure validated successfully")
 
@@ -261,55 +184,35 @@ class BicaAffect:
         self.logger.info(f"Updating personality for {self.character_name} based on experience: {experience}")
 
         prompt = f"""
-        <instruction>
         Given the current personality: 
-        <personality>
         {json.dumps(self.cog_model['char_cogModel'], indent=2)}
-        </personality>
         And the new experience: '{experience}', suggest minor updates to the personality traits.
-        </instruction>
-
-        <output_format>
-        Provide your response as a JSON object with trait names as keys and updated values (between 0 and 1) as values:
-        {{
-            "trait1": 0.7,
-            "trait2": 0.8,
-            ...
-        }}
-        </output_format>
+        Provide your response as a JSON object with trait names as keys and updated values (between 0 and 1) as values.
         """
 
-        messages = [
-            {"role": "system", "content": "You are an AI assistant tasked with updating personality traits based on new experiences."},
-            {"role": "user", "content": prompt}
-        ]
-
         try:
-            response = self.gpt_handler.generate_response(messages)
+            response = self.gpt_handler.generate_response(
+                messages=[
+                    {"role": "system", "content": "You are an AI assistant tasked with updating personality traits based on new experiences."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
             updates = json.loads(response)
 
             for category in self.cog_model["char_cogModel"]:
-                if category["category"] == "Personality Traits":
+                if category["category"] == "Traits":
                     for trait, value in updates.items():
                         if trait in category["attributes"]:
                             category["attributes"][trait] = (category["attributes"][trait] + value) / 2
-                        else:
-                            category["attributes"][trait] = value
-                    break
-            else:
-                self.cog_model["char_cogModel"].append({
-                    "category": "Personality Traits",
-                    "attributes": updates
-                })
 
             file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
             with open(file_path, 'w') as file:
                 json.dump(self.cog_model, file, indent=4)
 
             self.logger.info(f"Personality updated successfully for {self.character_name}")
-            self.logger.info(f"Updated traits: {json.dumps(updates, indent=2)}")
         except Exception as e:
             self.logger.error(f"Failed to update personality for {self.character_name}: {str(e)}")
+
 
     def _apply_personality_updates(self, updates):
         for category in self.cog_model["char_cogModel"]:
@@ -413,16 +316,6 @@ class BicaAffect:
         default_model = {
             "char_name": character_name,
             "char_description": description,
-            "char_keyMemories": [
-                "Default memory 1",
-                "Default memory 2",
-                "Default memory 3",
-                "Default memory 4",
-                "Default memory 5",
-                "Default memory 6",
-                "Default memory 7",
-                "Default memory 8"
-            ],
             "char_cogModel": [
                 {
                     "category": "Emotions",
@@ -435,7 +328,7 @@ class BicaAffect:
                     }
                 },
                 {
-                    "category": "Personality Traits",
+                    "category": "Traits",
                     "attributes": {
                         "Openness": 0.5,
                         "Conscientiousness": 0.5,
@@ -518,14 +411,8 @@ if __name__ == "__main__":
             print(f"❌ {test_func.__name__} failed: {str(e)}")
 
 
-    def test_alan_turing_model():
-        logger = BicaLogging("TuringTest")
-        logger.info("Starting Alan Turing model test")
-
-        turing_affect = BicaAffect("alan_turing")
-
-        # Test creating cognitive model
-        logger.info("Creating Alan Turing's cognitive model")
+    def test_alan_turing_model_generation():
+        turing_affect = BicaAffect("Alan Turing")
         turing_description = """
         Alan Turing was a brilliant British mathematician, logician, and computer scientist. 
         He is considered the father of theoretical computer science and artificial intelligence. 
@@ -539,73 +426,67 @@ if __name__ == "__main__":
         - Faced persecution due to his homosexuality
         - Contributed significantly to the fields of computer science and artificial intelligence
         """
-        turing_model = turing_affect.create_cog_model("alan_turing", turing_description)
-        assert turing_model is not None, "Turing model is None"
+        turing_model = turing_affect.create_cog_model("Alan Turing", turing_description)
 
-        if turing_model["char_name"] == "alan_turing":
-            # Only run these assertions if it's not the default model
-            assert len(turing_model["char_keyMemories"]) == 8, f"Incorrect number of key memories: {len(turing_model['char_keyMemories'])}"
-            assert len(turing_model["char_cogModel"]) > 0, "char_cogModel is empty"
-            assert "situationalConversations" in turing_model, "situationalConversations missing from model"
-            assert "styleGuideValues" in turing_model, "styleGuideValues missing from model"
-        else:
-            logger.warning("Default model was created instead of Alan Turing specific model")
+        # Verify structure
+        assert "char_name" in turing_model
+        assert "char_description" in turing_model
+        assert "char_keyMemories" in turing_model
+        assert len(turing_model["char_keyMemories"]) == 8
 
-        # Test generating artificial memories
-        logger.info("Generating artificial memories")
-        memories = turing_affect.generate_artificial_memories(3)
-        assert len(memories) == 3
-        logger.info(f"Generated {len(memories)} memories")
+        assert "char_cogModel" in turing_model
+        assert len(turing_model["char_cogModel"]) == 2
+        assert turing_model["char_cogModel"][0]["category"] == "Emotions"
+        assert turing_model["char_cogModel"][1]["category"] == "Traits"
 
-        # Test updating personality
-        logger.info("Updating personality based on significant experience")
-        experience = "Successfully broke the Enigma code, contributing significantly to the Allied war effort."
-        initial_traits = turing_affect.cog_model["char_cogModel"][1]["attributes"].copy()
-        turing_affect.update_personality(experience)
-        updated_traits = turing_affect.cog_model["char_cogModel"][1]["attributes"]
-        assert initial_traits != updated_traits
-        logger.info("Personality updated successfully")
+        emotions = ["Joy", "Sadness", "Anger", "Fear", "Disgust", "Surprise", "Love", "Trust", "Anticipation", "Curiosity", "Shame", "Pride", "Guilt", "Envy", "Gratitude", "Awe", "Contempt", "Anxiety", "Boredom", "Confusion"]
+        for emotion in emotions:
+            assert emotion in turing_model["char_cogModel"][0]["attributes"]
 
-        # Test emotional reactions
-        logger.info("Testing emotional reactions")
-        turing_affect.trigger_emotion("Joy", 0.8)
-        turing_affect.trigger_emotion("Curiosity", 0.9)
-        top_emotions = turing_affect.get_top_emotions(2)
-        assert len(top_emotions) == 2
-        assert top_emotions[0]["emotion"] == "Curiosity"
-        assert top_emotions[1]["emotion"] == "Joy"
-        logger.info(f"Top emotions: {top_emotions}")
+        traits = ["Openness", "Conscientiousness", "Extroversion", "Agreeableness", "Neuroticism", "Confirmation Bias", "Anchoring Bias", "Availability Heuristic", "Dunning-Kruger Effect", "Negativity Bias", "Reward Processing", "Goal-Oriented Behavior", "Intrinsic Motivation", "Extrinsic Motivation", "Fatigue Level", "Stress Level", "Pain", "Theory of Mind", "Empathy", "Social Cue Interpretation", "Facial Recognition", "Emotional Intelligence", "Alertness", "Arousal", "Self-Awareness",
+                  "Metacognition", "Visual Processing", "Auditory Processing", "Proprioception", "Vestibular Processing", "Planning", "Organizing", "Time Management", "Task Initiation", "Impulse Control", "Emotional Regulation", "Cognitive Flexibility", "Self-Monitoring", "Attention", "Working Memory", "Long-term Memory", "Learning", "Decision Making", "Problem Solving", "Reasoning", "Language Processing", "Spatial Awareness", "Pattern Recognition", "Creativity"]
+        for trait in traits:
+            assert trait in turing_model["char_cogModel"][1]["attributes"]
 
-        # Test mood calculation
-        logger.info("Calculating mood")
-        mood = turing_affect.calculate_mood()
-        assert 0 <= mood <= 1
-        logger.info(f"Calculated mood: {mood}")
+        assert "situationalConversations" in turing_model
+        situations = ["Personal/Intimate Setting", "Social Gathering", "Professional Environment", "Educational/Academic Setting", "Public Space", "Online/Digital Interaction", "Formal Event", "Emergency or High-Stress Situation"]
+        for situation in situations:
+            assert situation in turing_model["situationalConversations"]
+            assert "intensity" in turing_model["situationalConversations"][situation]
+            assert "examples" in turing_model["situationalConversations"][situation]
+            assert len(turing_model["situationalConversations"][situation]["examples"]) == 3
 
-        logger.info("Alan Turing model test completed successfully")
+        assert "styleGuideValues" in turing_model
+        style_values = ["formality", "conciseness", "technicalLanguage", "emotionalExpression", "sentenceComplexity", "vocabularyRange", "idiomUsage", "directness", "verbalPacing", "fillerWords", "politeness", "verbVoice", "detailSpecificity", "tonality", "figurativeLanguage", "contentRelevance", "salutation", "informationDensity"]
+        for value in style_values:
+            assert value in turing_model["styleGuideValues"]
+            assert turing_model["styleGuideValues"][value] in ["low", "medium", "high"]
 
-        # Load the reference model
-        reference_path = os.path.join(turing_affect.base_path, 'data', 'persona_cog_models', 'alan_turing_reference.json')
-        with open(reference_path, 'r') as file:
-            reference_model = json.load(file)
-
-        # Compare the generated model with the reference
-        turing_affect.compare_with_reference(turing_model, reference_model)
+        print("Alan Turing model structure verification passed.")
+        return turing_model
 
 
-    # Run the new Alan Turing test
-    run_test(test_alan_turing_model)
+    # Run the test
+    turing_model = test_alan_turing_model_generation()
 
-    print("All tests completed.")
-
-    # Print some details about the Alan Turing model
-    turing_affect = BicaAffect("alan_turing")
-    logger = BicaLogging("MainAlanTuring")
-    logger.info("Printing Alan Turing model summary")
+    # Print some details about the generated model
     print("\nAlan Turing Cognitive Model Summary:")
-    print(turing_affect.get_personality_summary())
-    print("\nTop Emotions for Alan Turing:")
-    top_emotions = turing_affect.get_top_emotions(3)
-    for emotion in top_emotions:
-        print(f"{emotion['emotion']}: {emotion['intensity']:.2f}")
-    logger.info("Alan Turing model summary printed")
+    print(f"Name: {turing_model['char_name']}")
+    print(f"Description: {turing_model['char_description'][:100]}...")
+    print("\nSample Key Memories:")
+    for memory in turing_model['char_keyMemories'][:3]:
+        print(f"- {memory}")
+    print("\nSample Emotions:")
+    for emotion, value in list(turing_model['char_cogModel'][0]['attributes'].items())[:5]:
+        print(f"- {emotion}: {value:.2f}")
+    print("\nSample Traits:")
+    for trait, value in list(turing_model['char_cogModel'][1]['attributes'].items())[:5]:
+        print(f"- {trait}: {value:.2f}")
+    print("\nSample Situational Conversation:")
+    situation = next(iter(turing_model['situationalConversations']))
+    print(f"- {situation}:")
+    print(f"  Intensity: {turing_model['situationalConversations'][situation]['intensity']:.2f}")
+    print(f"  Example: {turing_model['situationalConversations'][situation]['examples'][0]}")
+    print("\nSample Style Guide Values:")
+    for style, value in list(turing_model['styleGuideValues'].items())[:5]:
+        print(f"- {style}: {value}")

@@ -38,8 +38,46 @@
       }
     },
     {
-      "category": "Cognitive Processes",
+      "category": "Traits",
       "attributes": {
+        "Openness": 0.5,
+        "Conscientiousness": 0.5,
+        "Extroversion": 0.5,
+        "Agreeableness": 0.5,
+        "Neuroticism": 0.5,
+        "Confirmation Bias": 0.5,
+        "Anchoring Bias": 0.5,
+        "Availability Heuristic": 0.5,
+        "Dunning-Kruger Effect": 0.5,
+        "Negativity Bias": 0.5,
+        "Reward Processing": 0.5,
+        "Goal-Oriented Behavior": 0.5,
+        "Intrinsic Motivation": 0.5,
+        "Extrinsic Motivation": 0.5,
+        "Fatigue Level": 0.5,
+        "Stress Level": 0.5,
+        "Pain": 0.5,
+        "Theory of Mind": 0.5,
+        "Empathy": 0.5,
+        "Social Cue Interpretation": 0.5,
+        "Facial Recognition": 0.5,
+        "Emotional Intelligence": 0.5,
+        "Alertness": 0.5,
+        "Arousal": 0.5,
+        "Self-Awareness": 0.5,
+        "Metacognition": 0.5,
+        "Visual Processing": 0.5,
+        "Auditory Processing": 0.5,
+        "Proprioception": 0.5,
+        "Vestibular Processing": 0.5,
+        "Planning": 0.5,
+        "Organizing": 0.5,
+        "Time Management": 0.5,
+        "Task Initiation": 0.5,
+        "Impulse Control": 0.5,
+        "Emotional Regulation": 0.5,
+        "Cognitive Flexibility": 0.5,
+        "Self-Monitoring": 0.5,
         "Attention": 0.5,
         "Working Memory": 0.5,
         "Long-term Memory": 0.5,
@@ -51,98 +89,6 @@
         "Spatial Awareness": 0.5,
         "Pattern Recognition": 0.5,
         "Creativity": 0.5
-      }
-    },
-    {
-      "category": "Executive Functions",
-      "attributes": {
-        "Planning": 0.5,
-        "Organizing": 0.5,
-        "Time Management": 0.5,
-        "Task Initiation": 0.5,
-        "Impulse Control": 0.5,
-        "Emotional Regulation": 0.5,
-        "Cognitive Flexibility": 0.5,
-        "Self-Monitoring": 0.5
-      }
-    },
-    {
-      "category": "Sensory Processing",
-      "attributes": {
-        "Visual Processing": 0.5,
-        "Auditory Processing": 0.5,
-        "Tactile Processing": 0.5,
-        "Olfactory Processing": 0.5,
-        "Gustatory Processing": 0.5,
-        "Proprioception": 0.5,
-        "Vestibular Processing": 0.5
-      }
-    },
-    {
-      "category": "Motor Functions",
-      "attributes": {
-        "Gross Motor Control": 0.5,
-        "Fine Motor Control": 0.5,
-        "Motor Planning": 0.5,
-        "Coordination": 0.5
-      }
-    },
-    {
-      "category": "Consciousness and Awareness",
-      "attributes": {
-        "Alertness": 0.5,
-        "Arousal": 0.5,
-        "Self-Awareness": 0.5,
-        "Metacognition": 0.5
-      }
-    },
-    {
-      "category": "Social Cognition",
-      "attributes": {
-        "Theory of Mind": 0.5,
-        "Empathy": 0.5,
-        "Social Cue Interpretation": 0.5,
-        "Facial Recognition": 0.5,
-        "Emotional Intelligence": 0.5
-      }
-    },
-    {
-      "category": "Physiological States",
-      "attributes": {
-        "Fatigue Level": 0.5,
-        "Stress Level": 0.5,
-        "Hunger": 0.5,
-        "Thirst": 0.5,
-        "Pain": 0.5
-      }
-    },
-    {
-      "category": "Motivational States",
-      "attributes": {
-        "Reward Processing": 0.5,
-        "Goal-Oriented Behavior": 0.5,
-        "Intrinsic Motivation": 0.5,
-        "Extrinsic Motivation": 0.5
-      }
-    },
-    {
-      "category": "Cognitive Biases",
-      "attributes": {
-        "Confirmation Bias": 0.5,
-        "Anchoring Bias": 0.5,
-        "Availability Heuristic": 0.5,
-        "Dunning-Kruger Effect": 0.5,
-        "Negativity Bias": 0.5
-      }
-    },
-    {
-      "category": "Personality Traits",
-      "attributes": {
-        "Openness": 0.5,
-        "Conscientiousness": 0.5,
-        "Extraversion": 0.5,
-        "Agreeableness": 0.5,
-        "Neuroticism": 0.5
       }
     }
   ],

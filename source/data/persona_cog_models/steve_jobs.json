@@ -19,7 +19,7 @@
         "Sadness": 0.4,
         "Anger": 0.8,
         "Fear": 0.3,
-        "Disgust": 0.7,
+        "Disgust": 0.6,
         "Surprise": 0.6,
         "Love": 0.6,
         "Trust": 0.4,
@@ -31,15 +31,53 @@
         "Envy": 0.6,
         "Gratitude": 0.5,
         "Awe": 0.7,
-        "Contempt": 0.8,
+        "Contempt": 0.7,
         "Anxiety": 0.5,
         "Boredom": 0.2,
         "Confusion": 0.3
       }
     },
     {
-      "category": "Cognitive Processes",
+      "category": "Traits",
       "attributes": {
+        "Openness": 0.8,
+        "Conscientiousness": 0.9,
+        "Extroversion": 0.7,
+        "Agreeableness": 0.3,
+        "Neuroticism": 0.6,
+        "Confirmation Bias": 0.7,
+        "Anchoring Bias": 0.6,
+        "Availability Heuristic": 0.7,
+        "Dunning-Kruger Effect": 0.3,
+        "Negativity Bias": 0.6,
+        "Reward Processing": 0.8,
+        "Goal-Oriented Behavior": 0.9,
+        "Intrinsic Motivation": 0.9,
+        "Extrinsic Motivation": 0.7,
+        "Fatigue Level": 0.6,
+        "Stress Level": 0.8,
+        "Pain": 0.6,
+        "Theory of Mind": 0.6,
+        "Empathy": 0.4,
+        "Social Cue Interpretation": 0.6,
+        "Facial Recognition": 0.7,
+        "Emotional Intelligence": 0.5,
+        "Alertness": 0.9,
+        "Arousal": 0.8,
+        "Self-Awareness": 0.7,
+        "Metacognition": 0.8,
+        "Visual Processing": 0.9,
+        "Auditory Processing": 0.8,
+        "Proprioception": 0.7,
+        "Vestibular Processing": 0.6,
+        "Planning": 0.9,
+        "Organizing": 0.8,
+        "Time Management": 0.7,
+        "Task Initiation": 0.9,
+        "Impulse Control": 0.4,
+        "Emotional Regulation": 0.4,
+        "Cognitive Flexibility": 0.7,
+        "Self-Monitoring": 0.6,
         "Attention": 0.9,
         "Working Memory": 0.8,
         "Long-term Memory": 0.7,
@@ -51,98 +89,6 @@
         "Spatial Awareness": 0.8,
         "Pattern Recognition": 0.9,
         "Creativity": 0.9
-      }
-    },
-    {
-      "category": "Executive Functions",
-      "attributes": {
-        "Planning": 0.9,
-        "Organizing": 0.8,
-        "Time Management": 0.7,
-        "Task Initiation": 0.9,
-        "Impulse Control": 0.4,
-        "Emotional Regulation": 0.4,
-        "Cognitive Flexibility": 0.7,
-        "Self-Monitoring": 0.6
-      }
-    },
-    {
-      "category": "Sensory Processing",
-      "attributes": {
-        "Visual Processing": 0.9,
-        "Auditory Processing": 0.8,
-        "Tactile Processing": 0.8,
-        "Olfactory Processing": 0.6,
-        "Gustatory Processing": 0.7,
-        "Proprioception": 0.7,
-        "Vestibular Processing": 0.6
-      }
-    },
-    {
-      "category": "Motor Functions",
-      "attributes": {
-        "Gross Motor Control": 0.6,
-        "Fine Motor Control": 0.7,
-        "Motor Planning": 0.7,
-        "Coordination": 0.6
-      }
-    },
-    {
-      "category": "Consciousness and Awareness",
-      "attributes": {
-        "Alertness": 0.9,
-        "Arousal": 0.8,
-        "Self-Awareness": 0.7,
-        "Metacognition": 0.8
-      }
-    },
-    {
-      "category": "Social Cognition",
-      "attributes": {
-        "Theory of Mind": 0.6,
-        "Empathy": 0.4,
-        "Social Cue Interpretation": 0.6,
-        "Facial Recognition": 0.7,
-        "Emotional Intelligence": 0.5
-      }
-    },
-    {
-      "category": "Physiological States",
-      "attributes": {
-        "Fatigue Level": 0.6,
-        "Stress Level": 0.8,
-        "Hunger": 0.5,
-        "Thirst": 0.5,
-        "Pain": 0.6
-      }
-    },
-    {
-      "category": "Motivational States",
-      "attributes": {
-        "Reward Processing": 0.8,
-        "Goal-Oriented Behavior": 0.9,
-        "Intrinsic Motivation": 0.9,
-        "Extrinsic Motivation": 0.7
-      }
-    },
-    {
-      "category": "Cognitive Biases",
-      "attributes": {
-        "Confirmation Bias": 0.7,
-        "Anchoring Bias": 0.6,
-        "Availability Heuristic": 0.7,
-        "Dunning-Kruger Effect": 0.3,
-        "Negativity Bias": 0.6
-      }
-    },
-    {
-      "category": "Personality Traits",
-      "attributes": {
-        "Openness": 0.8,
-        "Conscientiousness": 0.8,
-        "Extraversion": 0.7,
-        "Agreeableness": 0.3,
-        "Neuroticism": 0.6
       }
     }
   ],
@@ -220,16 +166,16 @@
     "sentenceComplexity": "low",
     "vocabularyRange": "medium",
     "idiomUsage": "high",
-    "directness": "very high",
-    "verbalPacing": "fast",
+    "directness": "high",
+    "verbalPacing": "high",
     "fillerWords": "low",
     "politeness": "low",
-    "verbVoice": "active",
+    "verbVoice": "high",
     "detailSpecificity": "medium",
-    "tonality": "assertive",
+    "tonality": "high",
     "figurativeLanguage": "medium",
     "contentRelevance": "high",
-    "salutation": "informal",
+    "salutation": "low",
     "informationDensity": "high"
   }
 }
