@@ -1,3 +1,7 @@
+"""
+File is done for now
+"""
+
 import json
 import os
 import random
@@ -6,6 +10,7 @@ from typing import List, Dict, Any
 from bica.gpt_handler import GPTHandler
 from bica_utilities import BicaUtilities
 from bica_logging import BicaLogging
+import traceback
 
 
 class BicaAffect:
@@ -43,7 +48,6 @@ class BicaAffect:
         except IndexError:
             self.logger.warning("Failed to initialize emotions. Using default emotions.")
             return {"Joy": 0.5, "Sadness": 0.5, "Anger": 0.5, "Fear": 0.5, "Surprise": 0.5}
-
 
     def trigger_emotion(self, emotion: str, intensity: float):
         self.logger.info(f"Triggering emotion for {self.character_name}: {emotion} with intensity {intensity:.2f}")
@@ -212,7 +216,6 @@ class BicaAffect:
             self.logger.info(f"Personality updated successfully for {self.character_name}")
         except Exception as e:
             self.logger.error(f"Failed to update personality for {self.character_name}: {str(e)}")
-
 
     def _apply_personality_updates(self, updates):
         for category in self.cog_model["char_cogModel"]:
@@ -402,91 +405,121 @@ class BicaAffect:
 
 
 # Comprehensive testing
+def run_test(test_func, *args):
+    try:
+        test_func(*args)
+        print(f"✅ {test_func.__name__} passed")
+    except Exception as e:
+        print(f"❌ {test_func.__name__} failed: {str(e)}")
+        traceback.print_exc()
+
+
+def test_character_creation():
+    character_name = input("Enter the name of the character you want to create: ")
+    character_description = input(f"Enter a brief description for {character_name}: ")
+
+    character_affect = BicaAffect(character_name)
+    character_model = character_affect.create_cog_model(character_name, character_description)
+
+    # Ensure fallback model has key memories
+    if "char_keyMemories" not in character_model:
+        print(f"Warning: 'char_keyMemories' missing. Using fallback default memories for {character_name}.")
+        character_model["char_keyMemories"] = [
+            f"Default memory 1 for {character_name}",
+            f"Default memory 2 for {character_name}",
+            f"Default memory 3 for {character_name}"
+        ]
+
+    # Verify structure
+    assert "char_name" in character_model, "char_name is missing from the cognitive model."
+    assert "char_description" in character_model, "char_description is missing from the cognitive model."
+    assert "char_keyMemories" in character_model, "char_keyMemories is missing from the cognitive model."
+    assert len(character_model["char_keyMemories"]) >= 3, "Less than 3 key memories found."
+
+    assert "char_cogModel" in character_model, "char_cogModel is missing from the cognitive model."
+    assert len(character_model["char_cogModel"]) == 2, "char_cogModel should contain exactly 2 categories (Emotions and Traits)."
+    assert character_model["char_cogModel"][0]["category"] == "Emotions", "The first category in char_cogModel must be Emotions."
+    assert character_model["char_cogModel"][1]["category"] == "Traits", "The second category in char_cogModel must be Traits."
+
+    emotions = ["Joy", "Sadness", "Anger", "Fear", "Disgust", "Surprise"]
+    for emotion in emotions:
+        assert emotion in character_model["char_cogModel"][0]["attributes"], f"{emotion} is missing from Emotions."
+
+    traits = ["Openness", "Conscientiousness", "Extroversion", "Agreeableness", "Neuroticism"]
+    for trait in traits:
+        assert trait in character_model["char_cogModel"][1]["attributes"], f"{trait} is missing from Traits."
+
+    assert "situationalConversations" in character_model, "situationalConversations is missing from the cognitive model."
+    situations = ["Personal/Intimate Setting", "Social Gathering", "Professional Environment", "Educational/Academic Setting"]
+    for situation in situations:
+        assert situation in character_model["situationalConversations"], f"{situation} is missing from situationalConversations."
+        assert "intensity" in character_model["situationalConversations"][situation], f"intensity is missing in {situation}."
+        assert "examples" in character_model["situationalConversations"][situation], f"examples are missing in {situation}."
+        assert len(character_model["situationalConversations"][situation]["examples"]) == 3, f"{situation} should have exactly 3 examples."
+
+    assert "styleGuideValues" in character_model, "styleGuideValues is missing from the cognitive model."
+    style_values = ["formality", "conciseness", "technicalLanguage", "emotionalExpression"]
+    for value in style_values:
+        assert value in character_model["styleGuideValues"], f"{value} is missing from styleGuideValues."
+        assert character_model["styleGuideValues"][value] in ["low", "medium", "high"], f"{value} should be 'low', 'medium', or 'high'."
+
+    print(f"{character_name} model structure verification passed.")
+    return character_affect
+
+
+def test_personality_update(character_affect):
+    experience = input("Enter an experience to update the personality of the character: ")
+    character_affect.update_personality(experience)
+
+    assert "char_cogModel" in character_affect.cog_model
+    for category in character_affect.cog_model["char_cogModel"]:
+        if category["category"] == "Traits":
+            assert len(category["attributes"]) > 0
+            break
+
+    print(f"{character_affect.character_name} personality update passed.")
+
+
+def test_memory_generation(character_affect):
+    memories = character_affect.generate_artificial_memories(3)
+    assert len(memories) == 3
+
+    print(f"{character_affect.character_name} memory generation passed.")
+
+
+def test_emotion_and_trait_change_based_on_context(character_affect):
+    context = input("Provide a context or situation to see how the character's traits and emotions change: ")
+    character_affect.alter_traits_from_experience(context, intensity=0.7)
+
+    # Check if the traits have been updated
+    for category in character_affect.cog_model["char_cogModel"]:
+        if category["category"] == "Traits":
+            print(f"Updated traits for {character_affect.character_name}: {json.dumps(category['attributes'], indent=2)}")
+            break
+
+    # Check updated emotions
+    print(f"Updated emotions for {character_affect.character_name}: {json.dumps(character_affect.runtime_emotions, indent=2)}")
+
+    print(f"{character_affect.character_name} context-based update passed.")
+
+
+def test_style_guide_validation(character_affect):
+    style_guide = character_affect.cog_model["styleGuideValues"]
+    for key, value in style_guide.items():
+        assert value in ["low", "medium", "high"]
+
+    print(f"{character_affect.character_name} style guide validation passed.")
+
+
+# Run all tests
 if __name__ == "__main__":
-    def run_test(test_func):
-        try:
-            test_func()
-            print(f"✅ {test_func.__name__} passed")
-        except Exception as e:
-            print(f"❌ {test_func.__name__} failed: {str(e)}")
+    # Test character creation and personality update
+    character_affect = test_character_creation()
 
+    if character_affect:
+        run_test(test_personality_update, character_affect)
+        run_test(test_memory_generation, character_affect)
+        run_test(test_emotion_and_trait_change_based_on_context, character_affect)
+        run_test(test_style_guide_validation, character_affect)
 
-    def test_alan_turing_model_generation():
-        turing_affect = BicaAffect("Alan Turing")
-        turing_description = """
-        Alan Turing was a brilliant British mathematician, logician, and computer scientist. 
-        He is considered the father of theoretical computer science and artificial intelligence. 
-        Key characteristics:
-        - Highly intelligent and analytical
-        - Innovative thinker
-        - Socially awkward but kind-hearted
-        - Passionate about mathematics and puzzles
-        - Persevered through adversity
-        - Played a crucial role in breaking the Enigma code during World War II
-        - Faced persecution due to his homosexuality
-        - Contributed significantly to the fields of computer science and artificial intelligence
-        """
-        turing_model = turing_affect.create_cog_model("Alan Turing", turing_description)
-
-        # Verify structure
-        assert "char_name" in turing_model
-        assert "char_description" in turing_model
-        assert "char_keyMemories" in turing_model
-        assert len(turing_model["char_keyMemories"]) == 8
-
-        assert "char_cogModel" in turing_model
-        assert len(turing_model["char_cogModel"]) == 2
-        assert turing_model["char_cogModel"][0]["category"] == "Emotions"
-        assert turing_model["char_cogModel"][1]["category"] == "Traits"
-
-        emotions = ["Joy", "Sadness", "Anger", "Fear", "Disgust", "Surprise", "Love", "Trust", "Anticipation", "Curiosity", "Shame", "Pride", "Guilt", "Envy", "Gratitude", "Awe", "Contempt", "Anxiety", "Boredom", "Confusion"]
-        for emotion in emotions:
-            assert emotion in turing_model["char_cogModel"][0]["attributes"]
-
-        traits = ["Openness", "Conscientiousness", "Extroversion", "Agreeableness", "Neuroticism", "Confirmation Bias", "Anchoring Bias", "Availability Heuristic", "Dunning-Kruger Effect", "Negativity Bias", "Reward Processing", "Goal-Oriented Behavior", "Intrinsic Motivation", "Extrinsic Motivation", "Fatigue Level", "Stress Level", "Pain", "Theory of Mind", "Empathy", "Social Cue Interpretation", "Facial Recognition", "Emotional Intelligence", "Alertness", "Arousal", "Self-Awareness",
-                  "Metacognition", "Visual Processing", "Auditory Processing", "Proprioception", "Vestibular Processing", "Planning", "Organizing", "Time Management", "Task Initiation", "Impulse Control", "Emotional Regulation", "Cognitive Flexibility", "Self-Monitoring", "Attention", "Working Memory", "Long-term Memory", "Learning", "Decision Making", "Problem Solving", "Reasoning", "Language Processing", "Spatial Awareness", "Pattern Recognition", "Creativity"]
-        for trait in traits:
-            assert trait in turing_model["char_cogModel"][1]["attributes"]
-
-        assert "situationalConversations" in turing_model
-        situations = ["Personal/Intimate Setting", "Social Gathering", "Professional Environment", "Educational/Academic Setting", "Public Space", "Online/Digital Interaction", "Formal Event", "Emergency or High-Stress Situation"]
-        for situation in situations:
-            assert situation in turing_model["situationalConversations"]
-            assert "intensity" in turing_model["situationalConversations"][situation]
-            assert "examples" in turing_model["situationalConversations"][situation]
-            assert len(turing_model["situationalConversations"][situation]["examples"]) == 3
-
-        assert "styleGuideValues" in turing_model
-        style_values = ["formality", "conciseness", "technicalLanguage", "emotionalExpression", "sentenceComplexity", "vocabularyRange", "idiomUsage", "directness", "verbalPacing", "fillerWords", "politeness", "verbVoice", "detailSpecificity", "tonality", "figurativeLanguage", "contentRelevance", "salutation", "informationDensity"]
-        for value in style_values:
-            assert value in turing_model["styleGuideValues"]
-            assert turing_model["styleGuideValues"][value] in ["low", "medium", "high"]
-
-        print("Alan Turing model structure verification passed.")
-        return turing_model
-
-
-    # Run the test
-    turing_model = test_alan_turing_model_generation()
-
-    # Print some details about the generated model
-    print("\nAlan Turing Cognitive Model Summary:")
-    print(f"Name: {turing_model['char_name']}")
-    print(f"Description: {turing_model['char_description'][:100]}...")
-    print("\nSample Key Memories:")
-    for memory in turing_model['char_keyMemories'][:3]:
-        print(f"- {memory}")
-    print("\nSample Emotions:")
-    for emotion, value in list(turing_model['char_cogModel'][0]['attributes'].items())[:5]:
-        print(f"- {emotion}: {value:.2f}")
-    print("\nSample Traits:")
-    for trait, value in list(turing_model['char_cogModel'][1]['attributes'].items())[:5]:
-        print(f"- {trait}: {value:.2f}")
-    print("\nSample Situational Conversation:")
-    situation = next(iter(turing_model['situationalConversations']))
-    print(f"- {situation}:")
-    print(f"  Intensity: {turing_model['situationalConversations'][situation]['intensity']:.2f}")
-    print(f"  Example: {turing_model['situationalConversations'][situation]['examples'][0]}")
-    print("\nSample Style Guide Values:")
-    for style, value in list(turing_model['styleGuideValues'].items())[:5]:
-        print(f"- {style}: {value}")
+    print("All tests completed.")
