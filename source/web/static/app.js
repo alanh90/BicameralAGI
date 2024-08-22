@@ -26,14 +26,19 @@ const links = [
     { source: 'safety', target: 'output' }
 ];
 
+let svg, link, node;
+
 function createNodeNetwork() {
     const width = nodeNetwork.clientWidth;
     const height = nodeNetwork.clientHeight;
 
-    const svg = d3.select("#node-network")
+    svg = d3.select("#node-network")
         .append("svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .call(d3.zoom().on("zoom", zoomed));
+
+    const g = svg.append("g");
 
     const allNodes = nodes.concat(nodes.flatMap(node =>
         node.subnodes.map(subnode => ({
@@ -58,7 +63,7 @@ function createNodeNetwork() {
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("collision", d3.forceCollide().radius(d => d.isSubnode ? 20 : 50));
 
-    const link = svg.append("g")
+    link = g.append("g")
         .selectAll("line")
         .data(allLinks)
         .join("line")
@@ -66,7 +71,7 @@ function createNodeNetwork() {
         .attr("stroke-opacity", 0.6)
         .attr("stroke-width", d => d.source.isSubnode || d.target.isSubnode ? 1 : 2);
 
-    const node = svg.append("g")
+    node = g.append("g")
         .selectAll("g")
         .data(allNodes)
         .join("g")
@@ -77,7 +82,11 @@ function createNodeNetwork() {
 
     node.append("circle")
         .attr("r", d => d.isSubnode ? 15 : 40)
-        .attr("fill", d => d3.schemeCategory10[d.group]);
+        .attr("fill", d => {
+            const baseColor = d3.rgb(d3.schemeCategory10[d.group]);
+            return d.isSubnode ? baseColor.brighter(0.5).toString() : baseColor.toString();
+        })
+        .attr("data-id", d => d.id);
 
     node.append("text")
         .text(d => d.label)
@@ -113,6 +122,10 @@ function createNodeNetwork() {
         event.subject.fx = null;
         event.subject.fy = null;
     }
+
+    function zoomed(event) {
+        g.attr("transform", event.transform);
+    }
 }
 
 function activateNode(nodeId, subnodeLabel = null) {
@@ -120,8 +133,7 @@ function activateNode(nodeId, subnodeLabel = null) {
         ? `circle[data-id="${nodeId}-${subnodeLabel}"]`
         : `circle[data-id="${nodeId}"]`;
 
-    d3.select("#node-network")
-        .selectAll(selector)
+    svg.selectAll(selector)
         .transition()
         .duration(300)
         .attr("r", d => d.isSubnode ? 20 : 50)
@@ -129,7 +141,10 @@ function activateNode(nodeId, subnodeLabel = null) {
         .transition()
         .duration(300)
         .attr("r", d => d.isSubnode ? 15 : 40)
-        .attr("fill", d => d3.schemeCategory10[d.group]);
+        .attr("fill", d => {
+            const baseColor = d3.rgb(d3.schemeCategory10[d.group]);
+            return d.isSubnode ? baseColor.brighter(0.5).toString() : baseColor.toString();
+        });
 }
 
 function addDebugInfo(nodeId, subnodeLabel, info) {
