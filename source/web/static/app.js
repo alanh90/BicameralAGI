@@ -1,111 +1,159 @@
-const nodeTree = document.getElementById('node-tree');
+const nodeNetwork = document.getElementById('node-network');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const conversationHistory = document.getElementById('conversation-history');
 const debugContent = document.getElementById('debug-content');
 
 const nodes = [
-    {
-        id: 'input',
-        label: 'Input',
-        subnodes: []
-    },
-    {
-        id: 'memory',
-        label: 'Memory',
-        subnodes: ['Short-term Layer 1', 'Short-term Layer 2', 'Short-term Layer 3', 'Long-term Memories', 'Self Memories']
-    },
-    {
-        id: 'cognition',
-        label: 'Cognition',
-        subnodes: ['Thought Generation', 'Analysis', 'Reasoning', 'Problem Solving', 'Meta Reasoning']
-    },
-    {
-        id: 'affect',
-        label: 'Affect',
-        subnodes: ['Emotions', 'Personality Traits', 'Emotional Regulation']
-    },
-    {
-        id: 'context',
-        label: 'Context',
-        subnodes: ['Current Context', 'Context Update', 'Weight Management']
-    },
-    {
-        id: 'safety',
-        label: 'Safety',
-        subnodes: ['Content Moderation', 'Ethical Evaluation']
-    },
-    {
-        id: 'output',
-        label: 'Output',
-        subnodes: []
-    }
+    { id: 'input', label: 'Input', group: 0, subnodes: [] },
+    { id: 'memory', label: 'Memory', group: 1, subnodes: ['Short-term Layer 1', 'Short-term Layer 2', 'Short-term Layer 3', 'Long-term Memories', 'Self Memories'] },
+    { id: 'cognition', label: 'Cognition', group: 2, subnodes: ['Thought Generation', 'Analysis', 'Reasoning', 'Problem Solving', 'Meta Reasoning'] },
+    { id: 'affect', label: 'Affect', group: 3, subnodes: ['Emotions', 'Personality Traits', 'Emotional Regulation'] },
+    { id: 'context', label: 'Context', group: 4, subnodes: ['Current Context', 'Context Update', 'Weight Management'] },
+    { id: 'safety', label: 'Safety', group: 5, subnodes: ['Content Moderation', 'Ethical Evaluation'] },
+    { id: 'output', label: 'Output', group: 6, subnodes: [] }
 ];
 
-function createNodeTree() {
-    nodes.forEach(node => {
-        const nodeElement = document.createElement('div');
-        nodeElement.id = node.id;
-        nodeElement.className = 'node bg-gray-700 p-4 rounded-lg mb-2';
-        nodeElement.innerHTML = `
-            <div class="text-center font-bold">${node.label}</div>
-            <div id="${node.id}-subnodes" class="mt-2"></div>
-        `;
-        nodeTree.appendChild(nodeElement);
+const links = [
+    { source: 'input', target: 'memory' },
+    { source: 'input', target: 'cognition' },
+    { source: 'memory', target: 'cognition' },
+    { source: 'memory', target: 'affect' },
+    { source: 'cognition', target: 'affect' },
+    { source: 'cognition', target: 'context' },
+    { source: 'affect', target: 'context' },
+    { source: 'context', target: 'safety' },
+    { source: 'safety', target: 'output' }
+];
 
-        const subnodesContainer = document.getElementById(`${node.id}-subnodes`);
-        node.subnodes.forEach(subnode => {
-            const subnodeElement = document.createElement('div');
-            subnodeElement.className = 'subnode bg-gray-600 rounded-lg mb-1';
-            subnodeElement.textContent = subnode;
-            subnodesContainer.appendChild(subnodeElement);
-        });
+function createNodeNetwork() {
+    const width = nodeNetwork.clientWidth;
+    const height = nodeNetwork.clientHeight;
+
+    const svg = d3.select("#node-network")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    const allNodes = nodes.concat(nodes.flatMap(node =>
+        node.subnodes.map(subnode => ({
+            id: `${node.id}-${subnode}`,
+            label: subnode,
+            group: node.group,
+            parent: node.id,
+            isSubnode: true
+        }))
+    ));
+
+    const allLinks = links.concat(nodes.flatMap(node =>
+        node.subnodes.map(subnode => ({
+            source: node.id,
+            target: `${node.id}-${subnode}`
+        }))
+    ));
+
+    const simulation = d3.forceSimulation(allNodes)
+        .force("link", d3.forceLink(allLinks).id(d => d.id).distance(d => d.source.isSubnode || d.target.isSubnode ? 50 : 150))
+        .force("charge", d3.forceManyBody().strength(d => d.isSubnode ? -100 : -500))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("collision", d3.forceCollide().radius(d => d.isSubnode ? 20 : 50));
+
+    const link = svg.append("g")
+        .selectAll("line")
+        .data(allLinks)
+        .join("line")
+        .attr("stroke", "#888")
+        .attr("stroke-opacity", 0.6)
+        .attr("stroke-width", d => d.source.isSubnode || d.target.isSubnode ? 1 : 2);
+
+    const node = svg.append("g")
+        .selectAll("g")
+        .data(allNodes)
+        .join("g")
+        .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
+
+    node.append("circle")
+        .attr("r", d => d.isSubnode ? 15 : 40)
+        .attr("fill", d => d3.schemeCategory10[d.group]);
+
+    node.append("text")
+        .text(d => d.label)
+        .attr("text-anchor", "middle")
+        .attr("dy", ".35em")
+        .attr("fill", "white")
+        .style("font-size", d => d.isSubnode ? "8px" : "12px");
+
+    simulation.on("tick", () => {
+        link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
+
+        node
+            .attr("transform", d => `translate(${d.x},${d.y})`);
     });
-}
 
-function activateNode(nodeId) {
-    const node = document.getElementById(nodeId);
-    node.classList.add('active');
-    return new Promise(resolve => setTimeout(() => {
-        node.classList.remove('active');
-        resolve();
-    }, 1000));
-}
-
-function activateRandomSubnode(nodeId) {
-    const subnodes = document.querySelectorAll(`#${nodeId}-subnodes .subnode`);
-    if (subnodes.length > 0) {
-        const randomSubnode = subnodes[Math.floor(Math.random() * subnodes.length)];
-        randomSubnode.classList.add('active');
-        setTimeout(() => {
-            randomSubnode.classList.remove('active');
-        }, 800);
-        return randomSubnode.textContent;
+    function dragstarted(event) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
     }
-    return null;
+
+    function dragged(event) {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
+    }
+
+    function dragended(event) {
+        if (!event.active) simulation.alphaTarget(0);
+        event.subject.fx = null;
+        event.subject.fy = null;
+    }
+}
+
+function activateNode(nodeId, subnodeLabel = null) {
+    const selector = subnodeLabel
+        ? `circle[data-id="${nodeId}-${subnodeLabel}"]`
+        : `circle[data-id="${nodeId}"]`;
+
+    d3.select("#node-network")
+        .selectAll(selector)
+        .transition()
+        .duration(300)
+        .attr("r", d => d.isSubnode ? 20 : 50)
+        .attr("fill", "yellow")
+        .transition()
+        .duration(300)
+        .attr("r", d => d.isSubnode ? 15 : 40)
+        .attr("fill", d => d3.schemeCategory10[d.group]);
 }
 
 function addDebugInfo(nodeId, subnodeLabel, info) {
     const debugElement = document.createElement('div');
     debugElement.className = 'mb-2 text-sm';
-    debugElement.innerHTML = `<strong class="text-blue-300">${nodeId} - ${subnodeLabel}:</strong> ${info}`;
+    debugElement.innerHTML = `<strong class="text-blue-300">${nodeId}${subnodeLabel ? ` - ${subnodeLabel}` : ''}:</strong> ${info}`;
     debugContent.appendChild(debugElement);
     debugContent.scrollTop = debugContent.scrollHeight;
 }
 
 async function processInput(input) {
-    debugContent.innerHTML = ''; // Clear previous debug info
+    debugContent.innerHTML = '';
     await activateNode('input');
     addDebugInfo('Input', '', `Received input: "${input}"`);
 
-    for (const node of nodes.slice(1, -1)) { // Skip input and output nodes
+    for (const node of nodes.slice(1, -1)) {
         await activateNode(node.id);
-        const activeSubnode = activateRandomSubnode(node.id);
-        if (activeSubnode) {
-            const debugInfo = await simulateProcessing(node.id, activeSubnode);
-            addDebugInfo(node.id, activeSubnode, debugInfo);
+        const subnode = node.subnodes[Math.floor(Math.random() * node.subnodes.length)];
+        if (subnode) {
+            await activateNode(node.id, subnode);
+            const debugInfo = await simulateProcessing(node.id, subnode);
+            addDebugInfo(node.id, subnode, debugInfo);
         }
-        await new Promise(resolve => setTimeout(resolve, 200)); // Small delay between nodes
+        await new Promise(resolve => setTimeout(resolve, 500));
     }
 
     try {
@@ -129,10 +177,8 @@ async function processInput(input) {
 }
 
 async function simulateProcessing(nodeId, subnodeLabel) {
-    // Simulate processing time
     await new Promise(resolve => setTimeout(resolve, Math.random() * 500 + 500));
 
-    // Generate some fake debug info based on the node and subnode
     const debugInfoMap = {
         'memory': {
             'Short-term Layer 1': 'Storing recent input',
@@ -172,11 +218,7 @@ function addToConversationHistory(speaker, text) {
     messageElement.className = 'mb-2';
     messageElement.innerHTML = `<strong class="${speaker === 'You' ? 'text-blue-300' : 'text-blue-200'}">${speaker}:</strong> ${text}`;
     conversationHistory.appendChild(messageElement);
-    scrollToBottom(conversationHistory);
-}
-
-function scrollToBottom(element) {
-    element.scrollTop = element.scrollHeight;
+    conversationHistory.scrollTop = conversationHistory.scrollHeight;
 }
 
 sendButton.addEventListener('click', async () => {
@@ -196,4 +238,4 @@ userInput.addEventListener('keypress', (e) => {
     }
 });
 
-createNodeTree();
+createNodeNetwork();

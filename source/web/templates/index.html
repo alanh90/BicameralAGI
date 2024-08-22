@@ -5,28 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BICA</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        .node, .subnode {
+        .node {
             transition: all 0.3s ease;
         }
-        .node.active, .subnode.active {
+        .node.active {
             filter: brightness(1.5);
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
         }
-        .subnode {
-            font-size: 0.8em;
-            padding: 0.5rem;
-            margin-left: 1rem;
-        }
         #main-content {
-            height: calc(100vh - 4rem); /* Subtract header height */
+            height: calc(100vh - 4rem);
         }
-        #node-tree, #conversation-history {
+        #node-network {
             height: calc(70vh - 2rem);
-            overflow-y: auto;
         }
         #debug-info {
             height: calc(30vh - 2rem);
+            overflow-y: auto;
+        }
+        #conversation-history {
+            height: calc(100vh - 10rem);
             overflow-y: auto;
         }
     </style>
@@ -38,9 +37,7 @@
     </header>
     <main id="main-content" class="flex-grow flex p-4 space-x-4 overflow-hidden">
         <div class="w-1/2 flex flex-col space-y-4">
-            <div id="node-tree" class="bg-gray-800 p-4 rounded-lg">
-                <!-- Nodes and subnodes will be dynamically added here -->
-            </div>
+            <div id="node-network" class="bg-gray-800 p-4 rounded-lg"></div>
             <div id="debug-info" class="bg-gray-800 p-4 rounded-lg">
                 <h2 class="text-xl font-bold mb-2 text-blue-300">Debug Information</h2>
                 <div id="debug-content"></div>
@@ -48,9 +45,7 @@
         </div>
         <div class="w-1/2 bg-gray-800 rounded-lg p-4 flex flex-col">
             <h2 class="text-xl font-bold mb-2 text-blue-300">Conversation History</h2>
-            <div id="conversation-history" class="flex-grow overflow-y-auto mb-4">
-                <!-- Conversation history will be dynamically added here -->
-            </div>
+            <div id="conversation-history" class="flex-grow overflow-y-auto mb-4"></div>
             <div class="flex space-x-2 mt-auto">
                 <input type="text" id="user-input" class="flex-grow bg-gray-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" placeholder="Type your message...">
                 <button id="send-button" class="bg-blue-600 hover:bg-blue-700 text-gray-200 px-4 py-2 rounded-lg">Send</button>
