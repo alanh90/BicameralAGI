@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BICA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .node, .subnode {
+            transition: all 0.3s ease;
+        }
+        .node.active, .subnode.active {
+            filter: brightness(1.5);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+        .subnode {
+            font-size: 0.8em;
+            padding: 0.5rem;
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col text-gray-300">
+    <header class="bg-gray-800 p-4 text-center">
+        <h1 class="text-3xl font-bold text-blue-300">BICA</h1>
+    </header>
+    <main class="flex-grow flex p-4 space-x-4">
+        <div class="w-1/2 flex flex-col space-y-4">
+            <div id="node-tree" class="h-1/2 bg-gray-800 p-4 rounded-lg overflow-auto">
+                <!-- Nodes and subnodes will be dynamically added here -->
+            </div>
+            <div id="debug-info" class="h-1/2 bg-gray-800 p-4 rounded-lg overflow-auto">
+                <h2 class="text-xl font-bold mb-2 text-blue-300">Debug Information</h2>
+                <div id="debug-content"></div>
+            </div>
+        </div>
+        <div class="w-1/2 bg-gray-800 rounded-lg p-4 flex flex-col">
+            <h2 class="text-xl font-bold mb-2 text-blue-300">Conversation History</h2>
+            <div id="conversation-history" class="flex-grow overflow-y-auto mb-4">
+                <!-- Conversation history will be dynamically added here -->
+            </div>
+            <div class="flex space-x-2">
+                <input type="text" id="user-input" class="flex-grow bg-gray-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" placeholder="Type your message...">
+                <button id="send-button" class="bg-blue-600 hover:bg-blue-700 text-gray-200 px-4 py-2 rounded-lg">Send</button>
+            </div>
+        </div>
+    </main>
+    <script src="/static/app.js"></script>
+</body>
+</html>
