@@ -18,18 +18,29 @@
             padding: 0.5rem;
             margin-left: 1rem;
         }
+        #main-content {
+            height: calc(100vh - 4rem); /* Subtract header height */
+        }
+        #node-tree, #conversation-history {
+            height: calc(70vh - 2rem);
+            overflow-y: auto;
+        }
+        #debug-info {
+            height: calc(30vh - 2rem);
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body class="h-full flex flex-col text-gray-300">
     <header class="bg-gray-800 p-4 text-center">
         <h1 class="text-3xl font-bold text-blue-300">BICA</h1>
     </header>
-    <main class="flex-grow flex p-4 space-x-4">
+    <main id="main-content" class="flex-grow flex p-4 space-x-4 overflow-hidden">
         <div class="w-1/2 flex flex-col space-y-4">
-            <div id="node-tree" class="h-1/2 bg-gray-800 p-4 rounded-lg overflow-auto">
+            <div id="node-tree" class="bg-gray-800 p-4 rounded-lg">
                 <!-- Nodes and subnodes will be dynamically added here -->
             </div>
-            <div id="debug-info" class="h-1/2 bg-gray-800 p-4 rounded-lg overflow-auto">
+            <div id="debug-info" class="bg-gray-800 p-4 rounded-lg">
                 <h2 class="text-xl font-bold mb-2 text-blue-300">Debug Information</h2>
                 <div id="debug-content"></div>
             </div>
@@ -39,7 +50,7 @@
             <div id="conversation-history" class="flex-grow overflow-y-auto mb-4">
                 <!-- Conversation history will be dynamically added here -->
             </div>
-            <div class="flex space-x-2">
+            <div class="flex space-x-2 mt-auto">
                 <input type="text" id="user-input" class="flex-grow bg-gray-700 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" placeholder="Type your message...">
                 <button id="send-button" class="bg-blue-600 hover:bg-blue-700 text-gray-200 px-4 py-2 rounded-lg">Send</button>
             </div>

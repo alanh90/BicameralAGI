@@ -172,7 +172,11 @@ function addToConversationHistory(speaker, text) {
     messageElement.className = 'mb-2';
     messageElement.innerHTML = `<strong class="${speaker === 'You' ? 'text-blue-300' : 'text-blue-200'}">${speaker}:</strong> ${text}`;
     conversationHistory.appendChild(messageElement);
-    conversationHistory.scrollTop = conversationHistory.scrollHeight;
+    scrollToBottom(conversationHistory);
+}
+
+function scrollToBottom(element) {
+    element.scrollTop = element.scrollHeight;
 }
 
 sendButton.addEventListener('click', async () => {
