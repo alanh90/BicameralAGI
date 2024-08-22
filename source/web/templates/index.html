@@ -28,6 +28,10 @@
             height: calc(100vh - 10rem);
             overflow-y: auto;
         }
+        .tab-active {
+            background-color: #4B5563;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body class="h-full flex flex-col text-gray-300">
@@ -39,8 +43,12 @@
         <div class="w-1/2 flex flex-col space-y-4">
             <div id="node-network" class="bg-gray-800 p-4 rounded-lg"></div>
             <div id="debug-info" class="bg-gray-800 p-4 rounded-lg">
-                <h2 class="text-xl font-bold mb-2 text-blue-300">Debug Information</h2>
-                <div id="debug-content"></div>
+                <div class="flex mb-4">
+                    <button id="tab-default" class="px-4 py-2 rounded-t-lg tab-active">Default Debug</button>
+                    <button id="tab-node" class="px-4 py-2 rounded-t-lg">Node Debug</button>
+                </div>
+                <div id="debug-content-default" class="h-48 overflow-y-auto"></div>
+                <div id="debug-content-node" class="h-48 overflow-y-auto hidden"></div>
             </div>
         </div>
         <div class="w-1/2 bg-gray-800 rounded-lg p-4 flex flex-col">

@@ -2,7 +2,10 @@ const nodeNetwork = document.getElementById('node-network');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const conversationHistory = document.getElementById('conversation-history');
-const debugContent = document.getElementById('debug-content');
+const debugContentDefault = document.getElementById('debug-content-default');
+const debugContentNode = document.getElementById('debug-content-node');
+const tabDefault = document.getElementById('tab-default');
+const tabNode = document.getElementById('tab-node');
 
 const nodes = [
     { id: 'input', label: 'Input', group: 0, subnodes: [] },
@@ -95,6 +98,12 @@ function createNodeNetwork() {
         .attr("fill", "white")
         .style("font-size", d => d.isSubnode ? "8px" : "12px");
 
+    node.on('click', (event, d) => {
+        if (!d.isSubnode) {
+            showNodeDebug(d);
+        }
+    });
+
     simulation.on("tick", () => {
         link
             .attr("x1", d => d.source.x)
@@ -128,6 +137,40 @@ function createNodeNetwork() {
     }
 }
 
+function showNodeDebug(nodeData) {
+    debugContentNode.innerHTML = `<h3 class="text-lg font-bold mb-2">${nodeData.label}</h3>`;
+    if (nodeData.subnodes.length > 0) {
+        const subnodeList = document.createElement('ul');
+        subnodeList.className = 'list-disc pl-5';
+        nodeData.subnodes.forEach(subnode => {
+            const li = document.createElement('li');
+            li.textContent = subnode;
+            subnodeList.appendChild(li);
+        });
+        debugContentNode.appendChild(subnodeList);
+    } else {
+        debugContentNode.innerHTML += '<p>No subnodes for this node.</p>';
+    }
+    switchToNodeTab();
+}
+
+function switchToNodeTab() {
+    tabDefault.classList.remove('tab-active');
+    tabNode.classList.add('tab-active');
+    debugContentDefault.classList.add('hidden');
+    debugContentNode.classList.remove('hidden');
+}
+
+function switchToDefaultTab() {
+    tabNode.classList.remove('tab-active');
+    tabDefault.classList.add('tab-active');
+    debugContentNode.classList.add('hidden');
+    debugContentDefault.classList.remove('hidden');
+}
+
+tabDefault.addEventListener('click', switchToDefaultTab);
+tabNode.addEventListener('click', switchToNodeTab);
+
 function activateNode(nodeId, subnodeLabel = null) {
     const selector = subnodeLabel
         ? `circle[data-id="${nodeId}-${subnodeLabel}"]`
@@ -151,12 +194,13 @@ function addDebugInfo(nodeId, subnodeLabel, info) {
     const debugElement = document.createElement('div');
     debugElement.className = 'mb-2 text-sm';
     debugElement.innerHTML = `<strong class="text-blue-300">${nodeId}${subnodeLabel ? ` - ${subnodeLabel}` : ''}:</strong> ${info}`;
-    debugContent.appendChild(debugElement);
-    debugContent.scrollTop = debugContent.scrollHeight;
+    debugContentDefault.appendChild(debugElement);
+    debugContentDefault.scrollTop = debugContentDefault.scrollHeight;
 }
 
 async function processInput(input) {
-    debugContent.innerHTML = '';
+    debugContentDefault.innerHTML = '';
+    switchToDefaultTab();
     await activateNode('input');
     addDebugInfo('Input', '', `Received input: "${input}"`);
 
