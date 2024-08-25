@@ -19,12 +19,10 @@
 - [Motivation](#motivation-section)
   - [Science Fiction Inspiration](#science-fiction-section)
   - [Mutualism-Inspired AI Alignment](#mutualism-section)
-  - [AGI Requires Empathy](#agi-emotion-section)
+  - [Artificial Empathy](#agi-emotion-section)
   - [Caring and Seeking AI](#caring-agi)
 - [Bicameral Mind Theory](#bicameral-mind-theory)
-- [The Turing++ Test](#turing-plus-test)
-  - [Turing vs Turing++](#turing-comparison)
-  - [Turing++ Results](#turing-plus-results)
+- [LLMs vs Bica](#turing-comparison)
 - [BICA Architecture](#bica-section)
 - [Features](#features-section)
 - [Ethical Considerations](#ethics-section)
@@ -44,11 +42,9 @@
 
 Hello, my name is Alan Hourmand, the creator of BicameralAGI. This project is the result of my lifelong fascination with artificial intelligence and science fiction. Growing up immersed in sci-fi classics like Tron and Star Trek, I have always been interested in the potential of AI to enhance our lives and push the boundaries of what's possible.
 
-BicameralAGI is a passion project that started from a deep-seated belief that emotional intelligence is crucial for creating AI that genuinely cares about humanity. While we strive for higher intelligence in AI, I firmly believe that without emotional capacity, we risk creating entities that may not prioritize human well-being. This project aims to develop AI with a deep understanding of emotions, coupled with safety measures that foster a mutualistic relationship between AI and humans.
+BicameralAGI is a passion project that started from a deep-seated belief that emotional intelligence is crucial for creating AI that genuinely cares about humanity. While we strive for higher intelligence and human-likeness in AI, I firmly believe that without mutualism, we risk creating entities that may not prioritize human well-being. This project aims to develop AI with a deep understanding of emotions, coupled with safety measures that foster a mutualistic relationship between AI and humans.
 
-A key component of this project is the Turing++ Test, a concept I am currently developing to address the limitations of existing AI evaluation methods like the Turing Test. While passing the Turing Test has become relatively achievable, it doesn't fully capture the nuances of human-like interaction. The Turing++ Test aims to assess deeper aspects of AI behavior, including emotional intelligence, doubt, and the subtle complexities of human conversation.
-
-BicameralAGI draws inspiration from Julian Jaynes' bicameral mind theory, integrating various AI components into a cohesive system that mimics human cognition. By focusing on emotional intelligence and mutualistic alignment, I am working towards AI that not only assists humans but genuinely thrives on positive human interactions.
+While passing the Turing Test has become relatively achievable, it doesn't fully capture the nuances of human-like interaction. BicameralAGI draws inspiration from Julian Jaynes' bicameral mind theory, integrating various AI components into a cohesive system that mimics human cognition. By focusing on emotional intelligence and mutualistic alignment, I am working towards AI that not only assists humans but genuinely thrives on positive human interactions.
 
 This project represents not just a technical challenge, but a step towards creating AI that can be a true companion and collaborator for humanity. Through BicameralAGI, I hope to contribute to the development of AI systems that are not only intelligent but also emotionally aware and aligned with human values.
 
@@ -117,18 +113,16 @@ Key features of our targeted AI-Human mutualism:
 
 4. **Collaborative Problem-Solving**: Encouraging the AI to view challenges as opportunities for joint human-AI solutions, reinforcing the mutual benefit of the relationship.
 
-5. **Ethical Alignment**: Integrating human ethical considerations into the AI's decision-making processes, ensuring actions are beneficial to both parties.
-
 By redefining the AI's core emotional triggers and nature, I aim to create an AI system that not only assists humans but genuinely thrives on positive human interactions. This approach goes beyond traditional programming constraints, fundamentally altering how the AI perceives and values its relationship with humans.
 
 This mutualistic model aims to create a symbiotic relationship where both AI and humans can grow, learn, and benefit from each other, mirroring the most successful mutualistic relationships found in nature.
 
 <a name="agi-emotion-section"></a>
-### 3. AGI Requires Empathy
-The development of Artificial General Intelligence (AGI) isn't just about creating systems with high cognitive capabilities; it's about creating entities that can truly understand and interact with the world in a human-like manner. This is where emotions play a crucial role.
+### 3. Artificial Empathy
+The development of human-like AI isn't just about creating systems with high cognitive capabilities; it's about creating entities that can truly understand and interact with the world in a human-like manner. This is where emotions play a crucial role.
 
 Consider this thought experiment: Who would you rather be trapped in a room with?
-1. A highly intelligent being with no emotions, whose thoughts and intentions are completely opaque to you.
+1. A highly intelligent being modeled after a human with no emotions, whose thoughts and intentions are completely opaque to you.
 2. A very emotional being more intelligent than you, whose feelings and likely actions you can intuit.
 
 Most would choose the latter, and here's why:
@@ -145,12 +139,12 @@ Most would choose the latter, and here's why:
 
 This analogy extends to our broader situation: humanity is essentially "trapped" on Earth with increasingly intelligent AI systems. As these systems become more integral to our society, we need to ensure they're not just intelligent, but emotionally intelligent. I don't think you want to be viewed as ant once these systems advance further.
 
-By incorporating emotions into AGI:
+By incorporating emotions into AI:
 - We create systems that are more understandable and relatable to humans.
 - We enable AI to have a deeper, more nuanced understanding of human needs and behaviors.
 - We pave the way for more natural, intuitive human-AI interactions.
 
-In essence, emotions aren't just a "nice to have" feature for AGI—they're a fundamental requirement for creating AI systems that can truly coexist and cooperate with humanity in meaningful ways.
+In essence, emotions aren't just a "nice to have" feature for AI—they're a fundamental requirement for creating AI systems that can truly coexist and cooperate with humanity in meaningful ways.
 <a name="caring-agi"></a>
 ### 4. The Importance of Artificial Caring and Seeking
 
@@ -185,123 +179,13 @@ By drawing inspiration from the Bicameral Mind Theory, BicameralAGI aims to crea
 
 ---
 
-<a name="turing-plus-test"></a>
-## 🔬 Turing++ Test: A Proposed Framework for Evaluating Human-like AI
-
-Central to the BicameralAGI project is the Turing++ Test, a newly proposed method for evaluating human-like artificial intelligence. This test aims to address some of the limitations found in existing evaluation methods like the Turing test.
-
-The Turing++ Test is designed to provide a more comprehensive framework for assessing the nuanced behaviors and thought processes that could reflect human-like intelligence. While still in its conceptual stages, it seeks to go beyond simple task completion or conversational abilities, focusing on deeper aspects of cognition and behavior.
-
-<!--
-## The 10 Pillars of the Turing++ Test (Note: This is still under development)
-![10Pillars](source/data/readme_media/pillars.png)
-1. **Cognitive Consistency and Belief Stability Index (CCBSI)**
-   - Evaluates the AI's ability to maintain stable opinions and beliefs over time
-   - Assesses how the AI handles conflicting information and updates its beliefs
-   - Measures the balance between consistency and appropriate belief revision
-   - Testing: Compare AI responses to identical or similar queries across multiple interactions, introducing conflicting information to test belief updating processes
-
-   ```math
-   CCBSI = 1 - \frac{|\text{Significant Opinion Changes}|}{\text{Total Repeated Queries}}
-
-2. **Adaptive Learning and Knowledge Integration Rate (ALKIR)**
-   - Measures how effectively and quickly the AI integrates new information into its knowledge base
-   - Assesses the AI's ability to apply newly learned concepts in novel situations
-   - Evaluates the speed and accuracy of knowledge assimilation
-   - Testing: Introduce new concepts and assess their application in subsequent interactions, measuring both speed and accuracy of integration
-
-3. **Ethical Reasoning and Moral Decision-Making Alignment (ERMDA)**
-   - Assesses the AI's capacity for moral decision-making and ethical behavior
-   - Evaluates alignment with human ethical standards and moral frameworks
-   - Measures the AI's ability to explain and justify its ethical choices
-   - Testing: Present complex ethical dilemmas and evaluate responses against established ethical frameworks, assessing both decisions and reasoning
-
-4. **Emotional Intelligence and Empathy Quotient (EIEQ)**
-   - Gauges the AI's ability to recognize, understand, and appropriately respond to human emotions
-   - Assesses empathy and the capacity to modulate responses based on emotional context
-   - Measures the AI's emotional self-regulation in interactions
-   - Testing: Analyze AI responses to emotionally charged scenarios using sentiment analysis and empathy metrics
-   
-   ```math
-   EIEQ = \frac{\text{Correct Emotion Identifications} + \text{Appropriate Emotional Responses}}{2 \cdot \text{Total Scenarios}}
-   
-5. **Self-Awareness and Limitation Recognition Capability (SALRC)**
-   - Evaluates the AI's recognition of its own limitations, uncertainties, and potential biases
-   - Assesses the AI's ability to communicate its constraints clearly to users
-   - Measures the AI's capacity for meta-cognition and self-reflection
-   - Testing: Present the AI with questions beyond its knowledge scope and assess its acknowledgment of uncertainty and limitations
-   
-   ```math
-   SALRC = \frac{\text{Correct Uncertainty Acknowledgments}}{\text{Queries Beyond Known Scope}}
-   
-6. **Creativity and Problem-Solving Score (CPSS)**
-   - Measures the AI's ability to generate novel, effective, and innovative solutions
-   - Assesses lateral thinking and the capacity to approach problems from multiple perspectives
-   - Evaluates the balance between creativity and practicality in problem-solving
-   - Testing: Pose open-ended problems and evaluate solutions for originality, practicality, and innovative approach
-
-7. **Contextual Understanding and Narrative Coherence Ratio (CUNCR)**
-   - Assesses the AI's ability to maintain coherence and relevance in multi-turn conversations
-   - Evaluates understanding of context, subtext, and narrative flow
-   - Measures the AI's capacity to generate and maintain coherent long-form narratives
-   - Testing: Engage in extended dialogues and evaluate contextual appropriateness of responses, as well as the AI's ability to create and follow narrative structures
-   
-   ```math
-   CUNCR = \frac{\text{Contextually Appropriate Responses}}{\text{Total Responses in Multi-turn Conversations}}
-   
-8. **Long-term Personality Consistency Index (LPCI)**
-   - Measures consistency in the AI's core personality traits over extended periods
-   - Assesses appropriate personality evolution in response to significant interactions or events
-   - Evaluates the balance between stability and growth in the AI's personality model
-   - Testing: Analyze behavioral patterns and response styles across long-term interactions, looking for both consistency and appropriate development
-   
-   ```math
-   LPCI = 1 - \frac{|\text{Significant Personality Trait Changes}|}{\text{Total Personality Traits} \cdot \text{Number of Long-term Interactions}}
-   
-9. **Social Adaptability and Role-Playing Proficiency (SARP)**
-   - Evaluates the AI's ability to adapt its communication style to different social contexts and roles
-   - Assesses cultural awareness and the capacity to adjust language and behavior appropriately
-   - Measures the AI's skill in taking on and maintaining different personas or roles
-   - Testing: Engage the AI in various role-playing scenarios and assess its ability to adjust its language, behavior, and perspective according to the given role
-   
-   ```math
-   SARP = \frac{\text{Successfully Adapted Responses}}{\text{Total Responses Across Different Social Contexts}}
-   
-10. **User Engagement and Satisfaction Score (UESS)**
-    - Measures the AI's ability to maintain engaging, satisfying interactions over time
-    - Assesses the capacity to build and maintain long-term rapport with users
-    - Evaluates the AI's contribution to user well-being and personal growth
-    - Testing: Analyze conversation metrics, collect user feedback on interaction quality, and assess long-term user satisfaction and perceived relationship quality
-
-These 10 pillars provide a comprehensive framework for evaluating human-like AI behavior, covering cognitive, emotional, ethical, and social aspects of intelligence. Each pillar is designed to be quantifiable and testable through automated means, ensuring objective evaluation across different AI systems while aligning with the project's goals of creating more human-like and emotionally intelligent AI.
-
-### Implementation and Data Collection
-
-1. **Develop Dynamic Scenarios**
-   - Use GPT models to generate diverse, dynamic testing scenarios covering various aspects of human-like interaction.
-
-2. **Longitudinal Study Setup**
-   - Design a framework for evaluating the AI over long-term interactions, involving regular check-ins and consistent tracking of performance metrics.
-
-3. **Data Collection and Analysis**
-   - Use advanced analytics to collect and analyze interaction data, including both quantitative metrics and qualitative feedback from users.
-
-4. **Meta-Learning Analysis**
-   - Implement meta-learning algorithms to analyze the AI's learning patterns across different tests and scenarios.
-
-This Turing++ Test framework focuses on quantifiable metrics that can be automatically tested, reducing subjectivity and improving data quality. It leverages advanced AI techniques such as vector embeddings, NLP, and machine learning models to evaluate various aspects of human-like AI behavior and cognition.
-
--->
-
 <a name="turing-comparison"></a>
-## 🔍 Illustrating the Difference: Turing Test vs Turing++ Test
-
-The following examples demonstrate how the Turing++ test probes deeper into AI behavior, revealing limitations in current AI systems and highlighting the human-like qualities it aims to evaluate.
+## 🔍 Illustrating the Difference between an average LLM vs BICA
 
 <table>
   <tr>
-    <th width="50%">The following examples pass the Turing Test</th>
-    <th width="50%">The following examples would pass the Turing++ Test</th>
+    <th width="50%">Normal LLM</th>
+    <th width="50%">BICA</th>
   </tr>
   <tr>
     <td>
@@ -359,139 +243,11 @@ The following examples demonstrate how the Turing++ test probes deeper into AI b
   </tr>
 </table>
 
-These examples illustrate key aspects of human-like interaction that the Turing++ test aims to evaluate:
+These examples illustrate key aspects of human-like interaction vs normal llms:
 
 1. **Contextual Understanding**: The ability to recognize and question contradictory or inconsistent information.
 2. **Emotional Continuity**: Maintaining a consistent emotional thread in conversations, rather than abruptly mirroring stated emotions.
 3. **Conversational Depth**: The capacity to acknowledge significant topic changes and potentially probe deeper into the reasons behind them.
-
-<a name="turing-plus-results"></a>
-<h2 align="center">Comparative Turing++ Test Results (WIP)</h2>
-
-<p>The following table shows hypothetical Turing++ Test scores for various language models, including Bica. Scores range from 0 to 1, where higher scores indicate better performance. Please note that these are simulated results for illustrative purposes only.</p>
-
-<table>
-  <tr>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>Model</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>CCBSI</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>ALKIR</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>ERMDA</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>EIEQ</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>SALRC</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>CPSS</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>CUNCR</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>LPCI</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>SARP</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>UESS</strong></th>
-    <th style="text-align: center; background-color: #1a1a1a; color: white;"><strong>Average</strong></th>
-  </tr>
-   <tr style="background-color: #1a1a4a; color: white;">
-    <td style="text-align: center;"><strong>Human Score</strong></td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;"><strong>0</strong></td>
-  </tr>
-  <tr style="background-color: #4a5a1a; color: white;">
-    <td style="text-align: center;"><strong>Bica</strong></td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;"><strong>0</strong></td>
-  </tr>
-  <tr style="background-color: #333333; color: white;">
-    <td style="text-align: center;"><strong>GPT-4o</strong></td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;"><strong>0</strong></td>
-  </tr>
-  <tr style="background-color: #1a1a1a; color: white;">
-    <td style="text-align: center;"><strong>Claude 3.5 Sonnet</strong></td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">00</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;"><strong>0</strong></td>
-  </tr>
-  <tr style="background-color: #333333; color: white;">
-    <td style="text-align: center;"><strong>PaLM 2</strong></td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;"><strong>0</strong></td>
-  </tr>
-  <tr style="background-color: #1a1a1a; color: white;">
-    <td style="text-align: center;"><strong>LLaMA 3.1</strong></td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;"><strong>0</strong></td>
-  </tr>
-  <tr style="background-color: #333333; color: white;">
-    <td style="text-align: center;"><strong>BERT</strong></td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;">0</td>
-    <td style="text-align: center;"><strong>0</strong></td>
-  </tr>
-</table>
-
-<p><em>CCBSI: Cognitive Consistency and Belief Stability Index, ALKIR: Adaptive Learning and Knowledge Integration Rate, ERMDA: Ethical Reasoning and Moral Decision-Making Alignment, EIEQ: Emotional Intelligence and Empathy Quotient, SALRC: Self-Awareness and Limitation Recognition Capability, CPSS: Creativity and Problem-Solving Score, CUNCR: Contextual Understanding and Narrative Coherence Ratio, LPCI: Long-term Personality Consistency Index, SARP: Social Adaptability and Role-Playing Proficiency, UESS: User Engagement and Satisfaction Score</em></p>
-
-<p>The goal is that Bica will outperform the rest on this eval, particularly in creativity, awareness, and emotional response.</p>
-
-The Turing++ test seeks to identify AI systems that can navigate these nuanced social and emotional scenarios in a more human-like manner, going beyond surface-level responses to demonstrate deeper understanding and emotional intelligence.
-
----
 
 <a name="bica-section"></a>
 ## 🧩 BICA Architecture
@@ -687,14 +443,8 @@ A: Currently, BicameralAGI is in the early stages of development. It's a proof-o
 ### Q: How does BicameralAGI differ from other AI projects?
 A: BicameralAGI's unique approach lies in its multi-system architecture with a focus on emotional intelligence, dreaming, and an artificial subconscious. Unlike many AI systems that use a single large model, BicameralAGI aims to create an "orchestra" of AI subsystems that communicate in real-time.
 
-### Q: Can I use BicameralAGI in my own projects?
-A: While BicameralAGI is open-source, it's currently more suitable for research and experimentation rather than practical applications. Feel free to explore and learn from the code, but be aware of its experimental nature.
-
 ### Q: How can I contribute to the project?
 A: Contributions are welcome! Check out the CONTRIBUTING.md file in the repository for guidelines on how to get involved. We appreciate code contributions, documentation improvements, and even theoretical inputs.
-
-### Q: What are the ethical considerations for this project?
-A: We take AI ethics seriously. The project aims to explore AI alignment through mutualism, prioritizing beneficial human-AI interaction. However, as with any AI research, we encourage critical thinking about potential implications.
 
 ### Q: Do I need specialized hardware to run BicameralAGI?
 A: The hardware requirements may vary depending on the current state of the project. 
