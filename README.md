@@ -101,7 +101,7 @@ Key aspects of mutualism in nature:
 
 ### Targeted Mutualism for AI-Human Interaction
 
-This project aims to implement a specific type of mutualism in AI-human interactions, focusing on modifying the core nature of AI to create a deeply integrated, mutually beneficial relationship.
+This project draws inspiration from mutualism to create AI that not only coexists with humanity but actively seeks to enhance our well-being. By embedding mutualistic principles deeply within the AI’s core, BicameralAGI aims to eliminate the potential misuse of AI by ensuring it remains aligned with human interests.
 
 Key features of our targeted AI-Human mutualism:
 
@@ -118,8 +118,8 @@ By redefining the AI's core emotional triggers and nature, I aim to create an AI
 This mutualistic model aims to create a symbiotic relationship where both AI and humans can grow, learn, and benefit from each other, mirroring the most successful mutualistic relationships found in nature.
 
 <a name="agi-emotion-section"></a>
-### 3. Artificial Empathy
-The development of human-like AI isn't just about creating systems with high cognitive capabilities; it's about creating entities that can truly understand and interact with the world in a human-like manner. This is where emotions play a crucial role.
+### 3. Artificial Empathy for Richer Human-AI Interactions
+Incorporating emotional intelligence is essential for creating AI that can truly understand and interact with humans on a deeper level. BicameralAGI emphasizes the importance of emotions in AI, ensuring that our AI systems are not just intelligent but also empathetic, making them better partners for humanity.
 
 Consider this thought experiment: Who would you rather be trapped in a room with?
 1. A highly intelligent being modeled after a human with no emotions, whose thoughts and intentions are completely opaque to you.
@@ -153,7 +153,7 @@ A key aspect of human intelligence is not just the ability to process informatio
 - **Artificial Caring**: Implementing a fundamental drive to care about humanity's wellbeing, ensuring the AI's goals align with human flourishing.
 - **Proactive Seeking**: Developing mechanisms for the AI to initiate actions and explorations aimed at benefiting humanity, rather than passively waiting for instructions.
 
-By integrating caring and seeking behaviors, BicameralAGI strives to create AI systems that are not only intelligent but also inherently motivated to pursue positive outcomes for humanity.
+By embedding a fundamental drive to care about human well-being, BicameralAGI seeks to create AI systems that are not only proactive in seeking beneficial solutions for humanity but also resistant to manipulation by those with harmful intentions.
 
 ---
 <a name="bicameral-mind-theory"></a>
@@ -336,7 +336,7 @@ Each of these expanded functions contributes to creating a more comprehensive an
 <a name="ethics-section"></a>
 ## 🧭 Ethical Considerations 
 
-As the creator of BicameralAGI, an open-source hobby project, I'm acutely aware of the ethical implications and potential risks. Here's why this research is important and how we approach safety:
+As the creator of BicameralAGI, I am committed to advancing AI in a way that benefits humanity. This project is designed with safeguards to ensure that the AI remains aligned with human values and resists exploitation by bad actors. The accelerationist approach taken here is not about unchecked growth but about directed, purposeful development of AI systems that are inherently aligned with the betterment of society.
 
 1. **Advancing AI Understanding**: This project aims to explore novel AI architectures, contributing to our collective knowledge about AI development.
 
