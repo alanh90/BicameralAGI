@@ -186,6 +186,9 @@ class BicaMemory:
             self.save_memory(consolidated_content, consolidated_emotions, consolidated_importance)
             print(f"Consolidated memory created: {consolidated_content[:50]}...")
 
+    def get_valid_emotions(self):
+        return list(self.BASE_EMOTIONS.keys())
+
     def get_emotional_memories(self, emotion: str, threshold: float = 0.5) -> List[Memory]:
         if emotion not in self.emotion_connections:
             return []
@@ -204,6 +207,11 @@ class BicaMemory:
                     if random.random() < decay_rate * memory_age / 3600:  # Probability increases with age
                         memory.active = False
                         print(f"Memory deactivated due to decay: {memory.content[:30]}...")
+
+    def get_recent_memories(self, n: int) -> List[str]:
+        all_memories = self.short_term_layer1 + self.short_term_layer2 + self.short_term_layer3
+        sorted_memories = sorted(all_memories, key=lambda x: x.timestamp, reverse=True)
+        return [memory.content for memory in sorted_memories[:n]]
 
     def simulate_future_situations(self):
         active_memories = [m for m in self.short_term_layer1 + self.short_term_layer2 + self.short_term_layer3 if m.active]
