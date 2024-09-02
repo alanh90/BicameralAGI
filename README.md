@@ -30,7 +30,6 @@
 - [Current Status / Demo](#status-section)
 - [Getting Started](#getting-started)
   - [Installation](#installation-section)
-  - [Usage](#usage-section)
 - [Research and Publications](#research-section)
 - [FAQ](#faq-section)
 - [Contributing](#contributing-section)
@@ -411,20 +410,50 @@ While I cannot control how others might modify the code, I believe the benefits 
 <a name="status-section"></a>
 ## 🚀 Current Status and Demo
 
+BicameralAGI is currently in the early prototype stage. The core architecture and components have been defined, and initial versions of the key modules have been implemented. 
+
+The system can engage in basic conversations, generate thoughts and emotions, and make decisions based on its memory and context. However, it is not yet a fully functional, optimized AI system ready for real-world use.
+
+Key capabilities demonstrated so far:
+- Multi-component architecture with inter-module communication 
+- Emotional modeling and personality simulation
+- Memory formation, retrieval, and dreaming processes
+- Contextual awareness and narrative generation
+- Safety filtering and ethical evaluation of thoughts/actions
+
+Next steps include further optimization of individual components, enhancing the reasoning and language capabilities, integrating the modules more seamlessly, and conducting extensive testing.
+
+Demo functionality will be added in a future update once the system reaches a more stable and coherent state. Stay tuned for progress updates!
+
+⚠️ **Important Note:** BicameralAGI is currently undergoing a significant merge of code from other projects. During this process, some functionalities may be temporarily broken or unstable. Please be patient as I work to integrate these changes and stabilize the system. I expect to complete this merge within the next week. Thank you for your understanding! ⚠️
+
 ---
 <a name="getting-started"></a>
 ## 🚀 Getting Started
 
-```bash
-git clone https://github.com/yourusername/BicameralAGI.git
-cd BicameralAGI
-pip install -r requirements.txt
-```
+To get started with BicameralAGI, follow these steps:
 
-<a name="usage-section"></a>
-## 🖥️ Usage (WIP)
-
-(To be added at a later date)
+1. Clone the repository:
+   ```commandline
+    git clone https://github.com/yourusername/BicameralAGI.git
+   ```
+2. Navigate to the project directory:
+   ```commandline
+    cd BicameralAGI
+   ```
+3. Install the required dependencies:
+    ```commandline
+    pip install -r requirements.txt
+    ```
+4. Set up your OpenAI API key:
+   - Get an API Key from OpenAI website
+   - Create a .env file in the project root
+   - Add your API key to the .env file as OPENAI_API_KEY=your_api_key_here
+5. Run the main script to start interacting with BicameralAGI:
+   ```commandline
+    python bica_main.py
+    ```
+6. Follow the prompts for initial setup!
 
 ---
 <a name="research-section"></a>
