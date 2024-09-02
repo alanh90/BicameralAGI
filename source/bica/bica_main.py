@@ -3,13 +3,10 @@ This is the main entry point for the BicameralAGI system. It initializes the sys
 """
 
 from bica_orchestrator import BicaOrchestrator
-from bica_logging import BicaLogging
 
 
 def main():
-    logger = BicaLogging("BicaMain")
     orchestrator = BicaOrchestrator()
-    logger.info("BicameralAGI system initialized")
 
     print("Welcome to the BicameralAGI system!")
     print("You can start chatting with the AI. Type 'exit' to end the conversation.")
@@ -19,15 +16,10 @@ def main():
 
         if user_input.lower() == 'exit':
             print("AI: Goodbye! It was nice talking to you.")
-            logger.info("User ended the conversation")
             break
 
-        try:
-            ai_response = orchestrator.process_input(user_input)
-            print(f"AI: {ai_response}")
-        except Exception as e:
-            logger.error(f"An error occurred: {str(e)}", exc_info=True)
-            print("AI: I apologize, but I encountered an error. Could you please try again?")
+        ai_response = orchestrator.process_input(user_input)
+        print(f"AI:{ai_response}")
 
 
 if __name__ == "__main__":
