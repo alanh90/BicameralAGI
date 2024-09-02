@@ -45,7 +45,9 @@ class BicaCognition:
 
         self.current_thoughts = thoughts.strip().split('\n')
 
-        default_emotions = {emotion: random.uniform(0.1, 0.9) for emotion in random.sample(self.valid_emotions, 3)}
+        valid_emotions = self.memory.get_valid_emotions()
+        default_emotions = {emotion: random.uniform(0.1, 0.9) for emotion in random.sample(valid_emotions, min(3, len(valid_emotions)))}
+
         self.memory.save_memory(' '.join(self.current_thoughts), emotions=default_emotions, importance=0.5)
 
         return self.current_thoughts
