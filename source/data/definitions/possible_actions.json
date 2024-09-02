@@ -2,28 +2,7 @@
   "actions": {
     "respond": {
       "description": "Generate and deliver a response (verbal, visual, or multimodal)",
-      "weight": 0.95,
       "function": "execute_response"
-    },
-    "query": {
-      "description": "Request information or clarification from the user",
-      "weight": 0.15,
-      "function": "execute_query"
-    },
-    "shift_context": {
-      "description": "Change the subject, focus, or direction of the interaction",
-      "weight": 0.1,
-      "function": "execute_context_shift"
-    },
-    "manage_conversation": {
-      "description": "Handle conversation flow (start, ignore, resume, or end)",
-      "weight": 0.1,
-      "function": "execute_conversation_management"
-    },
-    "process_internally": {
-      "description": "Perform internal processing without immediate output",
-      "weight": 0.1,
-      "function": "execute_internal_processing"
     }
   }
 }
