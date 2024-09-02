@@ -1,5 +1,5 @@
 """
-Notes: Done for now. It doesn't work with OpenAI since their model is censored already. Will need to switch to Llama or some other model in the near future.
+This module implements safety measures for the BicameralAGI system. It provides content filtering and safety checks for system outputs to ensure responsible and ethical AI behavior.
 """
 
 from bica.gpt_handler import GPTHandler

@@ -1,3 +1,7 @@
+"""
+This module handles the cognitive processes of the BicameralAGI system. It generates thoughts, analyzes inputs, and manages both conscious and subconscious cognitive functions using various AI techniques including GPT models and vector embeddings.
+"""
+
 import random
 import re
 import numpy as np

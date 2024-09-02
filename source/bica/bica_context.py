@@ -1,5 +1,5 @@
 """
-Notes: Class is done for now, will be revisiting for optimization reasons.
+This module manages the contextual understanding of the BicameralAGI system. It maintains and updates different viewpoints (positive, neutral, negative) of the current context, and generates responses based on this multi-faceted understanding.
 """
 
 from sentence_transformers import SentenceTransformer

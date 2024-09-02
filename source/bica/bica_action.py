@@ -1,9 +1,5 @@
 """
-The BicaActions class serves as a central repository and execution engine for actions within the BicameralAGI system. It manages a collection of possible actions, each with properties such as description, weight, and associated function. This class is responsible for loading actions from a configuration file, providing information about available actions and their weights, executing requested actions, and updating action weights based on system feedback. The action weights play a crucial role in the decision-making process, allowing the system to adapt its behavior over time.
-
-In the broader context of the BicameralAGI system, the BicaActions class interacts primarily with the Orchestrator. The Orchestrator uses the information provided by BicaActions (available actions and their weights) to make decisions about which action to take next. Once an action is chosen, the Orchestrator calls upon BicaActions to execute that action. This separation of concerns allows the Orchestrator to focus on high-level decision-making while BicaActions handles the details of action management and execution. The ability to update action weights provides a feedback mechanism, allowing the system to learn from its experiences and adjust the likelihood of choosing certain actions in the future. Each action method (e.g., execute_response, execute_query) can be implemented to interact with other components of the system as needed, such as the memory module or the language model, to carry out its specific function.
-
-Notes: Class is done for now. I need to work on the functions later specifically the respond function and also I will need to incorporate custom learned actions from memory.
+This module manages and executes the various actions that the BicameralAGI system can take. It handles action selection, execution, and weight updates based on feedback and system performance.
 """
 
 from dataclasses import dataclass

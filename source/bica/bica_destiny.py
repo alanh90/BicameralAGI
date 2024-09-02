@@ -1,6 +1,7 @@
 """
-Done for now... will come back to this.
+This module manages the long-term goals and 'destiny' of the BicameralAGI system. It generates, alters, and tracks potential future scenarios or 'destinies' for the AI based on its experiences and decision-making processes.
 """
+
 import json
 import os
 import re

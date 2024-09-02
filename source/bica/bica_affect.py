@@ -1,5 +1,5 @@
 """
-File is done for now
+This module manages the emotional and personality aspects of the BicameralAGI system. It handles emotion generation, personality traits, and their evolution over time based on experiences and interactions.
 """
 
 import json

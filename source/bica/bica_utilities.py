@@ -1,3 +1,7 @@
+"""
+This module provides various utility functions used across the BicameralAGI system. It includes helpers for file operations, text processing, random number generation, and other common tasks.
+"""
+
 import json
 import os
 from datetime import datetime

@@ -1,5 +1,5 @@
 """
-Note: Done for now
+This module provides logging functionality for the BicameralAGI system. It sets up and manages log files, allowing for detailed tracking of system activities, errors, and performance metrics.
 """
 
 import logging

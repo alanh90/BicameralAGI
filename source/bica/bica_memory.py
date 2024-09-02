@@ -1,5 +1,5 @@
 """
-Memory is completed for now
+This module manages the memory system of the BicameralAGI. It handles short-term and long-term memory storage, memory consolidation, recall, and associative processes. It also simulates memory-related functions like dreaming and future scenario generation.
 """
 
 import time

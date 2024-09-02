@@ -1,3 +1,7 @@
+"""
+This module provides an interface for interacting with GPT models. It handles API calls, response generation, and manages various parameters for GPT interactions used throughout the BicameralAGI system.
+"""
+
 from openai import OpenAI
 from typing import List, Dict, Any, Optional, Union
 from bica_utilities import BicaUtilities

@@ -1,3 +1,7 @@
+"""
+This module serves as the central coordinator for the BicameralAGI system. It initializes and manages all other components, orchestrates the flow of information between them, and coordinates the overall processing of user inputs and system responses.
+"""
+
 from bica_memory import BicaMemory
 from bica_context import BicaContext
 from bica_cognition import BicaCognition
