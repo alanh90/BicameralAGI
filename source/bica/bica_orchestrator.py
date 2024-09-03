@@ -99,6 +99,9 @@ class BicaOrchestrator:
             self.logger.info(f"Generated response: {safe_response}")
             return safe_response
             """
+
+            self.memory.save_memory(f"User: {user_input}\nAI: {response}", {}, importance=0.5)
+
             return response
         except Exception as e:
             self.logger.error(f"Error processing input: {str(e)}")
@@ -122,6 +125,12 @@ class BicaOrchestrator:
         prompt = "\n".join(prompt_parts)
         prompt += "\n\nBased on the above context information, generate a final response to the user."
         return prompt
+
+    def print_recent_memories(self):
+        recent_memories = self.memory.get_recent_memories(5)
+        print("Recent memories:")
+        for memory in recent_memories:
+            print(f"- {memory[:50]}...")
 
     def determine_situation(self, user_input, context):
         # This is a placeholder. In a full implementation, this would analyze the user input
