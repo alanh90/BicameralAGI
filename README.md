@@ -2,7 +2,7 @@
 
 # 🧠 BicameralAGI
 
-![BicameralAGI Cover](source/data/readme_media/BICA_Cover.png)
+![BicameralAGI Cover](source/data/readme_media/BICA_Cover_words.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
