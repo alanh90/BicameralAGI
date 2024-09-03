@@ -17,13 +17,13 @@ class BicaContext:
         self.model = SentenceTransformer('paraphrase-MiniLM-L6-v2')  # Load the embedding model
         self.memory = []
 
-    def update_weights(self, new_info):
+    def update_viewpoint_weights(self, new_info):
         new_info_embedding = self.model.encode(new_info, convert_to_tensor=True)
 
         similarities = {}
         for viewpoint in self.context_viewpoints:
-            prompt = self.get_viewpoint_prompt(viewpoint, new_info)
-            response = next(self.gpt_handler.generate_response(prompt))
+            prompt = self.generate_viewpoint_prompt(viewpoint, new_info)
+            response = self.gpt_handler.generate_response([{"role": "user", "content": prompt}])
 
             try:
                 parsed_response = json.loads(response)
@@ -57,7 +57,7 @@ class BicaContext:
 
         return self.weights
 
-    def get_viewpoint_prompt(self, viewpoint, new_info):
+    def generate_viewpoint_prompt(self, viewpoint, new_info):
         base_prompt = f"""
         Given the current conversation context and new information, provide a brief interpretation from a {viewpoint} perspective. 
         Focus on potential {viewpoint} aspects, including any subtle implications or underlying meanings.
@@ -76,10 +76,10 @@ class BicaContext:
         return base_prompt
 
     def update_context(self, new_info):
-        self.update_weights(new_info)
+        self.update_viewpoint_weights(new_info)
         for viewpoint in self.context_viewpoints:
-            prompt = self.get_viewpoint_prompt(viewpoint, new_info)
-            response = next(self.gpt_handler.generate_response(prompt))
+            prompt = self.generate_viewpoint_prompt(viewpoint, new_info)
+            response = self.gpt_handler.generate_response([{"role": "user", "content": prompt}])
 
             try:
                 parsed_response = json.loads(response)
@@ -89,13 +89,13 @@ class BicaContext:
 
             self.context_viewpoints[viewpoint] = updated_context.strip()
             if len(self.context_viewpoints[viewpoint]) > self.max_length:
-                self.compress_context(viewpoint)
+                self.summarize_viewpoint_context(viewpoint)
 
         self.memory.append(new_info)
         if len(self.memory) > 5:  # Keep only the last 5 interactions
             self.memory.pop(0)
 
-    def compress_context(self, viewpoint):
+    def summarize_viewpoint_context(self, viewpoint):
         prompt = f"""
         Summarize the following {viewpoint} context briefly, retaining key information:
 
@@ -107,7 +107,7 @@ class BicaContext:
         }}
         """
 
-        compressed_context = next(self.gpt_handler.generate_response(prompt))
+        compressed_context = self.gpt_handler.generate_response([{"role": "user", "content": prompt}])
 
         try:
             parsed_response = json.loads(compressed_context)
@@ -129,7 +129,7 @@ class BicaContext:
             self.context_viewpoints[viewpoint] = ""
         self.memory = []
 
-    def generate_response(self, user_input):
+    def generate_contextual_response(self, user_input):
         self.update_context(user_input)
 
         prompt = f"Memory: {' '.join(self.memory)}\n\n"
@@ -147,15 +147,25 @@ class BicaContext:
         }
         """
 
-        response = next(self.gpt_handler.generate_response(prompt))
+        response = self.gpt_handler.generate_response([{"role": "user", "content": prompt}])
 
         try:
             parsed_response = json.loads(response)
             ai_response = parsed_response['response']
             reasoning = parsed_response['reasoning']
-            return ai_response.strip(), reasoning
         except json.JSONDecodeError:
-            return response.strip(), "Unable to parse reasoning"  # Fallback to raw response if JSON parsing fails
+            # If JSON parsing fails, try to extract content from the response string
+            try:
+                # Extract content between triple backticks
+                json_str = response.split('```json')[1].split('```')[0].strip()
+                parsed_response = json.loads(json_str)
+                ai_response = parsed_response['response']
+                reasoning = parsed_response['reasoning']
+            except (IndexError, json.JSONDecodeError):
+                # If extraction fails, return the raw response
+                return response.strip(), "Unable to parse response"
+
+        return ai_response.strip(), reasoning
 
 
 def main():
@@ -167,7 +177,7 @@ def main():
         if user_input.lower() == 'exit':
             break
 
-        response, reasoning = context_manager.generate_response(user_input)
+        response, reasoning = context_manager.generate_contextual_response(user_input)
 
         print(f"\nAI: {response}")
         print(f"\nReasoning: {reasoning}")
