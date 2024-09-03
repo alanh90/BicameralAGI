@@ -19,12 +19,11 @@ class BicaOrchestrator:
     def __init__(self):
         self.logger = BicaLogging("BicaOrchestrator")
         self.utilities = BicaUtilities()
-        api_key = self.utilities.get_environment_variable("OPENAI_API_KEY")
         self.action_executor = BicaActionExecutor()
         self.gpt_handler = GPTHandler()
 
-        #self.context = BicaContext()
-        #self.memory = BicaMemory()
+        self.context = BicaContext()
+        self.memory = BicaMemory()
         #self.affect = BicaAffect("BicaAI")
         #self.cognition = BicaCognition(self.memory, self.context)
         #self.safety = BicaSafety()
@@ -34,21 +33,24 @@ class BicaOrchestrator:
         self.logger.info(f"Processing user input: {user_input}")
 
         try:
+            # Init context data
             context_data = {
                 "user_input": user_input,
                 "system_prompt": "You are BicaAI, a helpful and intelligent assistant."
             }
 
-            """
             # 1. Update context
             self.context.update_context(user_input)
-            compiled_data["weighted_context"] = self.context.get_weighted_context()
+            context_data["weighted_context"] = self.context.get_weighted_context()
 
             # 2. Process memories
-            compiled_data["relevant_memories"] = self.memory.recall_memory(user_input)
+            context_data["recent_memories"] = self.memory.get_recent_memories(5)
+
+            """
+            context_data["relevant_memories"] = self.memory.recall_memory(user_input)
             compiled_data["emotional_memories"] = self.memory.get_emotional_memories("joy", 0.7)
             compiled_data["important_memories"] = self.memory.get_important_memories(0.8)
-            compiled_data["recent_memories"] = self.memory.get_recent_memories(5)
+            
 
             # 3. Process emotions and personality
             compiled_data["emotions"] = self.affect.get_top_emotions()
@@ -106,7 +108,16 @@ class BicaOrchestrator:
         prompt_parts = []
         for key, value in compiled_data.items():
             if value:  # Only include non-empty values
-                prompt_parts.append(f"{key.replace('_', ' ').title()}: {value}")
+                if isinstance(value, dict):
+                    prompt_parts.append(f"{key.replace('_', ' ').title()}:")
+                    for sub_key, sub_value in value.items():
+                        prompt_parts.append(f"  {sub_key}: {sub_value}")
+                elif isinstance(value, list):
+                    prompt_parts.append(f"{key.replace('_', ' ').title()}:")
+                    for item in value:
+                        prompt_parts.append(f"  - {item}")
+                else:
+                    prompt_parts.append(f"{key.replace('_', ' ').title()}: {value}")
 
         prompt = "\n".join(prompt_parts)
         prompt += "\n\nBased on the above context information, generate a final response to the user."
