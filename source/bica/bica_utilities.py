@@ -1,14 +1,13 @@
 """
 This module provides various utility functions used across the BicameralAGI system. It includes helpers for file operations, text processing, random number generation, and other common tasks.
 """
-
+from typing import Dict, List, Any
+from dotenv import load_dotenv
 import json
 import os
 from datetime import datetime
 import random
 import re
-from typing import Dict, List, Any
-from dotenv import load_dotenv
 
 # Explicitly load the .env file located in the parent directory of the project
 dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '.env')
