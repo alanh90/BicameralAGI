@@ -64,7 +64,6 @@ class BicaMemory:
         self.short_term_layer1.append(memory)
         self.update_connections(memory)
         self.manage_short_term_layers()
-        print(f"Memory saved: {content[:30]}...")
 
     def update_connections(self, memory: Memory):
         for emotion, intensity in memory.emotions.items():

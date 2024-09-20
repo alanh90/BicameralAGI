@@ -152,18 +152,20 @@ class BicaAffect:
         def compare_structure(gen, ref, path=""):
             for key, value in ref.items():
                 if key not in gen:
+                    print(f"Missing key in generated model: {path + key}")
                 elif isinstance(value, dict):
                     if not isinstance(gen[key], dict):
-                        pass
+                        print(f"Expected dict for key: {path + key}")
                     else:
                         compare_structure(gen[key], value, path + key + ".")
                 elif isinstance(value, list):
                     if not isinstance(gen[key], list):
-                        pass
+                        print(f"Expected list for key: {path + key}")
                     elif len(gen[key]) != len(value):
+                        print(f"List length mismatch for key: {path + key}")
                 elif isinstance(value, (int, float)) and isinstance(gen[key], (int, float)):
                     if abs(gen[key] - value) > 0.1:
-                         pass
+                        print(f"Significant value difference for key: {path + key}")
 
         compare_structure(generated_model, reference_model)
 

@@ -21,9 +21,8 @@ def main():
         try:
             ai_response = orchestrator.process_input(user_input)
             print(f"AI: {ai_response}")
-            orchestrator.print_recent_memories()  # Add this line
         except Exception as e:
-            print("AI: I apologize, but I encountered an error. Could you please try again?")
+            print(f"AI: I apologize, but I encountered an error: {str(e)}. Could you please try again?")
 
 
 if __name__ == "__main__":
