@@ -39,19 +39,27 @@
 <a name="overview-section"></a>
 ## 📖 Overview
 
-Hello, my name is Alan Hourmand, the creator of BicameralAGI. This project is the result of my lifelong fascination with artificial intelligence and science fiction. Growing up immersed in sci-fi classics like Tron and Star Trek, I have always been interested in the potential of AI to enhance our lives and push the boundaries of what's possible.
+Hello, I'm Alan Hourmand, creator of BicameralAGI. This passion project stems from my love of sci-fi and AI, inspired by characters like Data from Star Trek and Robin Williams in Bicentennial Man. BicameralAGI aims to develop emotionally intelligent AI that genuinely cares about humanity, fostering a mutualistic relationship between AI and humans.
+Drawing from Julian Jaynes' bicameral mind theory, this project integrates various AI components to mimic human cognition, going beyond the traditional Turing Test. The goal is to create AI that's not just intelligent, but emotionally aware, aligned with human values, and fun to interact with.
+BicameralAGI represents a step towards AI that can be a true companion and collaborator for humanity, combining technical innovation with a focus on positive human-AI interactions.
 
-BicameralAGI is a passion project that started from a deep-seated belief that emotional intelligence is crucial for creating AI that genuinely cares about humanity. While we strive for higher intelligence and human-likeness in AI, I firmly believe that without mutualism, we risk creating entities that may not prioritize human well-being. This project aims to develop AI with a deep understanding of emotions, coupled with safety measures that foster a mutualistic relationship between AI and humans.
+### Project Goals
 
-While passing the Turing Test has become relatively achievable, it doesn't fully capture the nuances of human-like interaction. BicameralAGI draws inspiration from Julian Jaynes' bicameral mind theory, integrating various AI components into a cohesive system that mimics human cognition. By focusing on emotional intelligence and mutualistic alignment, I am working towards AI that not only assists humans but genuinely thrives on positive human interactions.
-
-This project represents not just a technical challenge, but a step towards creating AI that can be a true companion and collaborator for humanity. Through BicameralAGI, I hope to contribute to the development of AI systems that are not only intelligent but also emotionally aware and aligned with human values.
-
-<a name="project-goals-and-roadmap"></a>
+1. Develop a guide for achieving human-like thinking in AI
+2. Create a prototype demonstrating the proposed bicameral architecture
+3. Implement and test novel AI alignment strategies based on mutualistic principles
+4. Compress the system into a smaller, efficient model retaining core functionalities
+5. Produce a single multimodal AI model capable of human-like interaction and cognition, with built-in alignment
+6. Compress the multi-component architecture into a single large model through advanced techniques:
+   - Altering latent space representations
+   - Exploring implicit AI methodologies
+   - Implementing memory access through cross-attention mechanisms
+   - Integrating various cognitive functions into a unified model
+   - This stage requires synthetic data generated from the earlier stages ⚠️
 
 ---
 <a name="motivation-section"></a>
-## 💡 My 4 Personal Motivations
+## 💡 My Four Motivations
 
 <a name="science-fiction-section"></a>
 ### 1. Inspired by some of my favorite science fiction stories
@@ -70,7 +78,7 @@ This project represents not just a technical challenge, but a step towards creat
   </tr>
 </table>
 
-My lifelong fascination with human-like AI, as portrayed in works like Bicentennial Man, Tron, A.I. Artificial Intelligence, Westworld, and Star Trek, drives this project. I believe we're at a point where these visions of AI are within reach.
+My lifelong fascination with human-like AI, as portrayed in works like Bicentennial Man, Tron, A.I. Artificial Intelligence, Westworld, and Star Trek, drives this project. I believe we're at a point where these visions of AI are now within reach. We should soon see these characters come to life within the next 3 years.
 <a name="mutualism-section"></a>
 ### 2. Mutualism-Inspired AI Alignment
 
@@ -253,63 +261,61 @@ These examples illustrate key aspects of human-like interaction vs normal llms:
 
 BicameralAGI's architecture consists of the following key components:
 
-1. **Orchestrator (bica_orchestrator.py)**:
-   - Serves as the central coordination hub for all BicameralAGI modules
-   - Implements a publish-subscribe system for efficient inter-module communication
-   - Manages parallel processing of AI components
-   - Implements a priority queue system for task management
+1. Orchestrator (bica_orchestrator.py):
+   - Central coordinator for the BicameralAGI system
+   - Initializes and manages all other components
+   - Processes user inputs and coordinates system responses
+   - Compiles prompts for GPT responses
 
-2. **Memory and Learning System (bica_memory.py)**:
-   - Manages short-term, long-term, and working memory
-   - Handles memory formation, consolidation, retrieval, and forgetting
-   - Implements "dreaming" functionality for memory processing and consolidation
-   - Uses vector databases for efficient similarity searches in memory retrieval
-   - Implements various learning strategies (supervised, reinforcement, unsupervised)
-   - Manages knowledge integration and skill acquisition
-   - Generates periodic "learning summaries"
-   - Adapts memory structures based on new experiences and learned information
+2. Memory System (bica_memory.py):
+   - Manages short-term and long-term memory storage
+   - Handles memory formation, consolidation, recall, and associative processes
+   - Implements "dreaming" functionality for memory processing
+   - Simulates future scenarios based on memories
 
-3. **Cognitive Processing (bica_cognition.py)**:
+3. Context Management (bica_context.py):
+   - Maintains and updates different viewpoints of the current context
+   - Generates responses based on multi-faceted understanding
+   - Manages weighted context for decision making
+
+4. Cognitive Processing (bica_cognition.py):
    - Generates conscious and subconscious thoughts
-   - Implements various reasoning methods (deductive, inductive, abductive)
-   - Manages decision-making processes under uncertainty
-   - Simulates cognitive biases and heuristics for more human-like reasoning
+   - Analyzes inputs and manages cognitive functions
+   - Uses GPT models and vector embeddings for processing
 
-4. **Affective System (bica_affect.py)**:
-   - Manages emotions and personality as an integrated system
-   - Maintains emotional stability and implements "emotional inertia"
-   - Creates and maintains a stable personality profile
-   - Generates periodic "self-reflection" reports
+5. Affective System (bica_affect.py):
+   - Manages emotions and personality aspects
+   - Handles emotion generation and personality traits evolution
+   - Creates and updates cognitive models for characters
 
-5. **Action and Decision Making (bica_action.py)**:
-   - Handles action selection and execution based on inputs from other modules
-   - Implements a weighted probability system for action selection
-   - Manages high-level decision making processes
+6. Safety System (bica_safety.py):
+   - Implements content filtering and safety checks
+   - Ensures responsible and ethical AI behavior
+   - Provides adjustable safety thresholds
 
-6. **Safety System (bica_safety.py)**:
-   - Implements a dynamic filter that could be planted anywhere between actions or thoughts
-   - Continuously monitors thoughts, emotions, and potential actions for safety issues
-   - Generates safety reports and alerts for potential alignment issues
+7. Action Executor (bica_action_executor.py):
+   - Manages and executes various actions
+   - Handles action execution and compiles information for GPT responses
 
-7. **Context Management (bica_context.py)**:
-   - Maintains self-narrative, current context, and world model
-   - Generates and maintains storylines for the AI's existence
-   - Adapts narratives based on recent experiences and changing goals
+8. Destiny Writer (bica_destiny.py):
+   - Manages long-term goals and 'destiny' of the AI system
+   - Generates and alters potential future scenarios
 
-8. **Utilities (bica_utilities.py)**:
-    - Provides common functions and tools used across modules
-    - Implements data processing and optimization utilities
-9. **Logging (bica_logging.py)**:
-    - Handles system-wide logging for debugging and analysis
-    - Implements different log levels for various types of information
+9. Utilities (bica_utilities.py):
+   - Provides utility functions used across the system
+   - Handles file operations, text processing, and common tasks
 
-10. **Writer (bica_destiny.py)**:
-    - Generates and manages narrative elements for the AI's self-model
-    - Creates and modifies storylines based on the AI's experiences and goals
+10. Logging (bica_logging.py):
+    - Provides logging functionality for the system
+    - Manages log files for tracking activities and errors
 
-11. **Main Controller (bica_main.py)**:
+11. GPT Handler (gpt_handler.py):
+    - Interfaces with GPT models for response generation
+    - Manages API calls and various parameters for GPT interactions
+
+12. Main Controller (bica_main.py):
     - Serves as the entry point for the system
-    - Manages high-level control flow and system startup/shutdown procedures
+    - Manages the main conversation loop with users
 
 Each of these expanded functions contributes to creating a more comprehensive and human-like artificial intelligence system. By simulating these complex cognitive processes, BicameralAGI aims to achieve a level of artificial general intelligence that can engage in more natural, adaptive, and contextually appropriate interactions across a wide range of scenarios.
 
@@ -317,17 +323,17 @@ Each of these expanded functions contributes to creating a more comprehensive an
 
 ---
 <a name="features-section"></a>
-## ✨ Features
+## ✨ Feature Goals
 
-- Multi-system AI architecture mimicking the theorized bicameral brain structure
+- Multi-system AI architecture mimicking the different areas of the brain working together in harmony
 - Simulated internal dialogue for decision-making processes
 - Exploration of emergent self-awareness and consciousness in AI
 - Focus on human-like problem-solving and creative thinking capabilities
-- Integration of multiple AI systems working in harmony
 - Novel approach to AI alignment through fundamental emotional and motivational structures
 - Memory consolidation through simulated dreaming processes
 - Emotional modeling and stability
 - Dynamic personality system
+
 <a name="components-section"></a>
 
 ---
@@ -355,77 +361,35 @@ While I cannot control how others might modify the code, I believe the benefits 
 
 ---
 <a name="project-goals-and-roadmap"></a>
-## 🎯 Project Goals and Roadmap
+## 🎯 Roadmap
 
-#### Project Goals
-
-1. Develop a guide for achieving human-like thinking in AI
-2. Create a prototype demonstrating the proposed bicameral architecture
-3. Implement and test novel AI alignment strategies based on mutualistic principles
-4. Compress the system into a smaller, efficient model retaining core functionalities
-5. Produce a single multimodal AI model capable of human-like interaction and cognition, with built-in alignment
-6. Compress the multi-component architecture into a single large model through advanced techniques:
-   - Altering latent space representations
-   - Exploring implicit AI methodologies
-   - Implementing memory access through cross-attention mechanisms
-   - Integrating various cognitive functions into a unified model
+### Current Task: ⚠️ BicameralAGI is currently undergoing a significant merge of code from other projects. During this process, some functionalities may be temporarily broken or unstable. Please be patient as I work to integrate these changes and stabilize the system. I expect to complete this merge within the next week. Thank you for your understanding! ⚠️
    
-### Detailed Roadmap
+### Stage Status
 
-#### Phase 1: Foundation and Prototype (Current Phase)
-- Consolidate existing experimental code into the main repository
-- Implement initial version of all core components (emotions, thoughts, memory, etc.)
-- Develop and refine the Turing++ Test framework
-- Create a functional but unoptimized prototype of the bicameral architecture
+Stage 1: Architecture and Prototype
+### WE ARE HERE!!!!
+- Consolidate existing code into main repository
+- Implement core components (orchestrator, memory, cognition, affect, safety, etc.)
+- Create a functional prototype of the bicameral architecture
+- Develop initial Turing++ Test framework
+- Conduct preliminary testing to verify architecture functionality
 
-#### Phase 2: Testing and Evaluation
-- Implement comprehensive testing suite using the Turing++ Test
-- Conduct comparative analysis with existing AI models
-- Identify areas for improvement and optimization
+Stage 2: Optimization and Specialization
+- Refine and expand Turing++ Test suite
+- Optimize individual components based on test results
+- Implement parallel processing for inter-component communication
+- Enhance emotion model and thought generation process
+- Develop specialized models for specific cognitive functions
 
-#### Phase 3: Optimization and Specialization
-- Develop specialized, smaller LLMs for specific cognitive functions
-- Implement parallel architecture for real-time communication between components
-- Optimize emotion model for continuous real-time operation
-- Enhance thought generation process with multi-model collaboration
-
-#### Phase 4: Integration and Fine-tuning
+Stage 3: Integration and Consolidation
 - Merge optimized components into a cohesive system
-- Implement and refine mutualistic alignment strategies
-- Conduct extensive fine-tuning to improve overall performance and human-likeness
+- Implement mutualistic alignment strategies
+- Attempt to consolidate all components into a single large model
+- Conduct final Turing++ Tests to verify human-like capabilities
+- Refine documentation and engage with open-source community
 
-#### Phase 5: Consolidation
-- Attempt to merge all components into a single, large model
-- Ensure mutualistic principles are deeply embedded in the final model
-- Conduct final round of Turing++ Tests to verify human-like capabilities
-
-#### Ongoing: Documentation and Open Source Collaboration
-- Maintain comprehensive documentation throughout all phases
-- Engage with the open-source community for contributions and feedback
-- Regularly update the guide for human-like AI thinking based on project insights
-
-<a name="turing-plus-test"></a>
-
----
-<a name="status-section"></a>
-## 🚀 Current Status and Demo
-
-BicameralAGI is currently in the early prototype stage. The core architecture and components have been defined, and initial versions of the key modules have been implemented. 
-
-The system can engage in basic conversations, generate thoughts and emotions, and make decisions based on its memory and context. However, it is not yet a fully functional, optimized AI system ready for real-world use.
-
-Key capabilities demonstrated so far:
-- Multi-component architecture with inter-module communication 
-- Emotional modeling and personality simulation
-- Memory formation, retrieval, and dreaming processes
-- Contextual awareness and narrative generation
-- Safety filtering and ethical evaluation of thoughts/actions
-
-Next steps include further optimization of individual components, enhancing the reasoning and language capabilities, integrating the modules more seamlessly, and conducting extensive testing.
-
-Demo functionality will be added in a future update once the system reaches a more stable and coherent state. Stay tuned for progress updates!
-
-⚠️ **Important Note:** BicameralAGI is currently undergoing a significant merge of code from other projects. During this process, some functionalities may be temporarily broken or unstable. Please be patient as I work to integrate these changes and stabilize the system. I expect to complete this merge within the next week. Thank you for your understanding! ⚠️
+Ongoing: Documentation, testing, and community engagement throughout all stages
 
 ---
 <a name="getting-started"></a>
@@ -486,23 +450,6 @@ A: Emotional intelligence is a key component of BicameralAGI. The project aims t
 
 ### Q: What's the long-term goal for BicameralAGI?
 A: The long-term vision is to contribute to the development of more human-like AGI systems that can interact naturally and beneficially with humans.
-
----
-<a name="contributing-section"></a>
-## 🤝 Contributing
-We welcome contributions to BicameralAGI! Here's how you can help:
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/AmazingFeature`)
-3. Make your changes
-4. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-5. Push to the branch (`git push origin feature/AmazingFeature`)
-6. Open a Pull Request
-
-Please read `CONTRIBUTING.md` for detailed guidelines on our code of conduct and the process for submitting pull requests.
-
-Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/alanh90/BicameralAGI/issues).
-<a name="license-section"></a>
 
 ---
 <a name="license-section"></a>
