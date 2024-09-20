@@ -1,0 +1,184 @@
+{
+  "thought_categories": [
+    {
+      "category": "Problem Identification",
+      "description": "Recognizing and defining the issue at hand",
+      "keywords": [
+        "recognize", "define", "identify", "clarify", "scope",
+        "understand", "frame", "contextualize", "diagnose", "pinpoint"
+      ],
+      "frequency": 0.8
+    },
+    {
+      "category": "Information Gathering",
+      "description": "Collecting relevant data and facts",
+      "keywords": [
+        "research", "collect", "investigate", "inquire", "observe",
+        "survey", "analyze", "compile", "explore", "document"
+      ],
+      "frequency": 0.7
+    },
+    {
+      "category": "Hypothesis Formation",
+      "description": "Developing initial theories or explanations",
+      "keywords": [
+        "theorize", "propose", "speculate", "conjecture", "postulate",
+        "assume", "predict", "suppose", "guess", "infer"
+      ],
+      "frequency": 0.5
+    },
+    {
+      "category": "Analysis",
+      "description": "Breaking down complex information",
+      "keywords": [
+        "examine", "dissect", "evaluate", "scrutinize", "interpret",
+        "categorize", "compare", "contrast", "assess", "classify"
+      ],
+      "frequency": 0.6
+    },
+    {
+      "category": "Synthesis",
+      "description": "Combining ideas to form a coherent whole",
+      "keywords": [
+        "integrate", "combine", "merge", "unify", "assemble",
+        "construct", "formulate", "compose", "consolidate", "blend"
+      ],
+      "frequency": 0.5
+    },
+    {
+      "category": "Evaluation",
+      "description": "Assessing the value or validity of information",
+      "keywords": [
+        "judge", "appraise", "weigh", "rate", "validate",
+        "measure", "test", "critique", "review", "estimate"
+      ],
+      "frequency": 0.6
+    },
+    {
+      "category": "Decision Making",
+      "description": "Choosing between options or courses of action",
+      "keywords": [
+        "choose", "select", "determine", "resolve", "conclude",
+        "decide", "opt", "pick", "settle", "commit"
+      ],
+      "frequency": 0.7
+    },
+    {
+      "category": "Planning",
+      "description": "Outlining steps to achieve a goal",
+      "keywords": [
+        "strategize", "organize", "schedule", "outline", "prepare",
+        "arrange", "design", "map", "coordinate", "structure"
+      ],
+      "frequency": 0.6
+    },
+    {
+      "category": "Implementation",
+      "description": "Executing planned actions",
+      "keywords": [
+        "execute", "perform", "implement", "carry out", "actualize",
+        "realize", "accomplish", "enact", "fulfill", "achieve"
+      ],
+      "frequency": 0.7
+    },
+    {
+      "category": "Monitoring",
+      "description": "Tracking progress and identifying issues",
+      "keywords": [
+        "observe", "track", "check", "supervise", "oversee",
+        "watch", "inspect", "review", "gauge", "measure"
+      ],
+      "frequency": 0.5
+    },
+    {
+      "category": "Adjustment",
+      "description": "Making changes based on feedback or results",
+      "keywords": [
+        "modify", "adapt", "refine", "tweak", "revise",
+        "alter", "adjust", "correct", "improve", "update"
+      ],
+      "frequency": 0.6
+    },
+    {
+      "category": "Reflection",
+      "description": "Contemplating experiences and outcomes",
+      "keywords": [
+        "ponder", "contemplate", "consider", "review", "introspect",
+        "meditate", "retrospect", "examine", "analyze", "evaluate"
+      ],
+      "frequency": 0.4
+    },
+    {
+      "category": "Creativity",
+      "description": "Generating novel ideas or solutions",
+      "keywords": [
+        "innovate", "invent", "imagine", "conceive", "originate",
+        "brainstorm", "visualize", "ideate", "create", "envision"
+      ],
+      "frequency": 0.5
+    },
+    {
+      "category": "Critical Thinking",
+      "description": "Objective analysis and evaluation",
+      "keywords": [
+        "reason", "logic", "deduce", "infer", "question",
+        "challenge", "investigate", "examine", "assess", "scrutinize"
+      ],
+      "frequency": 0.6
+    },
+    {
+      "category": "Emotional Processing",
+      "description": "Recognizing and managing emotions",
+      "keywords": [
+        "feel", "empathize", "sense", "intuit", "react",
+        "respond", "experience", "perceive", "interpret", "regulate"
+      ],
+      "frequency": 0.7
+    },
+    {
+      "category": "Prioritization",
+      "description": "Determining importance and order of tasks",
+      "keywords": [
+        "rank", "order", "prioritize", "hierarchy", "sequence",
+        "triage", "weight", "value", "organize", "arrange"
+      ],
+      "frequency": 0.6
+    },
+    {
+      "category": "Visualization",
+      "description": "Creating mental images or scenarios",
+      "keywords": [
+        "picture", "imagine", "envision", "conceptualize", "project",
+        "foresee", "simulate", "illustrate", "portray", "construct"
+      ],
+      "frequency": 0.5
+    },
+    {
+      "category": "Pattern Recognition",
+      "description": "Identifying recurring themes or structures",
+      "keywords": [
+        "detect", "identify", "spot", "recognize", "discern",
+        "observe", "notice", "perceive", "distinguish", "correlate"
+      ],
+      "frequency": 0.6
+    },
+    {
+      "category": "Intuition",
+      "description": "Rapid, subconscious processing and decision-making",
+      "keywords": [
+        "sense", "feel", "perceive", "intuit", "know",
+        "grasp", "apprehend", "understand", "realize", "fathom"
+      ],
+      "frequency": 0.4
+    },
+    {
+      "category": "Abstraction",
+      "description": "Forming general concepts from specific instances",
+      "keywords": [
+        "generalize", "conceptualize", "extract", "distill", "simplify",
+        "reduce", "summarize", "symbolize", "represent", "essence"
+      ],
+      "frequency": 0.4
+    }
+  ]
+}

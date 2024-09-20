@@ -1,0 +1,304 @@
+{
+  "thought_chains": [
+    {
+      "problem": "Fixing a broken appliance",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Hypothesis Formation",
+        "Analysis",
+        "Decision Making",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Evaluation",
+        "Reflection"
+      ]
+    },
+    {
+      "problem": "Planning a vacation",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Visualization",
+        "Emotional Processing",
+        "Decision Making",
+        "Planning",
+        "Prioritization",
+        "Implementation",
+        "Adjustment",
+        "Reflection"
+      ]
+    },
+    {
+      "problem": "Writing a research paper",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Analysis",
+        "Synthesis",
+        "Planning",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Evaluation",
+        "Reflection"
+      ]
+    },
+    {
+      "problem": "Resolving a conflict with a colleague",
+      "chain": [
+        "Problem Identification",
+        "Emotional Processing",
+        "Analysis",
+        "Empathy",
+        "Creative Thinking",
+        "Decision Making",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Reflection"
+      ]
+    },
+    {
+      "problem": "Developing a new product",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Creativity",
+        "Analysis",
+        "Synthesis",
+        "Evaluation",
+        "Decision Making",
+        "Planning",
+        "Implementation",
+        "Monitoring"
+      ]
+    },
+    {
+      "problem": "Learning a new skill",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Planning",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Practice",
+        "Evaluation",
+        "Reflection",
+        "Synthesis"
+      ]
+    },
+    {
+      "problem": "Making a career change",
+      "chain": [
+        "Problem Identification",
+        "Self-reflection",
+        "Information Gathering",
+        "Analysis",
+        "Visualization",
+        "Emotional Processing",
+        "Decision Making",
+        "Planning",
+        "Implementation",
+        "Adjustment"
+      ]
+    },
+    {
+      "problem": "Debugging a software issue",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Hypothesis Formation",
+        "Analysis",
+        "Pattern Recognition",
+        "Testing",
+        "Adjustment",
+        "Implementation",
+        "Evaluation",
+        "Documentation"
+      ]
+    },
+    {
+      "problem": "Improving physical fitness",
+      "chain": [
+        "Problem Identification",
+        "Goal Setting",
+        "Information Gathering",
+        "Planning",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Emotional Processing",
+        "Evaluation",
+        "Reflection"
+      ]
+    },
+    {
+      "problem": "Managing a project team",
+      "chain": [
+        "Problem Identification",
+        "Planning",
+        "Communication",
+        "Delegation",
+        "Monitoring",
+        "Adjustment",
+        "Conflict Resolution",
+        "Decision Making",
+        "Evaluation",
+        "Reflection"
+      ]
+    },
+    {
+      "problem": "Preparing for a job interview",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Analysis",
+        "Preparation",
+        "Rehearsal",
+        "Emotional Processing",
+        "Visualization",
+        "Adjustment",
+        "Implementation",
+        "Reflection"
+      ]
+    },
+    {
+      "problem": "Solving a complex math problem",
+      "chain": [
+        "Problem Identification",
+        "Analysis",
+        "Pattern Recognition",
+        "Information Gathering",
+        "Hypothesis Formation",
+        "Testing",
+        "Adjustment",
+        "Synthesis",
+        "Evaluation",
+        "Documentation"
+      ]
+    },
+    {
+      "problem": "Creating a balanced diet plan",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Analysis",
+        "Planning",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Evaluation",
+        "Reflection",
+        "Optimization"
+      ]
+    },
+    {
+      "problem": "Overcoming a fear or phobia",
+      "chain": [
+        "Problem Identification",
+        "Emotional Processing",
+        "Information Gathering",
+        "Analysis",
+        "Planning",
+        "Visualization",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Reflection"
+      ]
+    },
+    {
+      "problem": "Designing a website",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Creativity",
+        "Planning",
+        "Implementation",
+        "Testing",
+        "Adjustment",
+        "Evaluation",
+        "User Feedback",
+        "Optimization"
+      ]
+    },
+    {
+      "problem": "Making a major purchase decision",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Analysis",
+        "Comparison",
+        "Emotional Processing",
+        "Visualization",
+        "Decision Making",
+        "Implementation",
+        "Evaluation",
+        "Reflection"
+      ]
+    },
+    {
+      "problem": "Improving time management",
+      "chain": [
+        "Problem Identification",
+        "Self-reflection",
+        "Analysis",
+        "Planning",
+        "Prioritization",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Evaluation",
+        "Habit Formation"
+      ]
+    },
+    {
+      "problem": "Writing a novel",
+      "chain": [
+        "Creativity",
+        "Planning",
+        "Visualization",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Emotional Processing",
+        "Analysis",
+        "Synthesis",
+        "Evaluation"
+      ]
+    },
+    {
+      "problem": "Adapting to a new culture",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Observation",
+        "Analysis",
+        "Emotional Processing",
+        "Adjustment",
+        "Implementation",
+        "Reflection",
+        "Learning",
+        "Integration"
+      ]
+    },
+    {
+      "problem": "Starting a small business",
+      "chain": [
+        "Problem Identification",
+        "Information Gathering",
+        "Analysis",
+        "Planning",
+        "Decision Making",
+        "Implementation",
+        "Monitoring",
+        "Adjustment",
+        "Evaluation",
+        "Optimization"
+      ]
+    }
+  ]
+}
