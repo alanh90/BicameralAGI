@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🧠 BicameralAGI
-⚠️ I apologize for taking some time off, I had to study up on some more AI stuff. I will begin editing again 9/20 ⚠️
+⚠️ Some major changes coming! Stay Tuned! ⚠️
 ![BicameralAGI Cover](source/data/readme_media/BICA_Cover_words.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
