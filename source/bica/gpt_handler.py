@@ -1,96 +1,143 @@
 """
-This module provides an interface for interacting with GPT models. It handles API calls, response generation, and manages various parameters for GPT interactions used throughout the BicameralAGI system.
+GPTHandler: A Flexible Interface for OpenAI's GPT Models
+
+This module provides a versatile and easy-to-use interface for interacting with OpenAI's GPT models,
+offering support for various types of outputs and configurations. It's designed to simplify the
+process of generating responses, calling functions, and producing structured JSON outputs.
+
+Key Features:
+1. Simple text generation
+2. Function calling with multiple predefined functions
+3. Structured JSON output generation
+4. Customizable model parameters (e.g., temperature, max_tokens)
+
+Usage:
+1. Simple text generation:
+   response = handler.generate_response("Tell me a joke about programming.")
+
+2. Function calling:
+   functions = [
+       {
+           "name": "get_weather",
+           "description": "Get the weather for a location",
+           "parameters": {
+               "type": "object",
+               "properties": {
+                   "location": {"type": "string", "description": "The city and state, e.g. San Francisco, CA"},
+                   "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]}
+               },
+               "required": ["location", "unit"],
+               "additionalProperties": False
+           }
+       }
+   ]
+   response = handler.generate_response("What's the weather in Tokyo?", functions=functions)
+
+3. Structured JSON output:
+   json_schema = {
+       "type": "object",
+       "properties": {
+           "name": {"type": "string"},
+           "age": {"type": "integer"},
+           "occupation": {"type": "string"},
+           "hobbies": {"type": "array", "items": {"type": "string"}}
+       },
+       "required": ["name", "age", "occupation", "hobbies"],
+       "additionalProperties": False
+   }
+   response = handler.generate_response("Generate a profile for a fictional person.", json_schema=json_schema)
+
+4. Custom parameters:
+   response = handler.generate_response("Write a creative story.", temperature=0.9, max_tokens=200)
+
+The module includes a comprehensive test suite in the main() function, demonstrating various use cases
+and configurations. Run the script directly to see examples of all supported features in action.
+
+Note: This module requires the OpenAI Python library and a valid API key set in the environment variables.
+
+Author: Alan Hourmand
+Date: 9/23/2024
 """
 
+import json
+from typing import List, Dict, Any, Union, Optional
 from openai import OpenAI
-from typing import List, Dict, Any, Optional, Union
+from pydantic import BaseModel
 from bica_utilities import BicaUtilities
-from bica_logging import BicaLogging
 
 
 class GPTHandler:
-    def __init__(self, api_provider: str = "openai", model: str = "gpt-4o-mini"):
-        self.api_provider = api_provider
-        self.model = model
-        self.logger = BicaLogging("GPTHandler")
+    def __init__(self):
+        api_key = BicaUtilities.get_environment_variable("OPENAI_API_KEY")
+        self.client = OpenAI(api_key=api_key)
 
-        if self.api_provider == "openai":
-            api_key = BicaUtilities.get_environment_variable("OPENAI_API_KEY")
-            self.client = OpenAI(api_key=api_key)
-        else:
-            raise ValueError("Invalid API provider. Choose 'openai'.")
+    def generate_response(self, prompt: str, **kwargs) -> Union[str, Dict[str, Any], BaseModel]:
+        """
+        Generate a response from the GPT model.
 
-    def generate_response(
-            self,
-            messages: List[Dict[str, str]],
-            temperature: float = 0.7,
-            max_tokens: Optional[int] = None,
-            top_p: float = 1,
-            frequency_penalty: float = 0,
-            presence_penalty: float = 0,
-            stop: Optional[Union[str, List[str]]] = None,
-            stream: bool = False,
-            functions: Optional[List[Dict[str, Any]]] = None,
-            function_call: Optional[Union[str, Dict[str, str]]] = None
-    ) -> Union[str, Dict[str, Any]]:
+        :param prompt: The input prompt (required)
+        :param kwargs: Additional optional parameters (e.g., model, temperature, functions, json_schema)
+        :return: Generated response, function call information, or structured JSON
+        """
+        # Default parameters
+        params = {
+            "model": "gpt-4o-2024-08-06",
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.7,
+        }
+
+        # Update with any provided kwargs
+        params.update(kwargs)
+
+        # Handle special parameters
+        functions = params.pop('functions', None)
+        json_schema = params.pop('json_schema', None)
+
+        if functions:
+            params['functions'] = functions
+            params['function_call'] = 'auto' #Helps the AI decide if there even is an appropriate function call
+
+        if json_schema:
+            params['response_format'] = {"type": "json_object"}
+            # Add a system message requiring JSON output
+            params['messages'].insert(0, {"role": "system", "content": "You must respond with JSON output."})
+            params['functions'] = [{
+                "name": "output_json",
+                "description": "Output JSON in the specified format",
+                "parameters": json_schema
+            }]
+            params['function_call'] = {"name": "output_json"}
+
         try:
-            params = {
-                "model": self.model,
-                "messages": messages,
-                "temperature": temperature,
-                "max_tokens": max_tokens,
-                "top_p": top_p,
-                "frequency_penalty": frequency_penalty,
-                "presence_penalty": presence_penalty,
-                "stop": stop,
-                "stream": stream
-            }
-
-            if functions:
-                params["functions"] = functions
-                if function_call:
-                    params["function_call"] = function_call
-
             response = self.client.chat.completions.create(**params)
-
-            if stream:
-                return self._handle_stream_response(response)
-            else:
-                return self._handle_normal_response(response)
+            return self._process_response(response)
         except Exception as e:
-            self.logger.error(f"Error generating response: {str(e)}")
             raise
 
-    def _handle_stream_response(self, response):
-        full_response = ""
-        for chunk in response:
-            if chunk.choices[0].delta.content is not None:
-                full_response += chunk.choices[0].delta.content
-        return full_response
-
-    def _handle_normal_response(self, response):
+    def _process_response(self, response):
+        """
+        Process the API response.
+        """
         message = response.choices[0].message
+
         if hasattr(message, 'function_call') and message.function_call:
+            if message.function_call.name == "output_json":
+                return json.loads(message.function_call.arguments)
             return {
-                "function_call": message.function_call.model_dump(),
-                "content": message.content
+                "type": "function_call",
+                "function": message.function_call.name,
+                "arguments": json.loads(message.function_call.arguments)
             }
         return message.content.strip()
 
 
-# Example usage
-if __name__ == "__main__":
+def main():
+    """
+    Extensive testing of the GPTHandler with various configurations.
+    """
     handler = GPTHandler()
 
-    # Simple response
-    messages = [
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Hello, how are you?"}
-    ]
-    response = handler.generate_response(messages)
-    print("Simple response:", response)
-
-    # Function calling example
+    # Define multiple functions for testing
     functions = [
         {
             "name": "get_weather",
@@ -101,17 +148,107 @@ if __name__ == "__main__":
                     "location": {"type": "string", "description": "The city and state, e.g. San Francisco, CA"},
                     "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]}
                 },
-                "required": ["location"]
+                "required": ["location", "unit"],
+                "additionalProperties": False
+            }
+        },
+        {
+            "name": "calculate_mortgage",
+            "description": "Calculate monthly mortgage payment",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "principal": {"type": "number", "description": "The loan amount"},
+                    "interest_rate": {"type": "number", "description": "Annual interest rate (percentage)"},
+                    "loan_term": {"type": "number", "description": "Loan term in years"}
+                },
+                "required": ["principal", "interest_rate", "loan_term"],
+                "additionalProperties": False
+            }
+        },
+        {
+            "name": "recommend_movie",
+            "description": "Recommend a movie based on genre and year",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "genre": {"type": "string", "description": "Movie genre"},
+                    "year": {"type": "integer", "description": "Release year"}
+                },
+                "required": ["genre", "year"],
+                "additionalProperties": False
             }
         }
     ]
-    messages = [
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "What's the weather like in London?"}
+
+    # Define JSON schema for structured output
+    person_schema = {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"},
+            "age": {"type": "integer"},
+            "occupation": {"type": "string"},
+            "hobbies": {"type": "array", "items": {"type": "string"}}
+        },
+        "required": ["name", "age", "occupation", "hobbies"],
+        "additionalProperties": False
+    }
+
+    # Test cases
+    test_cases = [
+        {
+            "name": "Simple text output",
+            "prompt": "Tell me a joke about programming.",
+            "params": {}
+        },
+        {
+            "name": "Function calling (weather)",
+            "prompt": "What's the weather like in Tokyo?",
+            "params": {"functions": functions}
+        },
+        {
+            "name": "Function calling (mortgage)",
+            "prompt": "Calculate the monthly mortgage payment for a $300,000 loan at 3.5% interest for 30 years.",
+            "params": {"functions": functions}
+        },
+        {
+            "name": "Function calling (movie recommendation)",
+            "prompt": "Recommend a sci-fi movie from 2020.",
+            "params": {"functions": functions}
+        },
+        {
+            "name": "Structured JSON output (person profile)",
+            "prompt": "Generate a profile for a fictional software developer.",
+            "params": {"json_schema": person_schema}
+        },
+        {
+            "name": "Custom temperature (high)",
+            "prompt": "Write a short, creative story about a time-traveling robot.",
+            "params": {"temperature": 0.9}
+        },
+        {
+            "name": "Custom temperature (low)",
+            "prompt": "Explain the concept of recursion in programming.",
+            "params": {"temperature": 0.2}
+        },
+        {
+            "name": "Combined function calling and custom parameters",
+            "prompt": "What will the weather be like in New York next week? Be creative in your response.",
+            "params": {"functions": functions, "temperature": 0.8, "max_tokens": 100}
+        }
     ]
-    function_response = handler.generate_response(
-        messages,
-        functions=functions,
-        function_call="auto"
-    )
-    print("Function call response:", function_response)
+
+    # Run tests
+    for test in test_cases:
+        print(f"\nTest: {test['name']}")
+        print(f"Prompt: {test['prompt']}")
+        try:
+            response = handler.generate_response(test['prompt'], **test['params'])
+            print("Response:", response)
+        except Exception as e:
+            print(f"Error occurred: {str(e)}")
+        print("-" * 50)
+
+
+if __name__ == "__main__":
+    main()
