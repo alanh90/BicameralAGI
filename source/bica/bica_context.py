@@ -4,7 +4,7 @@ This module manages the contextual understanding of the BicameralAGI system. It 
 
 from sentence_transformers import SentenceTransformer
 from scipy.spatial.distance import cosine
-from bica.gpt_handler import GPTHandler
+from bica.gpt_handler import GPTHandler as gpt
 import json
 
 
@@ -13,7 +13,7 @@ class BicaContext:
         self.context_viewpoints = {"positive": "", "neutral": "", "negative": ""}
         self.weights = {"positive": 0.33, "neutral": 0.33, "negative": 0.34}  # Initial weights
         self.max_length = max_length
-        self.gpt_handler = GPTHandler(api_provider="openai", model="gpt-4o-mini")
+        self.gpt_handler = gpt()
         self.model = SentenceTransformer('paraphrase-MiniLM-L6-v2')  # Load the embedding model
         self.memory = []
 

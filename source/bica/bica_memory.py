@@ -7,7 +7,7 @@ import random
 from typing import List, Dict, Any
 from collections import Counter
 import numpy as np
-from bica.bica_utilities import BicaUtilities
+from bica_utilities import *
 from bica.gpt_handler import GPTHandler
 
 
@@ -22,7 +22,6 @@ class Memory:
 
 class BicaMemory:
     def __init__(self):
-        self.utilities = BicaUtilities()
         self.gpt_handler = GPTHandler()
 
         self.short_term_layer1 = []

@@ -6,7 +6,7 @@ import json
 import os
 import re
 from typing import List, Dict, Any
-from bica_utilities import BicaUtilities
+from bica_utilities import *
 from gpt_handler import GPTHandler
 from bica_logging import BicaLogging
 
@@ -22,7 +22,7 @@ class BicaDestiny:
     def _load_destinies(self):
         destiny_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'destinies', f"{self.character_name}_destinies.json")
         if os.path.exists(destiny_file):
-            loaded_data = BicaUtilities.load_json_file(destiny_file)
+            loaded_data = load_json_file(destiny_file)
             self.destinies = loaded_data.get("destinies", [])
             self.logger.info(f"Loaded {len(self.destinies)} destinies for {self.character_name}")
         else:
@@ -33,7 +33,7 @@ class BicaDestiny:
         os.makedirs(destiny_dir, exist_ok=True)
         file_path = os.path.join(destiny_dir, f"{self.character_name}_destinies.json")
         destinies_dict = {"destinies": self.destinies}
-        BicaUtilities.save_json_file(destinies_dict, file_path)
+        save_json_file(destinies_dict, file_path)
         self.logger.info(f"Saved {len(self.destinies)} destinies to {file_path}")
 
     def generate_destiny(self, **kwargs):

@@ -7,15 +7,14 @@ import os
 import random
 import time
 from typing import List, Dict, Any
-from bica.gpt_handler import GPTHandler
-from bica_utilities import BicaUtilities
+from bica.gpt_handler import GPTHandler as gpt
+from bica_utilities import *
 import traceback
 
 
 class BicaAffect:
     def __init__(self, character_name: str):
-        self.gpt_handler = GPTHandler()
-        self.utilities = BicaUtilities()
+        self.gpt_handler = gpt()
         self.character_name = character_name
         self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
         self.cog_model = self.load_or_create_cog_model()

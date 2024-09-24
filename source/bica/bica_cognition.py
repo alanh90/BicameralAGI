@@ -6,10 +6,10 @@ import random
 import re
 import numpy as np
 from typing import List, Dict, Any
-from bica.gpt_handler import GPTHandler
+from bica.gpt_handler import GPTHandler as gpt
 from bica_memory import BicaMemory
 from bica_context import BicaContext
-from bica_utilities import BicaUtilities
+from bica_utilities import *
 from sentence_transformers import SentenceTransformer
 
 
@@ -17,8 +17,7 @@ class BicaCognition:
     def __init__(self, memory: BicaMemory, context: BicaContext):
         self.memory = memory
         self.context = context
-        self.gpt_handler = GPTHandler()
-        self.utilities = BicaUtilities()
+        self.gpt_handler = gpt()
         self.sentence_model = SentenceTransformer('all-MiniLM-L6-v2')
         self.current_thoughts = []
         self.subconscious_thoughts = []
