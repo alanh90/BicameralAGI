@@ -1,5 +1,13 @@
 """
-Subconscious implementation
+BicameralAGI Subconscious Module
+==========================
+
+Overview:
+---------
+The purpose of this module is to give AGI depth and a deeper level of creativity
+
+Author: Alan Hourmand
+Date: 9/23/2024
 """
 
 

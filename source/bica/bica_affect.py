@@ -2,14 +2,14 @@
 This module manages the emotional and personality aspects of the BicameralAGI system. It handles emotion generation, personality traits, and their evolution over time based on experiences and interactions.
 """
 
-import json
-import os
-import random
-import time
-from typing import List, Dict, Any
 from bica.gpt_handler import GPTHandler as gpt
+from typing import List, Dict, Any
 from bica_utilities import *
 import traceback
+import random
+import json
+import time
+import os
 
 
 class BicaAffect:
