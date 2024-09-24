@@ -2,13 +2,13 @@
 This module manages the long-term goals and 'destiny' of the BicameralAGI system. It generates, alters, and tracks potential future scenarios or 'destinies' for the AI based on its experiences and decision-making processes.
 """
 
+from bica_logging import BicaLogging
+from gpt_handler import GPTHandler
+from typing import List, Dict, Any
+from bica_utilities import *
 import json
 import os
 import re
-from typing import List, Dict, Any
-from bica_utilities import *
-from gpt_handler import GPTHandler
-from bica_logging import BicaLogging
 
 
 class BicaDestiny:
