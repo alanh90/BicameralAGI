@@ -65,12 +65,12 @@ import json
 from typing import List, Dict, Any, Union, Optional
 from openai import OpenAI
 from pydantic import BaseModel
-from bica_utilities import BicaUtilities
+from bica_utilities import *
 
 
 class GPTHandler:
     def __init__(self):
-        api_key = BicaUtilities.get_environment_variable("OPENAI_API_KEY")
+        api_key = get_environment_variable("OPENAI_API_KEY")
         self.client = OpenAI(api_key=api_key)
 
     def generate_response(self, prompt: str, **kwargs) -> Union[str, Dict[str, Any], BaseModel]:
