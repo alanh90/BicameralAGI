@@ -1,17 +1,19 @@
 """
 GPTHandler: A Flexible Interface for OpenAI's GPT Models
-
+=====================================
 This module provides a versatile and easy-to-use interface for interacting with OpenAI's GPT models,
 offering support for various types of outputs and configurations. It's designed to simplify the
 process of generating responses, calling functions, and producing structured JSON outputs.
 
 Key Features:
+-------------
 1. Simple text generation
 2. Function calling with multiple predefined functions
 3. Structured JSON output generation
 4. Customizable model parameters (e.g., temperature, max_tokens)
 
 Usage:
+------
 1. Simple text generation:
    response = handler.generate_response("Tell me a joke about programming.")
 
