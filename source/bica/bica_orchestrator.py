@@ -12,13 +12,12 @@ from bica_action_executor import BicaActionExecutor
 from bica_destiny import BicaDestiny
 from gpt_handler import GPTHandler
 from bica_logging import BicaLogging
-from bica_utilities import BicaUtilities
+from bica_utilities import *
 
 
 class BicaOrchestrator:
     def __init__(self):
         self.logger = BicaLogging("BicaOrchestrator")
-        self.utilities = BicaUtilities()
         self.action_executor = BicaActionExecutor()
         self.gpt_handler = GPTHandler()
 
