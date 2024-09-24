@@ -1,5 +1,13 @@
 """
-This module provides logging functionality for the BicameralAGI system. It sets up and manages log files, allowing for detailed tracking of system activities, errors, and performance metrics.
+BicameralAGI Logger
+==========================
+
+Overview:
+---------
+This module's purpose is to assist with logging and debugging possible issues while developing
+
+Author: Alan Hourmand
+Date: 9/23/2024
 """
 
 import logging
