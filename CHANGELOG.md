@@ -4,11 +4,30 @@ All notable changes to the BicameralAGI project will be documented in this file.
 
 ## [Unreleased]
 
-### Upcoming changes
-- Complete integration of all modules
-- Enhance documentation
-- Add comprehensive testing suite
-- Create synthetic data based off of the entire architecture
+### Todo-list
+
+#### Debug
+- Debug `bica_main.py`
+
+#### Complete
+- Complete `bica_affect.py`
+- Complete `bica_orchestrator.py`
+- Complete `bica_memory.py`
+
+#### Validate
+- Validate `bica_logging.py`
+- Validate `bica_destiny.py`
+- Validate `bica_context.py`
+- Validate `bica_cognition.py`
+- Validate `bica_action_executor.py`
+
+#### Implement
+- Implement `bica_subconscious.py`
+
+### Functioning Files
+- `gpt_handler.py`
+- `bica_utilities.py`
+- `bica_safety.py`
 
 ## 2024-09-25
 
