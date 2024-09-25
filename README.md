@@ -36,6 +36,21 @@
 - [License](#license-section)
 
 ---
+## 📋 Changelog
+
+For a detailed history of changes and updates to this project, please see our [CHANGELOG.md](CHANGELOG.md) file.
+
+## 2024-09-25
+
+### Added
+- `CHANGELOG.md` - so we can track changes more easily
+
+### Changed
+- `bica_utilities.py` - Added a delete json function
+
+For full details and older changes, please refer to the changelog.
+
+---
 <a name="overview-section"></a>
 ## 📖 Overview
 
