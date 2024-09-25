@@ -79,6 +79,15 @@ def load_json_file(file_path: str) -> Dict[str, Any]:
         return json.load(file)
 
 
+def delete_json_file(file_path: str) -> None:
+    """Delete a JSON file."""
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"File {file_path} has been deleted.")
+    else:
+        print(f"File {file_path} does not exist.")
+
+
 def save_json_file(data: Dict[str, Any], file_path: str) -> None:
     """Save data to a JSON file."""
     with open(file_path, 'w') as file:
