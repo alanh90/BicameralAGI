@@ -1,10 +1,37 @@
 """
-This module manages the contextual understanding of the BicameralAGI system. It maintains and updates different viewpoints (positive, neutral, negative) of the current context, and generates responses based on this multi-faceted understanding.
+BicameralAGI Context Management Module
+======================================
+
+Overview:
+---------
+This module manages the contextual understanding of the BicameralAGI system. It maintains and updates
+different viewpoints (positive, neutral, negative) of the current context, generates responses based
+on this multi-faceted understanding, and handles context-related operations essential for the AI's
+adaptive and nuanced interactions.
+
+Key Features:
+-------------
+1. Multi-perspective context tracking
+2. Dynamic context updating based on new information
+3. Weighted viewpoint management for balanced decision-making
+4. Generation of contextually appropriate responses
+5. Integration with other BicameralAGI components for cohesive AI behavior
+
+Usage:
+------
+The BicaContext class can be instantiated and used to manage context throughout conversations:
+
+    context_manager = BicaContext()
+    context_manager.update_context("New information to consider")
+    response = context_manager.generate_contextual_response("User input")
+
+Author: Alan Hourmand
+Date: 10/2/2024
 """
 
 from sentence_transformers import SentenceTransformer
-from scipy.spatial.distance import cosine
 from bica.gpt_handler import GPTHandler as gpt
+from scipy.spatial.distance import cosine
 import json
 
 
@@ -12,26 +39,54 @@ class BicaContext:
     def __init__(self, max_length=1000):
         self.context_viewpoints = {"positive": "", "neutral": "", "negative": ""}
         self.weights = {"positive": 0.33, "neutral": 0.33, "negative": 0.34}  # Initial weights
+        self.model = SentenceTransformer('paraphrase-MiniLM-L6-v2')  # Load the embedding model
         self.max_length = max_length
         self.gpt_handler = gpt()
-        self.model = SentenceTransformer('paraphrase-MiniLM-L6-v2')  # Load the embedding model
         self.memory = []
 
-    def update_viewpoint_weights(self, new_info):
-        new_info_embedding = self.model.encode(new_info, convert_to_tensor=True)
-
-        similarities = {}
+    def update_context(self, new_info):
+        self.update_viewpoint_weights(new_info)
         for viewpoint in self.context_viewpoints:
             prompt = self.generate_viewpoint_prompt(viewpoint, new_info)
             response = self.gpt_handler.generate_response(prompt)
 
             try:
                 parsed_response = json.loads(response)
+                updated_context = parsed_response['interpretation']
+            except json.JSONDecodeError:
+                updated_context = response  # Fallback to raw response if JSON parsing fails
+
+            self.update_viewpoint_context(viewpoint, updated_context)
+            if len(self.context_viewpoints[viewpoint]) > self.max_length:
+                self.summarize_viewpoint_context(viewpoint)
+
+        self.memory.append(new_info)
+        if len(self.memory) > 5:  # Keep only the last 5 interactions
+            self.memory.pop(0)
+
+    def update_viewpoint_weights(self, new_info):
+        # Encode the new information into a vector representation
+        new_info_embedding = self.model.encode(new_info, convert_to_tensor=True)
+
+        similarities = {}
+
+        for viewpoint in self.context_viewpoints:
+            # Generate a prompt for each viewpoint (positive, neutral, negative)
+            prompt = self.generate_viewpoint_prompt(viewpoint, new_info)
+
+            # Get GPT's interpretation of the new info from this viewpoint
+            response = self.gpt_handler.generate_response(prompt)
+
+            try:
+                # Try to parse the response as JSON
+                parsed_response = json.loads(response)
                 interpretation = parsed_response['interpretation']
             except json.JSONDecodeError:
                 interpretation = response  # Fallback to raw response if JSON parsing fails
 
             response_embedding = self.model.encode(interpretation, convert_to_tensor=True)
+
+            # Calculate similarity between new info and interpretation
             similarity = 1 - cosine(new_info_embedding, response_embedding)
             similarities[viewpoint] = similarity
 
@@ -43,7 +98,7 @@ class BicaContext:
         # Adjust negative weight to significantly favor caution
         self.weights["negative"] = min(self.weights["negative"] * 1.5, 1.0)
 
-        # Renormalize after adjustment
+        # Renormalize weights after adjusting the negative weight
         total = sum(self.weights.values())
         for viewpoint in self.weights:
             self.weights[viewpoint] /= total
@@ -52,6 +107,8 @@ class BicaContext:
         if self.weights["negative"] < 0.3:
             deficit = 0.3 - self.weights["negative"]
             self.weights["negative"] = 0.3
+
+            # Distribute the deficit equally between positive and neutral
             self.weights["positive"] -= deficit / 2
             self.weights["neutral"] -= deficit / 2
 
@@ -75,25 +132,8 @@ class BicaContext:
 
         return base_prompt
 
-    def update_context(self, new_info):
-        self.update_viewpoint_weights(new_info)
-        for viewpoint in self.context_viewpoints:
-            prompt = self.generate_viewpoint_prompt(viewpoint, new_info)
-            response = self.gpt_handler.generate_response(prompt)
-
-            try:
-                parsed_response = json.loads(response)
-                updated_context = parsed_response['interpretation']
-            except json.JSONDecodeError:
-                updated_context = response  # Fallback to raw response if JSON parsing fails
-
-            self.context_viewpoints[viewpoint] = updated_context.strip()
-            if len(self.context_viewpoints[viewpoint]) > self.max_length:
-                self.summarize_viewpoint_context(viewpoint)
-
-        self.memory.append(new_info)
-        if len(self.memory) > 5:  # Keep only the last 5 interactions
-            self.memory.pop(0)
+    def update_viewpoint_context(self, viewpoint, new_context):
+        self.context_viewpoints[viewpoint] += f" {new_context}"
 
     def summarize_viewpoint_context(self, viewpoint):
         prompt = f"""
@@ -107,27 +147,13 @@ class BicaContext:
         }}
         """
 
-        compressed_context = self.gpt_handler.generate_response([{"role": "user", "content": prompt}])
+        compressed_context = self.gpt_handler.generate_response(prompt)
 
         try:
             parsed_response = json.loads(compressed_context)
             self.context_viewpoints[viewpoint] = parsed_response['summary'].strip()
         except json.JSONDecodeError:
             self.context_viewpoints[viewpoint] = compressed_context.strip()  # Fallback to raw response if JSON parsing fails
-
-    def get_context(self):
-        return self.context_viewpoints
-
-    def get_weighted_context(self):
-        weighted_context = {}
-        for viewpoint, context in self.context_viewpoints.items():
-            weighted_context[viewpoint] = f"Weight: {self.weights[viewpoint]:.4f}\n{context}"
-        return weighted_context
-
-    def wipe_context(self):
-        for viewpoint in self.context_viewpoints:
-            self.context_viewpoints[viewpoint] = ""
-        self.memory = []
 
     def generate_contextual_response(self, user_input):
         self.update_context(user_input)
@@ -147,7 +173,7 @@ class BicaContext:
         }
         """
 
-        response = self.gpt_handler.generate_response([{"role": "user", "content": prompt}])
+        response = self.gpt_handler.generate_response(prompt)
 
         try:
             parsed_response = json.loads(response)
@@ -166,6 +192,20 @@ class BicaContext:
                 return response.strip(), "Unable to parse response"
 
         return ai_response.strip(), reasoning
+
+    def get_context(self):
+        return self.context_viewpoints
+
+    def get_weighted_context(self):
+        weighted_context = {}
+        for viewpoint, context in self.context_viewpoints.items():
+            weighted_context[viewpoint] = f"Weight: {self.weights[viewpoint]:.4f}\n{context}"
+        return weighted_context
+
+    def wipe_context(self):
+        for viewpoint in self.context_viewpoints:
+            self.context_viewpoints[viewpoint] = ""
+        self.memory = []
 
 
 def main():

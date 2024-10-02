@@ -12,15 +12,18 @@ import time
 import os
 
 
-class BicaAffect:
-    def __init__(self, character_name: str):
+class BicaProfile:
+    def __init__(self, character_details: str):
         self.gpt_handler = gpt()
-        self.character_name = character_name
+        self.character_details = character_details
+        self.character_system_prompt = None
+        self.character_name = None
         self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
         self.cog_model = self.load_or_create_cog_model()
         self.runtime_emotions = self.initialize_emotions()
         self.emotion_falloff_rate = 0.05
         self.last_update = time.time()
+
 
     def load_or_create_cog_model(self) -> Dict[str, Any]:
         file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
