@@ -25,6 +25,7 @@ All notable changes to the BicameralAGI project will be documented in this file.
 - `bica_utilities.py`
 - `bica_safety.py`
 - `bica_action_executor.py`
+- `bica_main.py`
 
 ## 2024-10-02
 
