@@ -26,7 +26,7 @@ class BicaActionExecutor:
         # Reason for defining a separate compiled data section is for a possible expansion later
         # where we separate parts of the context for different reasons
         compiled_data = compiled_context.get("compiled_data", {})
-        response = self.gpt_handler.generate_response([{"role": "user", "content": compiled_data}])
+        response = self.gpt_handler.generate_response(compiled_data)
 
         return response
 

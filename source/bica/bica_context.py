@@ -23,7 +23,7 @@ class BicaContext:
         similarities = {}
         for viewpoint in self.context_viewpoints:
             prompt = self.generate_viewpoint_prompt(viewpoint, new_info)
-            response = self.gpt_handler.generate_response([{"role": "user", "content": prompt}])
+            response = self.gpt_handler.generate_response(prompt)
 
             try:
                 parsed_response = json.loads(response)
@@ -79,7 +79,7 @@ class BicaContext:
         self.update_viewpoint_weights(new_info)
         for viewpoint in self.context_viewpoints:
             prompt = self.generate_viewpoint_prompt(viewpoint, new_info)
-            response = self.gpt_handler.generate_response([{"role": "user", "content": prompt}])
+            response = self.gpt_handler.generate_response(prompt)
 
             try:
                 parsed_response = json.loads(response)
