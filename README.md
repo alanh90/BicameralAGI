@@ -43,9 +43,18 @@ For a detailed history of changes and updates to this project, please see our [C
 ## Latest Changes
 ## 2024-10-02
 
+### Added
+- Added a new extract definition function in the new `bica_character.py` file
+- Also added the ability for the user to define the character they chat with
+
 ### Changed
 - `bica_action_executor.py` & `bica_context.py` - Fixed an issue with calling `gpt_handler.py`
 - `bica_main.py` - Improved font color and made it easier to read
+- Renamed `bica_orchestrator.py` to `bica_character.py` and updated the contents to be more like a character box
+- Renamed `bica_affect.py` to `bica_profile.py` for clarity reasons
+
+### Removed
+- Temporarily removed some modules for now so that the main branch can be functional at all times
 
 For full details and older changes, please refer to the changelog.
 
@@ -275,9 +284,9 @@ These examples illustrate key aspects of human-like interaction vs normal llms:
 
 BicameralAGI's architecture consists of the following key components:
 
-1. Orchestrator (bica_orchestrator.py):
+1. Character Orchestrator (bica_character.py):
    - Central coordinator for the BicameralAGI system
-   - Initializes and manages all other components
+   - Initializes and manages all other components, a box container for character processes
    - Processes user inputs and coordinates system responses
    - Compiles prompts for GPT responses
 
@@ -297,7 +306,7 @@ BicameralAGI's architecture consists of the following key components:
    - Analyzes inputs and manages cognitive functions
    - Uses GPT models and vector embeddings for processing
 
-5. Affective System (bica_affect.py):
+5. Affective System (bica_profile.py):
    - Manages emotions and personality aspects
    - Handles emotion generation and personality traits evolution
    - Creates and updates cognitive models for characters
