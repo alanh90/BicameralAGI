@@ -13,19 +13,19 @@ import os
 
 
 class BicaProfile:
-    def __init__(self, character_details: str):
-        self.gpt_handler = gpt()
-        self.character_details = character_details
-        self.character_system_prompt = None
-        self.character_name = None
+    def __init__(self, character_summary: str, character_name: str):
         self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
-        self.cog_model = self.load_or_create_cog_model()
-        self.runtime_emotions = self.initialize_emotions()
+        self.gpt_handler = gpt()
+
+        # Character Trait Setup
+        self.character_profile = self.initialize_character_trait_profile()
+        self.character_details = character_summary
+        self.character_name = character_name
         self.emotion_falloff_rate = 0.05
-        self.last_update = time.time()
 
+        self.last_update = time.time() # Used for emotional falloff
 
-    def load_or_create_cog_model(self) -> Dict[str, Any]:
+    def initialize_character_trait_profile(self) -> Dict[str, Any]:
         file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
 
         try:
@@ -37,7 +37,7 @@ class BicaProfile:
         except (FileNotFoundError, json.JSONDecodeError):
             return self.create_cog_model(self.character_name, f"Default cognitive model for {self.character_name}")
 
-    def initialize_emotions(self) -> Dict[str, float]:
+    def initialize_character_emotions_profile(self) -> Dict[str, float]:
         try:
             emotions = self.cog_model.get('char_cogModel', [{}])[0].get('attributes', {})
             return {emotion: value for emotion, value in emotions.items() if isinstance(value, (int, float))}

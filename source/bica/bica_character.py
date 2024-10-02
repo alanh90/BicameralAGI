@@ -45,7 +45,7 @@ class BicaCharacter:
         self.character_summary = "You are an artificial general intelligence called BICA. You were created by Alan Hourmand."
         self.extract_character_definition(character_description)
 
-        self.profile = BicaProfile(self.character_summary)  # Currently not being utilized
+        self.profile = BicaProfile(self.character_summary, self.character_name)
         self.context = BicaContext()
         # |||||||||||||||||||||||||||||||||||||||||||||
 
