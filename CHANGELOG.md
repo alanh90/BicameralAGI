@@ -6,9 +6,6 @@ All notable changes to the BicameralAGI project will be documented in this file.
 
 ### Todo-list
 
-#### Debug
-- Debug `bica_main.py`
-
 #### Complete
 - Complete `bica_affect.py`
 - Complete `bica_orchestrator.py`
@@ -28,6 +25,12 @@ All notable changes to the BicameralAGI project will be documented in this file.
 - `gpt_handler.py`
 - `bica_utilities.py`
 - `bica_safety.py`
+
+## 2024-10-02
+
+### Changed
+- `bica_action_executor.py` & `bica_context.py` - Fixed an issue with calling `gpt_handler.py`
+- `bica_main.py` - Improved font color and made it easier to read
 
 ## 2024-09-25
 

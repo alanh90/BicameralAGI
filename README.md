@@ -40,13 +40,12 @@
 
 For a detailed history of changes and updates to this project, please see our [CHANGELOG.md](CHANGELOG.md) file.
 
-## 2024-09-25
-
-### Added
-- `CHANGELOG.md` - so we can track changes more easily
+## Latest Changes
+## 2024-10-02
 
 ### Changed
-- `bica_utilities.py` - Added a delete json function
+- `bica_action_executor.py` & `bica_context.py` - Fixed an issue with calling `gpt_handler.py`
+- `bica_main.py` - Improved font color and made it easier to read
 
 For full details and older changes, please refer to the changelog.
 
