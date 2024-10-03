@@ -5,6 +5,7 @@
     "pastSummary": "One-sentence summary of the character's past experiences and key events."
   },
   "cognitiveModel": {
+    "emotionFalloffRate": 0.05,
     "emotions": {
       "joy": 0.5,
       "sadness": 0.5,
