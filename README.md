@@ -2,7 +2,7 @@
 
 # 🧠 BicameralAGI
 ⚠️ Some major changes coming! Stay Tuned! ⚠️
-![BicameralAGI Cover](source/media/BICA_Cover_words.png)
+![BicameralAGI Cover](media/BICA_Cover_words.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
@@ -89,12 +89,12 @@ BicameralAGI represents a step towards AI that can be a true companion and colla
 <table>
   <tr>
     <td width="50%" align="center">
-      <img src="source/media/heres-a-clu.gif" alt="Tron" style="max-width: 100%; height: auto;"/>
+      <img src="media/heres-a-clu.gif" alt="Tron" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Tron Legacy (2010)</em>
     </td>
     <td width="50%" align="center">
-      <img src="source/media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
+      <img src="media/westworld_maeveGif.gif" alt="Westworld" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Westworld (2016) "This scene was interesting, it showed a type of LLM generating her logic"</em>
     </td>
@@ -108,12 +108,12 @@ My lifelong fascination with human-like AI, as portrayed in works like Bicentenn
 <table>
   <tr>
     <td width="50%" align="center">
-      <img src="source/media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
+      <img src="media/clownfish_seaanemone.gif" alt="Clownfish gif" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Clownfish and Sea Anemone</em>
     </td>
     <td width="50%" align="center">
-      <img src="source/media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
+      <img src="media/mutualism_warthog.gif" alt="Warthog gif" style="max-width: 100%; height: auto;"/>
       <br>
       <em>Warthog and Mongoose</em>
     </td>
