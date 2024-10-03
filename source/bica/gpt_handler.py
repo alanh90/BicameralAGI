@@ -1,72 +1,9 @@
-"""
-GPTHandler: A Flexible Interface for OpenAI's GPT Models
-=====================================
-This module provides a versatile and easy-to-use interface for interacting with OpenAI's GPT models,
-offering support for various types of outputs and configurations. It's designed to simplify the
-process of generating responses, calling functions, and producing structured JSON outputs.
-
-Key Features:
--------------
-1. Simple text generation
-2. Function calling with multiple predefined functions
-3. Structured JSON output generation
-4. Customizable model parameters (e.g., temperature, max_tokens)
-
-Usage:
-------
-1. Simple text generation:
-   response = handler.generate_response("Tell me a joke about programming.")
-
-2. Function calling:
-   functions = [
-       {
-           "name": "get_weather",
-           "description": "Get the weather for a location",
-           "parameters": {
-               "type": "object",
-               "properties": {
-                   "location": {"type": "string", "description": "The city and state, e.g. San Francisco, CA"},
-                   "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]}
-               },
-               "required": ["location", "unit"],
-               "additionalProperties": False
-           }
-       }
-   ]
-   response = handler.generate_response("What's the weather in Tokyo?", functions=functions)
-
-3. Structured JSON output:
-   json_schema = {
-       "type": "object",
-       "properties": {
-           "name": {"type": "string"},
-           "age": {"type": "integer"},
-           "occupation": {"type": "string"},
-           "hobbies": {"type": "array", "items": {"type": "string"}}
-       },
-       "required": ["name", "age", "occupation", "hobbies"],
-       "additionalProperties": False
-   }
-   response = handler.generate_response("Generate a profile for a fictional person.", json_schema=json_schema)
-
-4. Custom parameters:
-   response = handler.generate_response("Write a creative story.", temperature=0.9, max_tokens=200)
-
-The module includes a comprehensive test suite in the main() function, demonstrating various use cases
-and configurations. Run the script directly to see examples of all supported features in action.
-
-Note: This module requires the OpenAI Python library and a valid API key set in the environment variables.
-
-Author: Alan Hourmand
-Date: 9/23/2024
-"""
-
 import json
 from typing import List, Dict, Any, Union, Optional
 from openai import OpenAI
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from bica_utilities import *
-
+from typing import Type
 
 class GPTHandler:
     def __init__(self):
@@ -97,11 +34,9 @@ class GPTHandler:
 
         if functions:
             params['functions'] = functions
-            params['function_call'] = 'auto' #Helps the AI decide if there even is an appropriate function call
+            params['function_call'] = 'auto'  # Helps the AI decide if there even is an appropriate function call
 
         if json_schema:
-            params['response_format'] = {"type": "json_object"}
-            # Add a system message requiring JSON output
             params['messages'].insert(0, {"role": "system", "content": "You must respond with JSON output."})
             params['functions'] = [{
                 "name": "output_json",
@@ -114,7 +49,7 @@ class GPTHandler:
             response = self.client.chat.completions.create(**params)
             return self._process_response(response)
         except Exception as e:
-            raise
+            raise Exception(f"Error generating response: {str(e)}")
 
     def _process_response(self, response):
         """
@@ -131,6 +66,15 @@ class GPTHandler:
                 "arguments": json.loads(message.function_call.arguments)
             }
         return message.content.strip()
+
+    def generate_character_profile(self, prompt: str, schema: Type[BaseModel]) -> BaseModel:
+        response = self.generate_response(prompt)
+        try:
+            return schema.parse_raw(response)
+        except ValidationError as e:
+            print(f"Validation error: {e}")
+            # Return the raw response if validation fails
+            return response
 
 
 def main():
