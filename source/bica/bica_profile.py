@@ -77,7 +77,7 @@ class BicaProfile:
 
     def create_character_file(self, character_name: str, description: str) -> Dict[str, Any]:
 
-        template_path = os.path.join(self.base_path, 'data', 'template', 'persona_cog_template.json')
+        template_path = os.path.join(self.base_path, 'data', 'template', 'character_trait_template.json')
         with open(template_path, 'r') as file:
             template = json.load(file)
 
