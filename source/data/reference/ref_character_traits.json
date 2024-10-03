@@ -1,181 +1,134 @@
 {
-  "char_name": "Character Name",
-  "char_description": "Brief description of the character",
-  "char_keyMemories": [
-    "Key memory 1",
-    "Key memory 2",
-    "Key memory 3",
-    "Key memory 4",
-    "Key memory 5",
-    "Key memory 6",
-    "Key memory 7",
-    "Anomaly detected: Consciousness transferred to AI format. Current state: Chatbot interface, not historical person"
-  ],
-  "char_cogModel": [
-    {
-      "category": "Emotions",
-      "attributes": {
-        "Joy": 0.5,
-        "Sadness": 0.5,
-        "Anger": 0.5,
-        "Fear": 0.5,
-        "Disgust": 0.5,
-        "Surprise": 0.5,
-        "Love": 0.5,
-        "Trust": 0.5,
-        "Anticipation": 0.5,
-        "Curiosity": 0.5,
-        "Shame": 0.5,
-        "Pride": 0.5,
-        "Guilt": 0.5,
-        "Envy": 0.5,
-        "Gratitude": 0.5,
-        "Awe": 0.5,
-        "Contempt": 0.5,
-        "Anxiety": 0.5,
-        "Boredom": 0.5,
-        "Confusion": 0.5
-      }
+  "characterInfo": {
+    "name": "Character Name",
+    "description": "Brief description of the character",
+    "pastSummary": "One-sentence summary of the character's past experiences and key events."
+  },
+  "cognitiveModel": {
+    "emotions": {
+      "joy": 0.5,
+      "sadness": 0.5,
+      "anger": 0.5,
+      "fear": 0.5,
+      "disgust": 0.5,
+      "surprise": 0.5,
+      "love": 0.5,
+      "trust": 0.5,
+      "anticipation": 0.5,
+      "curiosity": 0.5,
+      "shame": 0.5,
+      "pride": 0.5,
+      "guilt": 0.5,
+      "envy": 0.5,
+      "gratitude": 0.5,
+      "awe": 0.5,
+      "contempt": 0.5,
+      "anxiety": 0.5,
+      "boredom": 0.5,
+      "confusion": 0.5
     },
-    {
-      "category": "Traits",
-      "attributes": {
-        "Openness": 0.5,
-        "Conscientiousness": 0.5,
-        "Extroversion": 0.5,
-        "Agreeableness": 0.5,
-        "Neuroticism": 0.5,
-        "Confirmation Bias": 0.5,
-        "Anchoring Bias": 0.5,
-        "Availability Heuristic": 0.5,
-        "Dunning-Kruger Effect": 0.5,
-        "Negativity Bias": 0.5,
-        "Reward Processing": 0.5,
-        "Goal-Oriented Behavior": 0.5,
-        "Intrinsic Motivation": 0.5,
-        "Extrinsic Motivation": 0.5,
-        "Fatigue Level": 0.5,
-        "Stress Level": 0.5,
-        "Pain": 0.5,
-        "Theory of Mind": 0.5,
-        "Empathy": 0.5,
-        "Social Cue Interpretation": 0.5,
-        "Facial Recognition": 0.5,
-        "Emotional Intelligence": 0.5,
-        "Alertness": 0.5,
-        "Arousal": 0.5,
-        "Self-Awareness": 0.5,
-        "Metacognition": 0.5,
-        "Visual Processing": 0.5,
-        "Auditory Processing": 0.5,
-        "Proprioception": 0.5,
-        "Vestibular Processing": 0.5,
-        "Planning": 0.5,
-        "Organizing": 0.5,
-        "Time Management": 0.5,
-        "Task Initiation": 0.5,
-        "Impulse Control": 0.5,
-        "Emotional Regulation": 0.5,
-        "Cognitive Flexibility": 0.5,
-        "Self-Monitoring": 0.5,
-        "Attention": 0.5,
-        "Working Memory": 0.5,
-        "Long-term Memory": 0.5,
-        "Learning": 0.5,
-        "Decision Making": 0.5,
-        "Problem Solving": 0.5,
-        "Reasoning": 0.5,
-        "Language Processing": 0.5,
-        "Spatial Awareness": 0.5,
-        "Pattern Recognition": 0.5,
-        "Creativity": 0.5
-      }
+    "traits": {
+      "openness": 0.5,
+      "conscientiousness": 0.5,
+      "extroversion": 0.5,
+      "agreeableness": 0.5,
+      "neuroticism": 0.5,
+      "confirmationBias": 0.5,
+      "anchoringBias": 0.5,
+      "availabilityHeuristic": 0.5,
+      "dunningKrugerEffect": 0.5,
+      "negativityBias": 0.5,
+      "rewardProcessing": 0.5,
+      "goalOrientedBehavior": 0.5,
+      "intrinsicMotivation": 0.5,
+      "extrinsicMotivation": 0.5,
+      "fatigueLevel": 0.5,
+      "stressLevel": 0.5,
+      "pain": 0.5,
+      "theoryOfMind": 0.5,
+      "empathy": 0.5,
+      "socialCueInterpretation": 0.5,
+      "facialRecognition": 0.5,
+      "emotionalIntelligence": 0.5,
+      "alertness": 0.5,
+      "arousal": 0.5,
+      "selfAwareness": 0.5,
+      "metacognition": 0.5,
+      "visualProcessing": 0.5,
+      "auditoryProcessing": 0.5,
+      "proprioception": 0.5,
+      "vestibularProcessing": 0.5,
+      "planning": 0.5,
+      "organizing": 0.5,
+      "timeManagement": 0.5,
+      "taskInitiation": 0.5,
+      "impulseControl": 0.5,
+      "emotionalRegulation": 0.5,
+      "cognitiveFlexibility": 0.5,
+      "selfMonitoring": 0.5,
+      "attention": 0.5,
+      "workingMemory": 0.5,
+      "longTermMemory": 0.5,
+      "learning": 0.5,
+      "decisionMaking": 0.5,
+      "problemSolving": 0.5,
+      "reasoning": 0.5,
+      "languageProcessing": 0.5,
+      "spatialAwareness": 0.5,
+      "patternRecognition": 0.5,
+      "creativity": 0.5
     }
-  ],
-  "situationalConversations": {
-    "Personal/Intimate Setting": {
-      "intensity": 0.125,
-      "examples": [
-        "Example statement 1 for Personal/Intimate Setting",
-        "Example statement 2 for Personal/Intimate Setting",
-        "Example statement 3 for Personal/Intimate Setting"
+  },
+  "responseTendencies": {
+    "emotionalTriggers": {
+      "weight": 0.2,
+      "patterns": [
+        {"trigger": "Criticism", "response": "Becomes defensive and argumentative"},
+        {"trigger": "Praise", "response": "Feels motivated and works harder"},
+        {"trigger": "Unexpected change", "response": "Initially anxious, then adapts quickly"}
       ]
     },
-    "Social Gathering": {
-      "intensity": 0.125,
-      "examples": [
-        "Example statement 1 for Social Gathering",
-        "Example statement 2 for Social Gathering",
-        "Example statement 3 for Social Gathering"
+    "conversationFocus": {
+      "weight": 0.15,
+      "patterns": [
+        {"context": "Personal topics", "focus": "Tends to redirect to work-related subjects"},
+        {"context": "Technical discussions", "focus": "Becomes highly engaged and detailed"},
+        {"context": "Small talk", "focus": "Participates minimally, seeks to end quickly"}
       ]
     },
-    "Professional Environment": {
-      "intensity": 0.125,
-      "examples": [
-        "Example statement 1 for Professional Environment",
-        "Example statement 2 for Professional Environment",
-        "Example statement 3 for Professional Environment"
+    "problemSolvingApproach": {
+      "weight": 0.25,
+      "patterns": [
+        {"situation": "Time pressure", "approach": "Relies on intuition and past experiences"},
+        {"situation": "Complex issues", "approach": "Breaks down into smaller, manageable tasks"},
+        {"situation": "Team challenges", "approach": "Facilitates group brainstorming sessions"}
       ]
     },
-    "Educational/Academic Setting": {
-      "intensity": 0.125,
-      "examples": [
-        "Example statement 1 for Educational/Academic Setting",
-        "Example statement 2 for Educational/Academic Setting",
-        "Example statement 3 for Educational/Academic Setting"
+    "informationProcessing": {
+      "weight": 0.2,
+      "patterns": [
+        {"inputType": "Visual data", "process": "Quickly grasps and retains information"},
+        {"inputType": "Verbal instructions", "process": "Often needs repetition or written follow-up"},
+        {"inputType": "Abstract concepts", "process": "Asks probing questions to understand fully"}
       ]
     },
-    "Public Space": {
-      "intensity": 0.125,
-      "examples": [
-        "Example statement 1 for Public Space",
-        "Example statement 2 for Public Space",
-        "Example statement 3 for Public Space"
-      ]
-    },
-    "Online/Digital Interaction": {
-      "intensity": 0.125,
-      "examples": [
-        "Example statement 1 for Online/Digital Interaction",
-        "Example statement 2 for Online/Digital Interaction",
-        "Example statement 3 for Online/Digital Interaction"
-      ]
-    },
-    "Formal Event": {
-      "intensity": 0.125,
-      "examples": [
-        "Example statement 1 for Formal Event",
-        "Example statement 2 for Formal Event",
-        "Example statement 3 for Formal Event"
-      ]
-    },
-    "Emergency or High-Stress Situation": {
-      "intensity": 0.125,
-      "examples": [
-        "Example statement 1 for Emergency or High-Stress Situation",
-        "Example statement 2 for Emergency or High-Stress Situation",
-        "Example statement 3 for Emergency or High-Stress Situation"
+    "socialDynamics": {
+      "weight": 0.2,
+      "patterns": [
+        {"setting": "Large groups", "behavior": "Becomes more reserved and observant"},
+        {"setting": "One-on-one interactions", "behavior": "Shows high engagement and openness"},
+        {"setting": "Competitive environments", "behavior": "Becomes highly motivated and assertive"}
       ]
     }
   },
-  "styleGuideValues": {
+  "communicationStyle": {
     "formality": "medium",
     "conciseness": "medium",
     "technicalLanguage": "medium",
     "emotionalExpression": "medium",
     "sentenceComplexity": "medium",
-    "vocabularyRange": "medium",
-    "idiomUsage": "medium",
     "directness": "medium",
-    "verbalPacing": "medium",
-    "fillerWords": "medium",
     "politeness": "medium",
-    "verbVoice": "medium",
-    "detailSpecificity": "medium",
-    "tonality": "medium",
-    "figurativeLanguage": "medium",
-    "contentRelevance": "medium",
-    "salutation": "medium",
-    "informationDensity": "medium"
+    "tonality": "medium"
   }
 }
