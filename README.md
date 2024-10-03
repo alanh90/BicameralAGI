@@ -41,20 +41,14 @@
 For a detailed history of changes and updates to this project, please see our [CHANGELOG.md](CHANGELOG.md) file.
 
 ## Latest Changes
-## 2024-10-02
-
-### Added
-- Added a new extract definition function in the new `bica_character.py` file
-- Also added the ability for the user to define the character they chat with
+## 2024-10-03
 
 ### Changed
-- `bica_action_executor.py` & `bica_context.py` - Fixed an issue with calling `gpt_handler.py`
-- `bica_main.py` - Improved font color and made it easier to read
-- Renamed `bica_orchestrator.py` to `bica_character.py` and updated the contents to be more like a character box
-- Renamed `bica_affect.py` to `bica_profile.py` for clarity reasons
+- `bica_profile.py` so that it now creates profile files off of the character inputs
 
-### Removed
-- Temporarily removed some modules for now so that the main branch can be functional at all times
+### Notes
+- There is a noticeable bug in the generated profile files that will be fixed.
+- The profile files are not utilized yet, but will be soon
 
 For full details and older changes, please refer to the changelog.
 

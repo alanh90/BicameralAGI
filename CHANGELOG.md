@@ -7,7 +7,6 @@ All notable changes to the BicameralAGI project will be documented in this file.
 ### Todo-list
 
 #### Complete
-- Complete `bica_profile.py`
 - Complete `bica_character.py`
 - Complete `bica_memory.py`
 
@@ -26,6 +25,17 @@ All notable changes to the BicameralAGI project will be documented in this file.
 - `bica_safety.py`
 - `bica_action_executor.py`
 - `bica_main.py`
+- `bica_profile.py`
+
+
+## 2024-10-03
+
+### Changed
+- `bica_profile.py` so that it now creates profile files off of the character inputs
+
+### Notes
+- There is a noticeable bug in the generated profile files that will be fixed.
+- The profile files are not utilized yet, but will be soon
 
 ## 2024-10-02
 
