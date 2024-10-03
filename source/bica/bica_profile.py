@@ -1,5 +1,27 @@
 """
-This module manages the emotional and personality aspects of the BicameralAGI system. It handles emotion generation, personality traits, and their evolution over time based on experiences and interactions.
+BicameralAGI Profile Module
+==============================
+
+Overview:
+---------
+This module manages the emotional and personality aspects of the BicameralAGI system. It handles character traits, and their evolution over time based on experiences and interactions.
+
+Key Features:
+-------------
+1. Emotion preparation
+2. Personality trait modeling and evolution
+3. Experience-based profile updates
+4. Integration with other BicameralAGI components
+
+Usage:
+------
+The BicaProfile class can be instantiated and used to manage a character's emotional and personality state:
+
+    profile = BicaProfile(character_summary, character_name)
+    profile.update_personality(new_experience)
+
+Author: Alan Hourmand
+Date: 10/2/2024
 """
 
 from bica.gpt_handler import GPTHandler as gpt
@@ -18,65 +40,42 @@ class BicaProfile:
         self.gpt_handler = gpt()
 
         # Character Trait Setup
-        self.character_profile = self.initialize_character_trait_profile()
+        self.character_profile = self.initialize_character_profile()
         self.character_details = character_summary
         self.character_name = character_name
         self.emotion_falloff_rate = 0.05
 
-        self.last_update = time.time() # Used for emotional falloff
+        self.last_update = time.time()  # Used for emotional falloff
 
-    def initialize_character_trait_profile(self) -> Dict[str, Any]:
-        file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
+    def initialize_character_profile(self) -> Dict[str, Any]:
+        file_path = os.path.join(self.base_path, 'data', 'characters', f'{self.character_name}.json')
 
         try:
             if os.path.exists(file_path):
                 with open(file_path, 'r') as file:
-                    return json.load(file)
+                    self.character_profile = json.load(file)
             else:
                 raise FileNotFoundError
         except (FileNotFoundError, json.JSONDecodeError):
-            return self.create_cog_model(self.character_name, f"Default cognitive model for {self.character_name}")
+            self.character_profile = self.create_cog_model(self.character_name, f"Default cognitive model for {self.character_name}")
 
-    def initialize_character_emotions_profile(self) -> Dict[str, float]:
-        try:
-            emotions = self.cog_model.get('char_cogModel', [{}])[0].get('attributes', {})
-            return {emotion: value for emotion, value in emotions.items() if isinstance(value, (int, float))}
-        except IndexError:
-            return {"Joy": 0.5, "Sadness": 0.5, "Anger": 0.5, "Fear": 0.5, "Surprise": 0.5}
+        # Ensure the cognitive model has both emotions and traits
+        if 'char_cogModel' in self.character_profile:
+            for category in self.character_profile['char_cogModel']:
+                if category['category'] == 'Emotions':
+                    self.runtime_emotions = {k: v for k, v in category['attributes'].items() if isinstance(v, (int, float))}
+                elif category['category'] == 'Traits':
+                    self.traits = category['attributes']
 
-    def trigger_emotion(self, emotion: str, intensity: float):
-        intensity = max(0.0, min(intensity, 1.0))
-        if emotion in self.runtime_emotions:
-            self.runtime_emotions[emotion] = max(0.0, min(self.runtime_emotions[emotion] + intensity, 1.0))
-        else:
-            self.runtime_emotions[emotion] = intensity
+        # Set default values if not found
+        if not hasattr(self, 'runtime_emotions'):
+            self.runtime_emotions = {"Joy": 0.5, "Sadness": 0.5, "Anger": 0.5, "Fear": 0.5, "Surprise": 0.5}
+        if not hasattr(self, 'traits'):
+            self.traits = {"Openness": 0.5, "Conscientiousness": 0.5, "Extraversion": 0.5, "Agreeableness": 0.5, "Neuroticism": 0.5}
 
-    def update_emotions(self):
-        current_time = time.time()
-        time_diff = current_time - self.last_update
-        falloff_amount = time_diff * self.emotion_falloff_rate
+        return self.character_profile
 
-        for emotion in list(self.runtime_emotions.keys()):
-            default_value = self.cog_model['char_cogModel'][0]['attributes'].get(emotion, 0.5)
-            current_value = self.runtime_emotions[emotion]
-
-            if current_value > default_value:
-                self.runtime_emotions[emotion] = max(default_value, current_value - falloff_amount)
-            elif current_value < default_value:
-                self.runtime_emotions[emotion] = min(default_value, current_value + falloff_amount)
-
-        self.last_update = current_time
-
-    def get_top_emotions(self, n: int = 3) -> List[Dict[str, Any]]:
-        self.update_emotions()
-        sorted_emotions = sorted(self.runtime_emotions.items(), key=lambda x: x[1], reverse=True)
-        return [{"emotion": k, "intensity": v} for k, v in sorted_emotions[:n]]
-
-    def get_all_emotions(self):
-        self.update_emotions()
-        return self.runtime_emotions
-
-    def create_cog_model(self, character_name: str, description: str) -> Dict[str, Any]:
+    def create_character_file(self, character_name: str, description: str) -> Dict[str, Any]:
 
         template_path = os.path.join(self.base_path, 'data', 'template', 'persona_cog_template.json')
         with open(template_path, 'r') as file:
@@ -111,7 +110,7 @@ class BicaProfile:
         except Exception as e:
             return self._create_default_cog_model(character_name, description)
 
-        file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
+        file_path = os.path.join(self.base_path, 'data', 'characters', f'{self.character_name}.json')
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'w') as file:
             json.dump(cog_model, file, indent=4)
@@ -194,7 +193,7 @@ class BicaProfile:
                         if trait in category["attributes"]:
                             category["attributes"][trait] = (category["attributes"][trait] + value) / 2
 
-            file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
+            file_path = os.path.join(self.base_path, 'data', 'characters', f'{self.character_name}.json')
             with open(file_path, 'w') as file:
                 json.dump(self.cog_model, file, indent=4)
 
@@ -216,7 +215,7 @@ class BicaProfile:
                 "attributes": updates
             })
 
-        file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
+        file_path = os.path.join(self.base_path, 'data', 'characters', f'{self.character_name}.json')
         with open(file_path, 'w') as file:
             json.dump(self.cog_model, file, indent=4)
 
@@ -368,7 +367,7 @@ class BicaProfile:
 
             self.cog_model['char_keyMemories'] = memories[:num_memories]
 
-            file_path = os.path.join(self.base_path, 'data', 'persona_cog_models', f'{self.character_name}.json')
+            file_path = os.path.join(self.base_path, 'data', 'characters', f'{self.character_name}.json')
             with open(file_path, 'w') as file:
                 json.dump(self.cog_model, file, indent=4)
 

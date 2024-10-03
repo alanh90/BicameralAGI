@@ -51,6 +51,38 @@ class BicaCognition:
 
         return self.current_thoughts
 
+    def get_top_emotions(self, n: int = 3) -> List[Dict[str, Any]]:
+        self.update_emotions()
+        sorted_emotions = sorted(self.runtime_emotions.items(), key=lambda x: x[1], reverse=True)
+        return [{"emotion": k, "intensity": v} for k, v in sorted_emotions[:n]]
+
+    def get_all_emotions(self):
+        self.update_emotions()
+        return self.runtime_emotions
+
+    def update_emotions(self):
+        current_time = time.time()
+        time_diff = current_time - self.last_update
+        falloff_amount = time_diff * self.emotion_falloff_rate
+
+        for emotion in list(self.runtime_emotions.keys()):
+            default_value = self.cog_model['char_cogModel'][0]['attributes'].get(emotion, 0.5)
+            current_value = self.runtime_emotions[emotion]
+
+            if current_value > default_value:
+                self.runtime_emotions[emotion] = max(default_value, current_value - falloff_amount)
+            elif current_value < default_value:
+                self.runtime_emotions[emotion] = min(default_value, current_value + falloff_amount)
+
+        self.last_update = current_time
+
+    def trigger_emotion(self, emotion: str, intensity: float):
+        intensity = max(0.0, min(intensity, 1.0))
+        if emotion in self.runtime_emotions:
+            self.runtime_emotions[emotion] = max(0.0, min(self.runtime_emotions[emotion] + intensity, 1.0))
+        else:
+            self.runtime_emotions[emotion] = intensity
+
     def generate_subconscious_thoughts(self, context: str) -> List[str]:
         print("Generating noise...")
         noise = np.random.randn(self.noise_dimension)
