@@ -77,13 +77,13 @@ class BicaProfile:
 
     def create_character_file(self, character_name: str, description: str) -> Dict[str, Any]:
 
-        template_path = os.path.join(self.base_path, 'data', 'template', 'character_trait_template.json')
+        template_path = os.path.join(self.base_path, 'data', 'reference', 'ref_character_traits.json')
         with open(template_path, 'r') as file:
             template = json.load(file)
 
         prompt = f"""
         Create a detailed cognitive model for {character_name} based on this description: '{description}'.
-        Follow the structure of this template exactly:
+        Follow the structure of this reference exactly:
         {json.dumps(template, indent=2)}
 
         Replace all placeholder values with appropriate content for {character_name}.
