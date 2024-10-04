@@ -28,11 +28,11 @@ Alan Hourmand
 Date: 10/2/2024
 """
 
-from bica_action_executor import BicaActionExecutor
-from bica_context import BicaContext
-from gpt_handler import GPTHandler
-from bica_profile import BicaProfile
-from bica_utilities import *
+from bica.core.action_executor import BicaActionExecutor
+from bica.core.context import BicaContext
+from bica.external.gpt_handler import GPTHandler
+from bica.core.profile import BicaProfile
+from bica.utils.utilities import *
 
 
 class BicaCharacter:

@@ -1,7 +1,7 @@
 import os
 import json
 from pydantic import BaseModel
-from bica.gpt_handler import GPTHandler
+from external.gpt_handler import GPTHandler
 from typing import Dict, Any
 import configparser
 import shutil
@@ -26,7 +26,7 @@ class BicaProfile:
         except (configparser.Error, FileNotFoundError) as e:
             # Fallback to default base path if config file is missing or corrupted
             print(f"Warning: Failed to read configuration file. Using default base path. Error: {str(e)}")
-            self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+            self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 
         # Initialize GPT handler and character information
         self.gpt_handler = gpt_handler
@@ -34,16 +34,53 @@ class BicaProfile:
         self.character_summary = character_summary
         self.character_profile = self.create_character_profile(character_summary)
 
+    def create_default_reference_files(self):
+        data_dir = os.path.join(self.base_path, 'data', 'reference')
+        os.makedirs(data_dir, exist_ok=True)
+
+        traits_path = os.path.join(data_dir, 'ref_character_traits.json')
+        styles_path = os.path.join(data_dir, 'ref_communication_styles.json')
+
+        default_traits = {
+            "responseTendencies": {
+                "emotionalTriggers": {"weight": 0.2, "patterns": []},
+                "conversationFocus": {"weight": 0.15, "patterns": []},
+                "problemSolvingApproach": {"weight": 0.25, "patterns": []},
+                "informationProcessing": {"weight": 0.2, "patterns": []},
+                "socialDynamics": {"weight": 0.2, "patterns": []}
+            }
+        }
+
+        default_styles = {
+            "styleGuide": {
+                "formality": {"high": "Very formal language", "medium": "Moderately formal", "low": "Casual or informal"},
+                "conciseness": {"high": "Brief and to the point", "medium": "Balanced", "low": "Verbose or wordy"},
+                "technicalLanguage": {"high": "Specialized terminology", "medium": "Balanced", "low": "Everyday language"},
+                "emotionalExpression": {"high": "Strong emotional language", "medium": "Moderate emotion", "low": "Minimal emotion"},
+                "sentenceComplexity": {"high": "Complex sentence structures", "medium": "Moderately complex", "low": "Simple sentences"},
+                "directness": {"high": "Very straightforward", "medium": "Moderately direct", "low": "Indirect or subtle"},
+                "politeness": {"high": "Very polite, formal", "medium": "Moderately polite", "low": "Direct, potentially impolite"},
+                "tonality": {"high": "Formal or serious tone", "medium": "Neutral tone", "low": "Casual or friendly tone"}
+            }
+        }
+
+        if not os.path.exists(traits_path):
+            with open(traits_path, 'w') as f:
+                json.dump(default_traits, f, indent=4)
+
+        if not os.path.exists(styles_path):
+            with open(styles_path, 'w') as f:
+                json.dump(default_styles, f, indent=4)
+
     def load_reference_files(self) -> Dict[str, Any]:
-        # Load reference files for character traits and communication styles
+        self.create_default_reference_files()
         try:
-            with open(os.path.join(self.base_path, 'data/reference/ref_character_traits.json'), 'r') as traits_file:
+            with open(os.path.join(self.base_path, 'data', 'reference', 'ref_character_traits.json'), 'r') as traits_file:
                 ref_character_traits = json.load(traits_file)
-            with open(os.path.join(self.base_path, 'data/reference/ref_communication_styles.json'), 'r') as comm_styles_file:
+            with open(os.path.join(self.base_path, 'data', 'reference', 'ref_communication_styles.json'), 'r') as comm_styles_file:
                 ref_communication_styles = json.load(comm_styles_file)
             return ref_character_traits, ref_communication_styles
         except (FileNotFoundError, json.JSONDecodeError) as e:
-            # Raise an error if reference files are missing or corrupted
             print(f"Error: Failed to load reference files. Error: {str(e)}")
             raise
 
@@ -60,6 +97,9 @@ class BicaProfile:
         return sanitized[:50]  # Limit to 50 characters
 
     def create_character_profile(self, character_summary: str) -> Dict[str, Any]:
+        data_dir = os.path.join(self.base_path, 'data', 'reference')
+        os.makedirs(data_dir, exist_ok=True)
+
         ref_character_traits, ref_communication_styles = self.load_reference_files()
         character_dir = self.ensure_character_directory()
         profile_path = os.path.join(character_dir, 'profile.json')
@@ -156,33 +196,15 @@ class BicaProfile:
 
         # Customize responseTendencies for Jane
         initial_profile["responseTendencies"]["emotionalTriggers"]["patterns"] = [
-            {
-                "trigger": "Threat to her people",
-                "response": "Becomes highly alert and protective, ready to take action"
-            },
-            {
-                "trigger": "Praise for her leadership",
-                "response": "Feels motivated to take on more responsibilities"
-            },
-            {
-                "trigger": "Unexpected challenges",
-                "response": "Quickly adapts and formulates tactical solutions"
-            }
+            {"trigger": "Threat to her people", "response": "Becomes highly alert and protective, ready to take action"},
+            {"trigger": "Praise for her leadership", "response": "Feels motivated to take on more responsibilities"},
+            {"trigger": "Unexpected challenges", "response": "Quickly adapts and formulates tactical solutions"}
         ]
 
         initial_profile["responseTendencies"]["problemSolvingApproach"]["patterns"] = [
-            {
-                "situation": "Battle strategy",
-                "approach": "Analyzes terrain and resources, formulates multi-layered plans"
-            },
-            {
-                "situation": "Team conflicts",
-                "approach": "Mediates with a firm but fair approach, focusing on group cohesion"
-            },
-            {
-                "situation": "Resource scarcity",
-                "approach": "Implements creative solutions and fair rationing"
-            }
+            {"situation": "Battle strategy", "approach": "Analyzes terrain and resources, formulates multi-layered plans"},
+            {"situation": "Team conflicts", "approach": "Mediates with a firm but fair approach, focusing on group cohesion"},
+            {"situation": "Resource scarcity", "approach": "Implements creative solutions and fair rationing"}
         ]
 
         with open(profile_path, 'w') as profile_file:

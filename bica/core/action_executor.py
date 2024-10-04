@@ -4,7 +4,7 @@ It handles action execution and serves as a flexible compiler of information for
 """
 
 from typing import Dict, Any
-from gpt_handler import GPTHandler
+from external.gpt_handler import GPTHandler
 
 
 class BicaActionExecutor:

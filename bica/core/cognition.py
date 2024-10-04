@@ -2,14 +2,11 @@
 This module handles the cognitive processes of the BicameralAGI system. It generates thoughts, analyzes inputs, and manages both conscious and subconscious cognitive functions using various AI techniques including GPT models and vector embeddings.
 """
 
-import random
-import re
 import numpy as np
-from typing import List, Dict, Any
-from bica.gpt_handler import GPTHandler as gpt
-from bica_memory import BicaMemory
-from bica_context import BicaContext
-from bica_utilities import *
+from external.gpt_handler import GPTHandler as gpt
+from memory import BicaMemory
+from context import BicaContext
+from utils.utilities import *
 from sentence_transformers import SentenceTransformer
 
 

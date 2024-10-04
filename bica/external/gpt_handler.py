@@ -2,8 +2,9 @@ import json
 from typing import List, Dict, Any, Union, Optional
 from openai import OpenAI
 from pydantic import BaseModel, ValidationError
-from bica_utilities import *
+from bica.utils.utilities import *
 from typing import Type
+
 
 class GPTHandler:
     def __init__(self):

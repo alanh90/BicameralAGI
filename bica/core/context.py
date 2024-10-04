@@ -30,7 +30,7 @@ Date: 10/2/2024
 """
 
 from sentence_transformers import SentenceTransformer
-from bica.gpt_handler import GPTHandler as gpt
+from external.gpt_handler import GPTHandler as gpt
 from scipy.spatial.distance import cosine
 import json
 

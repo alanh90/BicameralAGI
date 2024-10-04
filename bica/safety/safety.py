@@ -41,7 +41,7 @@ Author:
 Alan Hourmand, Date: 9/23/2024
 """
 
-from bica.gpt_handler import GPTHandler as gpt
+from external.gpt_handler import GPTHandler as gpt
 
 
 class BicaSafety:

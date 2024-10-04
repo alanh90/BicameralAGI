@@ -16,11 +16,17 @@ import os
 
 
 class BicaLogging:
-    def __init__(self, name, log_file='bica.log', log_level=logging.INFO):
+    def __init__(self, name, log_file='core.log', log_level=logging.INFO):
         self.logger = logging.getLogger(name)
         self.logger.setLevel(log_level)
 
-        log_dir = 'logs'
+        # Get the absolute path of the current script
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # Navigate to the project root (two levels up from utils)
+        project_root = os.path.dirname(os.path.dirname(current_dir))
+        # Set the log directory at the project root
+        log_dir = os.path.join(project_root, 'logs')
+
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
 

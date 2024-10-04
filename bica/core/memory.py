@@ -3,12 +3,10 @@ This module manages the memory system of the BicameralAGI. It handles short-term
 """
 
 import time
-import random
-from typing import List, Dict, Any
 from collections import Counter
 import numpy as np
-from bica_utilities import *
-from bica.gpt_handler import GPTHandler
+from utils.utilities import *
+from external.gpt_handler import GPTHandler
 
 
 class Memory:
