@@ -83,6 +83,7 @@ bica/
             Class: CharacterProfileSchema
             Class: BicaProfile
                 Method: __init__
+                Method: create_default_reference_files
                 Method: load_reference_files
                 Method: ensure_character_directory
                 Method: sanitize_filename
@@ -103,6 +104,13 @@ bica/
                 Method: level3
                 Method: level4
         __init__.py
+    data/
+        characters/
+            Tron/
+                profile.json
+        reference/
+            ref_character_traits.json
+            ref_communication_styles.json
     external/
         gpt_handler.py
             Class: GPTHandler
