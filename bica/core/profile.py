@@ -83,7 +83,7 @@ class BicaProfile:
                 with open(profile_path, 'r') as profile_file:
                     return json.load(profile_file)
 
-            # Create a tailored initial profile for Jane
+            # Create a tailored initial profile for the character
             initial_profile = {
                 "characterInfo": {
                     "name": self.character_name,
@@ -170,21 +170,15 @@ class BicaProfile:
                     }
                 },
                 "responseTendencies": ref_character_traits["responseTendencies"],
-                "communicationStyle": ref_communication_styles["styleGuide"]
+                "communicationStyle": {"formality": ref_communication_styles["styleGuide"]["formality"]["medium"]}
             }
 
-            # Customize responseTendencies for Jane
-            initial_profile["responseTendencies"]["emotionalTriggers"]["patterns"] = [
-                {"trigger": "Threat to her people", "response": "Becomes highly alert and protective, ready to take action"},
-                {"trigger": "Praise for her leadership", "response": "Feels motivated to take on more responsibilities"},
-                {"trigger": "Unexpected challenges", "response": "Quickly adapts and formulates tactical solutions"}
-            ]
+            # Customize responseTendencies for the character
+            emotional_trigger_patterns = self.generate_custom_patterns(ref_character_traits, character_summary, "emotionalTriggers")
+            initial_profile["responseTendencies"]["emotionalTriggers"]["patterns"] = emotional_trigger_patterns
 
-            initial_profile["responseTendencies"]["problemSolvingApproach"]["patterns"] = [
-                {"situation": "Battle strategy", "approach": "Analyzes terrain and resources, formulates multi-layered plans"},
-                {"situation": "Team conflicts", "approach": "Mediates with a firm but fair approach, focusing on group cohesion"},
-                {"situation": "Resource scarcity", "approach": "Implements creative solutions and fair rationing"}
-            ]
+            problem_solving_patterns = self.generate_custom_patterns(ref_character_traits, character_summary, "problemSolvingApproach")
+            initial_profile["responseTendencies"]["problemSolvingApproach"]["patterns"] = problem_solving_patterns
 
             with open(profile_path, 'w') as profile_file:
                 json.dump(initial_profile, profile_file, indent=4)
@@ -193,6 +187,30 @@ class BicaProfile:
         except FileNotFoundError as e:
             print(f"Error: {str(e)}")
             raise
+
+    def generate_custom_patterns(self, character_traits: Dict[str, Any], character_summary: str, pattern_type: str) -> list:
+        # Generate custom patterns using the GPT handler to make the patterns more contextual and generative
+        prompt = f"""
+        Given the character traits:
+        {json.dumps(character_traits, indent=2)}
+        And the character summary: "{character_summary}",
+        Generate patterns for '{pattern_type}'. The patterns should reflect unique aspects of the character's behavior.
+        Provide the response in the format of a JSON list, including 'trigger' and 'response' for 'emotionalTriggers',
+        or 'situation' and 'approach' for 'problemSolvingApproach'.
+        """
+
+        try:
+            response = self._call_gpt_with_retry(messages=[
+                {"role": "system", "content": "You are an AI assistant that helps generate character behavior patterns."},
+                {"role": "user", "content": prompt}
+            ])
+            generated_patterns = json.loads(response)
+            return generated_patterns
+        except json.JSONDecodeError:
+            print("Error: Failed to decode the GPT response. Returning default pattern.")
+            return [
+                {"trigger": "Default trigger", "response": "Default response based on character background"}
+            ]
 
     def _call_gpt_with_retry(self, messages, retries=3, delay=5):
         for attempt in range(retries):
@@ -257,7 +275,7 @@ class BicaProfile:
             self._update_nested_dict(self.character_profile, updates)
 
             # Save the updated profile
-            profile_path = os.path.join(self.get_character_path(self.character_name.lower()), 'profile.json')
+            profile_path = os.path.join(self.get_character_path(self.character_name.lower()), f'{self.character_name}_profile.json')
             self._create_backup_if_exists(profile_path)
             with open(profile_path, 'w') as profile_file:
                 json.dump(self.character_profile, profile_file, indent=4)
