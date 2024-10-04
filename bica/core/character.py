@@ -27,6 +27,7 @@ Author:
 Alan Hourmand
 Date: 10/2/2024
 """
+import time
 
 from bica.core.action_executor import BicaActionExecutor
 from bica.core.context import BicaContext
@@ -47,7 +48,22 @@ class BicaCharacter:
 
         self.profile = BicaProfile(self.character_name, self.character_summary, self.gpt_handler)
         self.context = BicaContext()
+
+        # Wait until the profile is initialized
+        self.initialize_profile_with_retries()
         # |||||||||||||||||||||||||||||||||||||||||||||
+
+    def initialize_profile_with_retries(self, retries=3, delay=5):
+        for attempt in range(retries):
+            try:
+                if self.profile.character_profile:
+                    return
+            except Exception as e:
+                print(f"Profile initialization attempt {attempt + 1} failed: {str(e)}")
+                if attempt < retries - 1:
+                    time.sleep(delay)
+                else:
+                    raise RuntimeError("Failed to initialize character profile after multiple attempts.")
 
     def get_character_definition(self):
         return self.character_summary
@@ -102,8 +118,11 @@ class BicaCharacter:
             context_data = {
                 "user_input": user_input,
                 "system_prompt": self.get_character_definition(),
-                "updated_context": updated_context  # Add updated context to the prompt data
+                "updated_context": updated_context,  # Add updated context to the prompt data
+                "character_profile": self.profile.get_profile()  # Add character profile to the prompt data
             }
+
+            print(f"Context Data: {context_data}")
 
             compiled_data = self.compile_prompt(context_data)
 

@@ -35,6 +35,9 @@ class BicaProfile:
         self.character_summary = character_summary
         self.character_profile = self.create_character_profile(character_summary)
 
+    def get_profile(self):
+        return json.dumps(self.character_profile, indent=4)
+
     def get_data_path(self, *args):
         return os.path.join(self.base_path, 'data', *args)
 
@@ -204,13 +207,29 @@ class BicaProfile:
                 {"role": "system", "content": "You are an AI assistant that helps generate character behavior patterns."},
                 {"role": "user", "content": prompt}
             ])
-            generated_patterns = json.loads(response)
-            return generated_patterns
-        except json.JSONDecodeError:
-            print("Error: Failed to decode the GPT response. Returning default pattern.")
-            return [
-                {"trigger": "Default trigger", "response": "Default response based on character background"}
-            ]
+
+            # Remove backticks and unnecessary newlines from the response to make it valid JSON
+            cleaned_response = response.strip().strip("```json").strip("```").strip()
+
+            # Try parsing the cleaned response
+            try:
+                generated_patterns = json.loads(cleaned_response)
+                # Verify if generated_patterns is a list and has expected elements
+                if isinstance(generated_patterns, list) and all(isinstance(item, dict) for item in generated_patterns):
+                    return generated_patterns
+                else:
+                    raise ValueError("Parsed response is not in the expected format (list of dictionaries).")
+
+            except json.JSONDecodeError:
+                print("Error: Failed to decode the cleaned GPT response. Returning default pattern.")
+
+        except Exception as e:
+            print(f"Error: {str(e)}. Returning default pattern.")
+
+        # Fallback default response if anything goes wrong
+        return [
+            {"trigger": "Default trigger", "response": "Default response based on character background"}
+        ]
 
     def _call_gpt_with_retry(self, messages, retries=3, delay=5):
         for attempt in range(retries):

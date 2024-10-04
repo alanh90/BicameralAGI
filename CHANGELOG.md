@@ -27,6 +27,12 @@ All notable changes to the BicameralAGI project will be documented in this file.
 - `bica_main.py`
 - `bica_profile.py`
 
+## 2024-10-04
+
+### Changed
+- `profile.py` so that it creates a full behavior profile rather than just traits and base emotions
+- `character.py` it now utilizes the profile before responding
+- Reorganized the entire project
 
 ## 2024-10-03
 

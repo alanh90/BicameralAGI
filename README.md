@@ -41,10 +41,12 @@
 For a detailed history of changes and updates to this project, please see our [CHANGELOG.md](CHANGELOG.md) file.
 
 ## Latest Changes
-## 2024-10-03
+## 2024-10-04
 
 ### Changed
-- `bica_profile.py` so that it now creates profile files off of the character inputs
+- `profile.py` so that it creates a full behavior profile rather than just traits and base emotions
+- `character.py` it now utilizes the profile before responding
+- Reorganized the entire project
 
 ### Notes
 - There is a noticeable bug in the generated profile files that will be fixed.
