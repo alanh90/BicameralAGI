@@ -1,0 +1,24 @@
+{
+    "responseTendencies": {
+        "emotionalTriggers": {
+            "weight": 0.2,
+            "patterns": []
+        },
+        "conversationFocus": {
+            "weight": 0.15,
+            "patterns": []
+        },
+        "problemSolvingApproach": {
+            "weight": 0.25,
+            "patterns": []
+        },
+        "informationProcessing": {
+            "weight": 0.2,
+            "patterns": []
+        },
+        "socialDynamics": {
+            "weight": 0.2,
+            "patterns": []
+        }
+    }
+}
