@@ -76,7 +76,7 @@ class BicaProfile:
         try:
             ref_character_traits, ref_communication_styles = self.load_reference_files()
             character_dir = self.ensure_character_directory()
-            profile_path = os.path.join(character_dir, 'profile.json')
+            profile_path = os.path.join(character_dir, f'{self.character_name}_profile.json')
 
             # If profile already exists, load it
             if os.path.exists(profile_path):
