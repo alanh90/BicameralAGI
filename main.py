@@ -23,9 +23,12 @@ Date: 9/23/2024
 from bica.core.character import BicaCharacter as Character
 from bica.utils.logging import BicaLogging
 from colorama import Fore, Style, init
+import os
 
 # Initialize logger
 logger = BicaLogging("MainScript")
+
+DEBUG_MODE = os.getenv('DEBUG_MODE', 'False').lower() == 'true'
 
 
 def initialize_system():
@@ -92,6 +95,7 @@ def main():
     """Main function to start the AI system and manage the interaction flow."""
     logger.info("Starting BicameralAGI main script")
     initialize_system()
+    print(f"{Fore.RED}Internal Visible: {DEBUG_MODE}")
 
     # Prompt for character description
     character_description = get_character()
@@ -99,7 +103,7 @@ def main():
     print(f"{Fore.MAGENTA}You have chosen: {character_description}. Let's begin the conversation!{Style.RESET_ALL}")
 
     # Start conversation loop
-    character = Character(character_description)
+    character = Character(character_description, debug_mode=DEBUG_MODE)
     logger.info(f"Character initialized: {character.get_character_definition()}")
     print(f"{Fore.CYAN}Character Summary: {character.get_character_definition()}{Style.RESET_ALL}")
     conversation_loop(character)

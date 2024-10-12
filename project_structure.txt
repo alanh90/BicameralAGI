@@ -10,6 +10,7 @@ bica/
         character.py
             Class: BicaCharacter
                 Method: __init__
+                Method: initialize_profile_with_retries
                 Method: get_character_definition
                 Method: extract_character_definition
                 Method: process_input
@@ -83,11 +84,14 @@ bica/
             Class: CharacterProfileSchema
             Class: BicaProfile
                 Method: __init__
-                Method: create_default_reference_files
+                Method: get_profile
+                Method: get_data_path
+                Method: get_character_path
                 Method: load_reference_files
                 Method: ensure_character_directory
                 Method: sanitize_filename
                 Method: create_character_profile
+                Method: generate_custom_patterns
                 Method: _call_gpt_with_retry
                 Method: _validate_profile_structure
                 Method: _create_backup_if_exists
@@ -104,13 +108,6 @@ bica/
                 Method: level3
                 Method: level4
         __init__.py
-    data/
-        characters/
-            Tron/
-                profile.json
-        reference/
-            ref_character_traits.json
-            ref_communication_styles.json
     external/
         gpt_handler.py
             Class: GPTHandler
@@ -154,8 +151,8 @@ CHANGELOG.md
 CONTRIBUTING.md
 data/
     characters/
-        Alan Turing/
-            profile.json
+        Tron/
+            Tron_profile.json
     definitions/
         possible_actions.json
     NOT RELEVANT NOW/

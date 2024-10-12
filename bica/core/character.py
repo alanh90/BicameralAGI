@@ -37,7 +37,9 @@ from bica.utils.utilities import *
 
 
 class BicaCharacter:
-    def __init__(self, character_description: str):
+    def __init__(self, character_description: str, debug_mode: bool):
+        print(f"Character initialized with debug_mode: {debug_mode}")
+        self.debug_mode = debug_mode
         self.action_executor = BicaActionExecutor()
         self.gpt_handler = GPTHandler()
 
@@ -122,12 +124,14 @@ class BicaCharacter:
                 "character_profile": self.profile.get_profile()  # Add character profile to the prompt data
             }
 
-            print(f"Context Data: {context_data}")
+            if self.debug_mode:
+                print(f"Context Data: {context_data}")
 
             compiled_data = self.compile_prompt(context_data)
 
             response = self.action_executor.execute_action("respond", {"compiled_data": compiled_data})
-            print(f"Generated response: {response}")
+            if self.debug_mode:
+                print(f"Generated response: {response}")
 
             return response
 
@@ -136,7 +140,8 @@ class BicaCharacter:
             return "I apologize, but I encountered an error. Could you please try again?"
 
     def compile_prompt(self, compiled_data: dict) -> str:
-        print("Compiling the prompt...")
+        if self.debug_mode:
+            print("Compiling the prompt...")
         prompt_parts = []
         for key, value in compiled_data.items():
             if value:  # Only include non-empty values
@@ -153,5 +158,6 @@ class BicaCharacter:
 
         prompt = "\n".join(prompt_parts)
         prompt += "\n\nBased on the above context information, generate a final response to the user."
-        print(f"Compiled prompt:\n{prompt}")
+        if self.debug_mode:
+            print(f"Compiled prompt:\n{prompt}")
         return prompt
