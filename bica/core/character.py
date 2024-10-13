@@ -34,6 +34,7 @@ from bica.core.context import BicaContext
 from bica.external.gpt_handler import GPTHandler
 from bica.core.profile import BicaProfile
 from bica.core.memory import BicaMemory
+from bica.core.cognition import BicaCognition
 from bica.utils.utilities import *
 
 
@@ -50,6 +51,7 @@ class BicaCharacter:
         self.extract_character_definition(character_description)
 
         self.profile = BicaProfile(self.character_name, self.character_summary, self.gpt_handler)
+        self.cognition = BicaCognition(self.profile)
         self.memory = BicaMemory(self.profile)
         self.context = BicaContext()
 
@@ -120,9 +122,9 @@ class BicaCharacter:
             updated_context = self.context.get_context()
 
             # Store the user's input in memory
-            emotions = self.generate_emotions(user_input)  # You can define this function to generate emotions based on input
-            importance = self.determine_importance(user_input)  # You can define this to determine importance of the input
-            self.memory.save_memory(user_input, emotions, importance)
+            self_emotions = self.cognition.get_all_emotions()  # You can define this function to generate emotions based on input
+            importance = self.cognition.determine_importance(updated_context)  # You can define this to determine importance of the input
+            self.memory.save_memory(user_input, self_emotions, importance)
 
             # Recall relevant memories based on the current input
             recalled_memories = self.memory.recall_memory(user_input)
@@ -174,24 +176,5 @@ class BicaCharacter:
             print(f"Compiled prompt:\n{prompt}")
         return prompt
 
-    def generate_emotions(self, user_input: str) -> Dict[str, float]:
-        """
-        Placeholder function for generating emotions based on user input.
-        You can define emotion calculation logic based on the input, for example:
-        - Analyze keywords to determine the emotional weight.
-        """
-        # For now, let's randomize emotions as an example
-        return {
-            "joy": random.random(),
-            "sadness": random.random(),
-            "surprise": random.random()
-        }
 
-    def determine_importance(self, user_input: str) -> float:
-        """
-        Placeholder function for determining the importance of user input.
-        You can define this based on keywords, context, or other factors.
-        """
-        # For now, let's randomize importance as an example
-        return random.random()
 

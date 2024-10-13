@@ -27,6 +27,14 @@ class BicaCognition:
             {"role": "user", "content": content}
         ]
 
+    def determine_importance(self, user_input: str) -> float:
+        """
+        Placeholder function for determining the importance of user input.
+        You can define this based on keywords, context, or other factors.
+        """
+        # For now, let's randomize importance as an example
+        return random.random()
+
     def generate_thoughts(self, context: str, goals: List[str]) -> List[str]:
         subconscious_thoughts = self.generate_subconscious_thoughts(context)
 
