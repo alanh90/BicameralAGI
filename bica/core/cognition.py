@@ -11,8 +11,8 @@ from sentence_transformers import SentenceTransformer
 
 
 class BicaCognition:
-    def __init__(self, memory: BicaMemory, context: BicaContext):
-        self.memory = memory
+    def __init__(self, context: BicaContext):
+        self.memory = None
         self.context = context
         self.gpt_handler = gpt()
         self.sentence_model = SentenceTransformer('all-MiniLM-L6-v2')

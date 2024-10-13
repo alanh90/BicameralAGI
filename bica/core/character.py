@@ -35,6 +35,7 @@ from bica.external.gpt_handler import GPTHandler
 from bica.core.profile import BicaProfile
 from bica.core.memory import BicaMemory
 from bica.core.cognition import BicaCognition
+from bica.core.subconcious import BicaSubconscious
 from bica.utils.utilities import *
 
 
@@ -51,8 +52,12 @@ class BicaCharacter:
         self.extract_character_definition(character_description)
 
         self.profile = BicaProfile(self.character_name, self.character_summary, self.gpt_handler)
+
+        # Cognitive setup
         self.cognition = BicaCognition(self.profile)
         self.memory = BicaMemory(self.profile)
+        self.subconscious = BicaSubconscious(self.profile)
+
         self.context = BicaContext()
 
         # Wait until the profile is initialized
