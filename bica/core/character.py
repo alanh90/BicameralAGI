@@ -41,9 +41,11 @@ from bica.utils.utilities import *
 
 class BicaCharacter:
     def __init__(self, character_description: str, debug_mode: bool):
+
         print(f"Character initialized with debug_mode: {debug_mode}")
         self.debug_mode = debug_mode
         self.action_executor = BicaActionExecutor()
+        self._recent_conversation = None
         self.gpt_handler = GPTHandler()
 
         # ||||||||| BICA AGI COGNITIVE SETUP ||||||||||
