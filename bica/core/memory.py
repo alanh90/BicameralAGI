@@ -16,7 +16,8 @@ class Memory:
 
 
 class BicaMemory:
-    def __init__(self, character_profile: BicaProfile):
+    def __init__(self, character_profile: BicaProfile, debug_mode: bool):
+        self.debug_mode = debug_mode
         self.gpt_handler = GPTHandler()
         self.profile = character_profile
         # self.base_emotions = self.profile.character_profile['cognitiveModel']['emotions']
@@ -75,10 +76,17 @@ class BicaMemory:
             self.short_term_memory.remove(oldest_memory)
 
     def get_memories(self):
+        relevant_long_term_memories = self.get_relevant_long_term_memories()
+        if self.debug_mode:
+            print(f"Working Memory: {self.working_memory}")
+            print(f"Short Term Memory: {self.short_term_memory}")
+            print(f"Long Term Memory: {relevant_long_term_memories}")
+            print(f"Self Memory: {self.self_memory}")
+
         return {
             "working_memory": self.working_memory,
             "short_term_memory": self.short_term_memory,
-            "long_term_memory": self.get_relevant_long_term_memories(),
+            "long_term_memory": relevant_long_term_memories,
             "self_memory": self.self_memory
         }
 
