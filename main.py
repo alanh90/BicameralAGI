@@ -21,7 +21,7 @@ Date: 9/23/2024
 """
 
 from bica.core.character import BicaCharacter as Character
-from bica.utils.logging import BicaLogging
+from bica.utils.bica_logging import BicaLogging
 from colorama import Fore, Style, init
 import os
 

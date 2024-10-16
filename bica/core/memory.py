@@ -28,6 +28,12 @@ class BicaMemory:
         self.long_term_memories = []
         self.self_memories = []
 
+    def update_memories(self):
+        pass
+
+    def get_memories(self):
+        pass
+
     def save_memory(self, content: str, emotions: Dict[str, float], importance: float):
         memory = Memory(content, emotions, importance)
         self.short_term_layer1.append(memory)

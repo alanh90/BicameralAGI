@@ -122,17 +122,13 @@ class BicaCharacter:
 
     def process_input(self, user_input: str) -> str:
         try:
+            # Retrieves the combined active memories including:
+            # short term, relevant long term, self-image, and working memory
+            recalled_memories = self.memory.get_memories()
+
             # Update context with user input
-            self.context.update_context(user_input)
+            self.context.update_context(user_input, recalled_memories)
             updated_context = self.context.get_context()
-
-            # Store the user's input in memory
-            self_emotions = self.cognition.get_all_emotions()  # You can define this function to generate emotions based on input
-            importance = self.cognition.determine_importance(updated_context)  # You can define this to determine importance of the input
-            self.memory.save_memory(user_input, self_emotions, importance)
-
-            # Recall relevant memories based on the current input
-            recalled_memories = self.memory.recall_memory(user_input)
 
             # Gather context data
             context_data = {
@@ -140,11 +136,14 @@ class BicaCharacter:
                 "system_prompt": self.get_character_definition(),
                 "updated_context": updated_context,  # Add updated context to the prompt data
                 "character_profile": self.profile.get_profile(),  # Add character profile to the prompt data
-                "recalled_memories": [memory.content for memory in recalled_memories]  # Add recalled memories to the prompt
+                "relevant_memories": recalled_memories,
             }
+
+            self.memory.update_memories(context_data)
 
             if self.debug_mode:
                 print(f"Context Data: {context_data}")
+                print(f"New Memory Saved: {self.memory.get_memories()}")
 
             compiled_data = self.compile_prompt(context_data)
 
@@ -180,6 +179,3 @@ class BicaCharacter:
         if self.debug_mode:
             print(f"Compiled prompt:\n{prompt}")
         return prompt
-
-
-

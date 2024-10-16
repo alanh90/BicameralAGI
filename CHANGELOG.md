@@ -7,25 +7,23 @@ All notable changes to the BicameralAGI project will be documented in this file.
 ### Todo-list
 
 #### Complete
-- Complete `bica_character.py`
-- Complete `bica_memory.py`
-
-#### Validate
-- Validate `bica_logging.py`
-- Validate `bica_destiny.py`
-- Validate `bica_context.py`
-- Validate `bica_cognition.py`
+- Complete `character.py`
+- Complete `memory.py`
+- Complete `cognition.py`
+- Complete `destiny.py`
 
 #### Implement
-- Implement `bica_subconscious.py`
+- Implement `subconscious.py`
 
 ### Functioning Files
+- `bica_logging.py`
+- `context.py`
 - `gpt_handler.py`
-- `bica_utilities.py`
-- `bica_safety.py`
-- `bica_action_executor.py`
-- `bica_main.py`
-- `bica_profile.py`
+- `utilities.py`
+- `safety.py`
+- `action_executor.py`
+- `main.py`
+- `profile.py`
 
 ## 2024-10-04
 

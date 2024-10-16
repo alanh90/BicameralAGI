@@ -44,10 +44,10 @@ class BicaContext:
         self.gpt_handler = gpt()
         self.memory = []
 
-    def update_context(self, new_info):
+    def update_context(self, new_info, recalled_memories):
         self.update_viewpoint_weights(new_info)
         for viewpoint in self.context_viewpoints:
-            prompt = self.generate_viewpoint_prompt(viewpoint, new_info)
+            prompt = self.generate_viewpoint_prompt(viewpoint, new_info, recalled_memories)
             response = self.gpt_handler.generate_response(prompt)
 
             try:
@@ -114,13 +114,14 @@ class BicaContext:
 
         return self.weights
 
-    def generate_viewpoint_prompt(self, viewpoint, new_info):
+    def generate_viewpoint_prompt(self, viewpoint, new_info, recalled_memories):
         base_prompt = f"""
         Given the current conversation context and new information, provide a brief interpretation from a {viewpoint} perspective. 
         Focus on potential {viewpoint} aspects, including any subtle implications or underlying meanings.
 
         Current context: {self.context_viewpoints[viewpoint]}
-        New information: {new_info}
+        What the user just said: {new_info}
+        Your past relevant memories: {recalled_memories}
 
         Respond with a JSON object in the following format:
         {{

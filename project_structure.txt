@@ -19,6 +19,7 @@ bica/
             Class: BicaCognition
                 Method: __init__
                 Method: _format_prompt
+                Method: determine_importance
                 Method: generate_thoughts
                 Method: get_top_emotions
                 Method: get_all_emotions
@@ -63,22 +64,13 @@ bica/
             Class: BicaMemory
                 Method: __init__
                 Method: save_memory
-                Method: update_connections
                 Method: manage_short_term_layers
                 Method: recall_memory
-                Method: add_self_memory
                 Method: text_similarity
-                Method: activate_memory
-                Method: deactivate_memories
-                Method: dream
-                Method: prune_memories
-                Method: consolidate_memories
-                Method: get_valid_emotions
+                Method: get_recent_memories
+                Method: decay_active_memories
                 Method: get_emotional_memories
                 Method: get_important_memories
-                Method: decay_active_memories
-                Method: get_recent_memories
-                Method: simulate_future_situations
             Function: main
         profile.py
             Class: CharacterProfileSchema
@@ -151,6 +143,8 @@ CHANGELOG.md
 CONTRIBUTING.md
 data/
     characters/
+        Bica AI/
+            Bica AI_profile.json
         Tron/
             Tron_profile.json
     definitions/
