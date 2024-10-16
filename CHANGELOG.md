@@ -6,6 +6,9 @@ All notable changes to the BicameralAGI project will be documented in this file.
 
 ### Todo-list
 
+### Self note
+- Add exception handling to fix error, look at character.py
+
 #### Complete
 - Complete `character.py`
 - Complete `memory.py`
