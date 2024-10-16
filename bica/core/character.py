@@ -145,13 +145,16 @@ class BicaCharacter:
                 "relevant_memories": recalled_memories,
             }
 
-            self.memory.update_memories(context_data)
-
             compiled_data = self.compile_prompt(context_data)
 
             response = self.action_executor.execute_action("respond", {"compiled_data": compiled_data})
-
             self.update_recent_conversation(user_input, response)
+
+            # Update context_data with the character's response
+            context_data["character_response"] = response
+
+            # Now update the memory with the complete context, including the AI's response
+            self.memory.update_memories(context_data)
 
             if self.debug_mode:
                 print(f"Context Data: {context_data}")
@@ -170,10 +173,10 @@ class BicaCharacter:
             self._recent_conversation = []
         return self._recent_conversation[-max_length:]
 
-    def update_recent_conversation(self, user_input, ai_response):
+    def update_recent_conversation(self, user_input, character_response):
         if not hasattr(self, '_recent_conversation'):
             self._recent_conversation = []
-        self._recent_conversation.append({"user": user_input, "ai": ai_response})
+        self._recent_conversation.append({"user": user_input, "character": character_response})
         # Keep only the last 10 exchanges
         self._recent_conversation = self._recent_conversation[-10:]
 
