@@ -122,6 +122,9 @@ class BicaCharacter:
 
     def process_input(self, user_input: str) -> str:
         try:
+            # Get recent conversation
+            recent_convo = self.get_recent_conversation()
+
             # Retrieves the combined active memories including:
             # short term, relevant long term, self-image, and working memory
             recalled_memories = self.memory.get_memories()
@@ -133,6 +136,7 @@ class BicaCharacter:
             # Gather context data
             context_data = {
                 "user_input": user_input,
+                "recent_conversation": recent_convo,
                 "system_prompt": self.get_character_definition(),
                 "updated_context": updated_context,  # Add updated context to the prompt data
                 "character_profile": self.profile.get_profile(),  # Add character profile to the prompt data
@@ -141,14 +145,15 @@ class BicaCharacter:
 
             self.memory.update_memories(context_data)
 
-            if self.debug_mode:
-                print(f"Context Data: {context_data}")
-                print(f"New Memory Saved: {self.memory.get_memories()}")
-
             compiled_data = self.compile_prompt(context_data)
 
             response = self.action_executor.execute_action("respond", {"compiled_data": compiled_data})
+
+            self.update_recent_conversation(user_input, response)
+
             if self.debug_mode:
+                print(f"Context Data: {context_data}")
+                print(f"New Memory Saved: {self.memory.get_memories()}")
                 print(f"Generated response: {response}")
 
             return response
@@ -156,6 +161,19 @@ class BicaCharacter:
         except Exception as e:
             print(f"Error processing input: {str(e)}")
             return "I apologize, but I encountered an error. Could you please try again?"
+
+    def get_recent_conversation(self, max_length=5):
+        # Implement a method to store and retrieve recent conversations
+        if not hasattr(self, '_recent_conversation'):
+            self._recent_conversation = []
+        return self._recent_conversation[-max_length:]
+
+    def update_recent_conversation(self, user_input, ai_response):
+        if not hasattr(self, '_recent_conversation'):
+            self._recent_conversation = []
+        self._recent_conversation.append({"user": user_input, "ai": ai_response})
+        # Keep only the last 10 exchanges
+        self._recent_conversation = self._recent_conversation[-10:]
 
     def compile_prompt(self, compiled_data: dict) -> str:
         if self.debug_mode:

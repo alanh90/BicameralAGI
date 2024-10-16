@@ -22,18 +22,25 @@ class BicaMemory:
         self.profile = character_profile
         self.base_emotions = self.profile.character_profile['cognitiveModel']['emotions']
 
-        self.short_term_layer1 = []
-        self.short_term_layer2 = []
-        self.short_term_layer3 = []
-        self.long_term_memories = []
-        self.self_memories = []
+        self.working_memory = []
+        self.short_term_memory = []
+        self.long_term_memory = []
 
-    def update_memories(self):
+    def update_memories(self, context_data):
         pass
 
     def get_memories(self):
+        # Combine and return relevant memories
+        return {
+            "working_memory": self.working_memory,
+            "short_term_memory": self.short_term_memory,
+            "long_term_memory": self._get_relevant_long_term_memories()
+        }
+
+    def _get_relevant_long_term_memories(self):
         pass
 
+    """
     def save_memory(self, content: str, emotions: Dict[str, float], importance: float):
         memory = Memory(content, emotions, importance)
         self.short_term_layer1.append(memory)
@@ -129,4 +136,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+    """
+
+
 
