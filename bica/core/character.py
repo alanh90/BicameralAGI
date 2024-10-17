@@ -57,7 +57,7 @@ class BicaCharacter:
         # Cognitive setup
         # self.cognition = BicaCognition(self.profile)
         self.memory = BicaMemory(self.profile, debug_mode)
-        self.subconscious = BicaSubconscious(self.profile)
+        #self.subconscious = BicaSubconscious(self.profile)
 
         self.context = BicaContext()
 

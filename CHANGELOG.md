@@ -8,14 +8,12 @@ All notable changes to the BicameralAGI project will be documented in this file.
 
 #### Complete
 - Complete `character.py`
-- Complete `memory.py`
 - Complete `cognition.py`
 - Complete `destiny.py`
+- Complete `subconscious.py`
 
-#### Implement
-- Implement `subconscious.py`
-
-### Functioning Files
+### Functioning Files (Theres still some work left)
+- `memory.py`
 - `bica_logging.py`
 - `context.py`
 - `gpt_handler.py`
