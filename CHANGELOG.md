@@ -7,12 +7,12 @@ All notable changes to the BicameralAGI project will be documented in this file.
 ### Todo-list
 
 #### Complete
-- Complete `character.py`
+- Complete `character.py` (WIP, DEBUGGING ISSUE)
 - Complete `cognition.py`
-- Complete `destiny.py` (WIP)
 - Complete `subconscious.py`
 
 ### Functioning Files (Theres still some work left)
+- `destiny.py`
 - `memory.py`
 - `bica_logging.py`
 - `context.py`
@@ -20,7 +20,7 @@ All notable changes to the BicameralAGI project will be documented in this file.
 - `utilities.py`
 - `safety.py`
 - `action_executor.py`
-- `main.py`
+- `main.py` 
 - `profile.py`
 
 ## 2024-10-04
