@@ -34,14 +34,13 @@ from bica.core.context import BicaContext
 from bica.external.gpt_handler import GPTHandler
 from bica.core.profile import BicaProfile
 from bica.core.memory import BicaMemory
+from bica.core.destiny import BicaDestiny
 from bica.core.subconcious import BicaSubconscious
 from bica.utils.utilities import *
 
 
 class BicaCharacter:
     def __init__(self, character_description: str, debug_mode: bool):
-
-        print(f"Character initialized with debug_mode: {debug_mode}")
         self.debug_mode = debug_mode
         self.action_executor = BicaActionExecutor()
         self._recent_conversation = []  # Initialize here
@@ -55,10 +54,8 @@ class BicaCharacter:
         self.profile = BicaProfile(self.character_name, self.character_summary, self.gpt_handler)
 
         # Cognitive setup
-        # self.cognition = BicaCognition(self.profile)
         self.memory = BicaMemory(self.profile, debug_mode)
-        #self.subconscious = BicaSubconscious(self.profile)
-
+        self.destiny = BicaDestiny(self.character_name, self.memory)  # Initialize the destiny module
         self.context = BicaContext()
 
         # Wait until the profile is initialized
@@ -133,27 +130,33 @@ class BicaCharacter:
             self.context.update_context(user_input, recalled_memories)
             updated_context = self.context.get_context()
 
+            # Calculate destiny influence and generate relevant destinies
+            destiny_influence = self.destiny.get_current_destiny_influence(recalled_memories, recent_convo)
+            relevant_destinies = self.destiny.get_destinies()
+
             # Gather context data
-            context_data = {
+            compiled_data = {
                 "user_input": user_input,
                 "recent_conversation": recent_convo,
                 "system_prompt": self.get_character_definition(),
                 "updated_context": updated_context,  # Add updated context to the prompt data
                 "character_profile": self.profile.get_profile(),  # Add character profile to the prompt data
                 "relevant_memories": recalled_memories,
+                "relevant_destinies": relevant_destinies,  # Include relevant destinies in context
+                "destiny_influence": destiny_influence  # Add destiny influence to the context
             }
 
-            compiled_data = self.compile_prompt(context_data)
+            compiled_data = self.compile_prompt(compiled_data)
 
             response = self.action_executor.execute_action("respond", {"compiled_data": compiled_data})
 
             self.update_recent_conversation(user_input, response)
 
             # Update context_data with the character's response
-            context_data["character_response"] = response
+            compiled_data["character_response"] = response
 
             # Now update the memory with the complete context, including the AI's response
-            self.memory.update_memories(context_data)
+            self.memory.update_memories(compiled_data)
 
             if self.debug_mode:
                 print(f"Working Memory: {recalled_memories['working_memory']}")
@@ -196,8 +199,15 @@ class BicaCharacter:
                 else:
                     prompt_parts.append(f"{key.replace('_', ' ').title()}: {value}")
 
+        # Including destiny influence as a separate section in the prompt
+        if "destiny_influence" in compiled_data and compiled_data["destiny_influence"]:
+            prompt_parts.append("\nDestiny Influence on Current Situation:")
+            for title, influence in compiled_data["destiny_influence"].items():
+                prompt_parts.append(f"- {title}: {influence:.2f}")
+
         prompt = "\n".join(prompt_parts)
         prompt += "\n\nBased on the above context information, generate a final response to the user."
         if self.debug_mode:
             print(f"Compiled prompt:\n{prompt}")
         return prompt
+
