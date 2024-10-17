@@ -41,16 +41,14 @@
 For a detailed history of changes and updates to this project, please see our [CHANGELOG.md](CHANGELOG.md) file.
 
 ## Latest Changes
-## 2024-10-04
+## 2024-10-17
 
 ### Changed
-- `profile.py` so that it creates a full behavior profile rather than just traits and base emotions
-- `character.py` it now utilizes the profile before responding
-- Reorganized the entire project
+- `destiny.py` module now generates a destiny based on memories and any other input. This acts as a kind of soul module.
+- `memory.py` now has some basic memory capabilities
 
 ### Notes
-- There is a noticeable bug in the generated profile files that will be fixed.
-- The profile files are not utilized yet, but will be soon
+- Working on a bug in `character.py`
 
 For full details and older changes, please refer to the changelog.
 
@@ -280,47 +278,47 @@ These examples illustrate key aspects of human-like interaction vs normal llms:
 
 BicameralAGI's architecture consists of the following key components:
 
-1. Character Orchestrator (bica_character.py):
+1. Character Orchestrator (character.py):
    - Central coordinator for the BicameralAGI system
    - Initializes and manages all other components, a box container for character processes
    - Processes user inputs and coordinates system responses
    - Compiles prompts for GPT responses
 
-2. Memory System (bica_memory.py):
+2. Memory System (memory.py):
    - Manages short-term and long-term memory storage
    - Handles memory formation, consolidation, recall, and associative processes
    - Implements "dreaming" functionality for memory processing
    - Simulates future scenarios based on memories
 
-3. Context Management (bica_context.py):
+3. Context Management (context.py):
    - Maintains and updates different viewpoints of the current context
    - Generates responses based on multi-faceted understanding
    - Manages weighted context for decision making
 
-4. Cognitive Processing (bica_cognition.py):
+4. Cognitive Processing (cognition.py):
    - Generates conscious and subconscious thoughts
    - Analyzes inputs and manages cognitive functions
    - Uses GPT models and vector embeddings for processing
 
-5. Affective System (bica_profile.py):
+5. Affective System (profile.py):
    - Manages emotions and personality aspects
    - Handles emotion generation and personality traits evolution
    - Creates and updates cognitive models for characters
 
-6. Safety System (bica_safety.py):
+6. Safety System (safety.py):
    - Implements content filtering and safety checks
    - Ensures responsible and ethical AI behavior
    - Provides adjustable safety thresholds
 
-7. Action Executor (bica_action_executor.py):
+7. Action Executor (action_executor.py):
    - Manages and executes various actions
    - Handles action execution and compiles information for GPT responses
 
-8. Destiny Writer (bica_destiny.py):
+8. Destiny Writer (destiny.py):
    - Manages long-term goals and 'destiny' of the AI system
    - Generates and alters potential future scenarios
 
-9. Utilities (bica_utilities.py):
+9. Utilities (utilities.py):
    - Provides utility functions used across the system
    - Handles file operations, text processing, and common tasks
 
@@ -332,7 +330,7 @@ BicameralAGI's architecture consists of the following key components:
     - Interfaces with GPT models for response generation
     - Manages API calls and various parameters for GPT interactions
 
-12. Main Controller (bica_main.py):
+12. Main Controller (main.py):
     - Serves as the entry point for the system
     - Manages the main conversation loop with users
 
