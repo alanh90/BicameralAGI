@@ -10,9 +10,11 @@ from bica.utils.utilities import normalize_text
 class Memory:
     def __init__(self, content: str, importance: float):
         self.content = content
-        # self.emotions = emotions
         self.importance = importance
         self.timestamp = time.time()
+
+    def __str__(self):
+        return f"Memory(content='{self.content[:50]}...', importance={self.importance:.2f})"
 
 
 class BicaMemory:
@@ -28,7 +30,7 @@ class BicaMemory:
         self.self_memory = self.initialize_self_memory()
 
     def initialize_self_memory(self):
-        return f"I am {self.profile.character_name}. {self.profile.character_summary}"
+        return f"I am {self.profile.character_name}. My Description: {self.profile.character_summary}"
 
     def _extract_float(self, response):
         """Extract a float value from the GPT response."""
@@ -183,7 +185,7 @@ class BicaMemory:
 def main():
     print("\n===== Initializing BicaMemory System =====")
     character_profile = BicaProfile("Test AI", "A test AI for memory system validation.", GPTHandler())
-    memory_system = BicaMemory(character_profile)
+    memory_system = BicaMemory(character_profile, debug_mode=True)
 
     print("\n===== Testing Memory Update and Retrieval =====")
     test_contexts = [

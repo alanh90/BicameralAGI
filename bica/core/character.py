@@ -156,9 +156,10 @@ class BicaCharacter:
             self.memory.update_memories(context_data)
 
             if self.debug_mode:
-                print(f"Context Data: {context_data}")
-                print(f"New Memory Saved: {self.memory.get_memories()}")
-                print(f"Generated response: {response}")
+                print(f"Working Memory: {recalled_memories['working_memory']}")
+                print(f"Short Term Memory: {[m.content for m in recalled_memories['short_term_memory']]}")
+                print(f"Long Term Memory: {recalled_memories['long_term_memory']}")
+                print(f"Self Memory: {recalled_memories['self_memory']}")
 
             return response
 
