@@ -9,7 +9,7 @@ All notable changes to the BicameralAGI project will be documented in this file.
 #### Complete
 - Complete `character.py`
 - Complete `cognition.py`
-- Complete `destiny.py`
+- Complete `destiny.py` (WIP)
 - Complete `subconscious.py`
 
 ### Functioning Files (Theres still some work left)

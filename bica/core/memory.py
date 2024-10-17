@@ -92,6 +92,33 @@ class BicaMemory:
             "self_memory": self.self_memory
         }
 
+    def get_high_importance_memories(self):
+        """
+        Extract and return high-importance memories from working, short-term, and long-term memory.
+        Returns a summary of high-importance memories.
+        """
+        # Define importance threshold for high-importance memories
+        threshold = 0.7
+
+        # Collect high-importance memories from all memory types
+        high_importance_memories = [
+            memory for memory in (self.working_memory + self.short_term_memory + self.long_term_memory)
+            if memory.importance >= threshold
+        ]
+
+        # Generate summary or return full list of memories
+        if self.debug_mode:
+            print(f"High Importance Memories ({len(high_importance_memories)} total):")
+            for memory in high_importance_memories:
+                print(f"  - {memory.content[:100]}... (Importance: {memory.importance:.2f})")
+
+        # Create a summary of the high-importance memories
+        summary = "\n".join(
+            [f"{memory.content[:100]}... (Importance: {memory.importance:.2f})" for memory in high_importance_memories]
+        )
+        return summary or "No high-importance memories found."
+
+
     def get_relevant_long_term_memories(self):
         if not self.long_term_memory:
             return []
