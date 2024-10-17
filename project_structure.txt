@@ -14,6 +14,8 @@ bica/
                 Method: get_character_definition
                 Method: extract_character_definition
                 Method: process_input
+                Method: get_recent_conversation
+                Method: update_recent_conversation
                 Method: compile_prompt
         cognition.py
             Class: BicaCognition
@@ -63,14 +65,12 @@ bica/
                 Method: __init__
             Class: BicaMemory
                 Method: __init__
-                Method: save_memory
-                Method: manage_short_term_layers
-                Method: recall_memory
+                Method: initialize_self_memory
+                Method: _extract_float
+                Method: update_memories
+                Method: get_memories
+                Method: get_relevant_long_term_memories
                 Method: text_similarity
-                Method: get_recent_memories
-                Method: decay_active_memories
-                Method: get_emotional_memories
-                Method: get_important_memories
             Function: main
         profile.py
             Class: CharacterProfileSchema
@@ -116,7 +116,7 @@ bica/
                 Method: safety_filter
         __init__.py
     utils/
-        logging.py
+        bica_logging.py
             Class: BicaLogging
                 Method: __init__
                 Method: info
@@ -143,8 +143,14 @@ CHANGELOG.md
 CONTRIBUTING.md
 data/
     characters/
+        Adam/
+            Adam_profile.json
+        Aether/
+            Aether_profile.json
         Bica AI/
             Bica AI_profile.json
+        Test AI/
+            Test AI_profile.json
         Tron/
             Tron_profile.json
     definitions/

@@ -72,7 +72,7 @@ class BicaContext:
 
         for viewpoint in self.context_viewpoints:
             # Generate a prompt for each viewpoint (positive, neutral, negative)
-            prompt = self.generate_viewpoint_prompt(viewpoint, new_info)
+            prompt = self.generate_viewpoint_prompt(viewpoint, new_info, self.memory)
 
             # Get GPT's interpretation of the new info from this viewpoint
             response = self.gpt_handler.generate_response(prompt)

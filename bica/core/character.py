@@ -44,7 +44,7 @@ class BicaCharacter:
         print(f"Character initialized with debug_mode: {debug_mode}")
         self.debug_mode = debug_mode
         self.action_executor = BicaActionExecutor()
-        self._recent_conversation = None
+        self._recent_conversation = []  # Initialize here
         self.gpt_handler = GPTHandler()
 
         # ||||||||| BICA AGI COGNITIVE SETUP ||||||||||
@@ -126,8 +126,7 @@ class BicaCharacter:
             # Get recent conversation
             recent_convo = self.get_recent_conversation()
 
-            # Retrieves the combined active memories including:
-            # short term, relevant long term, self-image, and working memory
+            # Retrieves the combined active memories
             recalled_memories = self.memory.get_memories()
 
             # Update context with user input
@@ -147,6 +146,7 @@ class BicaCharacter:
             compiled_data = self.compile_prompt(context_data)
 
             response = self.action_executor.execute_action("respond", {"compiled_data": compiled_data})
+
             self.update_recent_conversation(user_input, response)
 
             # Update context_data with the character's response
@@ -163,13 +163,12 @@ class BicaCharacter:
             return response
 
         except Exception as e:
-            print(f"Error processing input: {str(e)}")
+            print(f"Error in process_input: {str(e)}")
+            import traceback
+            traceback.print_exc()
             return "I apologize, but I encountered an error. Could you please try again?"
 
     def get_recent_conversation(self, max_length=5):
-        # Implement a method to store and retrieve recent conversations
-        if not hasattr(self, '_recent_conversation'):
-            self._recent_conversation = []
         return self._recent_conversation[-max_length:]
 
     def update_recent_conversation(self, user_input, character_response):
