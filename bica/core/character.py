@@ -133,6 +133,10 @@ class BicaCharacter:
             # Calculate destiny influence and generate relevant destinies
             destiny_influence = self.destiny.get_current_destiny_influence(recalled_memories, recent_convo)
             relevant_destinies = self.destiny.get_destinies()
+            print("\n--- Destiny Information ---")
+            print(f"Relevant destinies: {json.dumps(relevant_destinies, indent=2)}")
+            print(f"Destiny influence: {json.dumps(destiny_influence, indent=2)}")
+            print("---------------------------\n")
 
             # Gather context data
             compiled_data = {
