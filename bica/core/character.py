@@ -146,14 +146,14 @@ class BicaCharacter:
                 "destiny_influence": destiny_influence  # Add destiny influence to the context
             }
 
-            compiled_data = self.compile_prompt(compiled_data)
+            # Check if compiled_data is a string, if so, wrap it in a dictionary
+            if isinstance(compiled_data, str):
+                compiled_data = {"compiled_prompt": compiled_data}
 
-            response = self.action_executor.execute_action("respond", {"compiled_data": compiled_data})
+            response = self.action_executor.execute_action("respond", compiled_data=compiled_data)
+            compiled_data["character_response"] = response
 
             self.update_recent_conversation(user_input, response)
-
-            # Update context_data with the character's response
-            compiled_data["character_response"] = response
 
             # Now update the memory with the complete context, including the AI's response
             self.memory.update_memories(compiled_data)

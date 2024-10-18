@@ -11,23 +11,33 @@ class GPTHandler:
         api_key = get_environment_variable("OPENAI_API_KEY")
         self.client = OpenAI(api_key=api_key)
 
-    def generate_response(self, prompt: str, **kwargs) -> Union[str, Dict[str, Any], BaseModel]:
+    def generate_response(self, prompt: Union[str, Dict[str, Any]], compiled_data: Dict[str, Any] = None, **kwargs) -> Union[str, Dict[str, Any], BaseModel]:
         """
         Generate a response from the GPT model.
 
-        :param prompt: The input prompt (required)
+        :param prompt: The input prompt (required) - can be a string or a dictionary
+        :param compiled_data: Optional compiled data to be used as message content
         :param kwargs: Additional optional parameters (e.g., model, temperature, functions, json_schema)
         :return: Generated response, function call information, or structured JSON
         """
         # Default parameters
         params = {
             "model": "gpt-4o-2024-08-06",
-            "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7,
         }
 
         # Update with any provided kwargs
         params.update(kwargs)
+
+        # Handle the prompt/messages
+        if compiled_data:
+            params["messages"] = [{"role": "user", "content": json.dumps(compiled_data)}]
+        elif isinstance(prompt, str):
+            params["messages"] = [{"role": "user", "content": prompt}]
+        elif isinstance(prompt, dict) and "messages" in prompt:
+            params["messages"] = prompt["messages"]
+        else:
+            raise ValueError("Invalid prompt format. Expected string, dict with 'messages', or compiled_data.")
 
         # Handle special parameters
         functions = params.pop('functions', None)
