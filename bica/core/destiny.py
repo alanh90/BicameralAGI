@@ -210,14 +210,34 @@ class BicaDestiny:
         """
 
     def _get_relevant_memory_context(self, memories, recent_conversations):
+        if isinstance(memories, str) and memories.strip():
+            try:
+                memories = json.loads(memories)
+            except json.JSONDecodeError:
+                self.logger.error("Failed to parse memories: Invalid JSON")
+                return "No relevant memory context available due to invalid memory data."
+        elif not isinstance(memories, dict):
+            self.logger.error("Invalid memory format: Expected string or dictionary")
+            return "No relevant memory context available."
+
+        # Proceed if memories is a valid dictionary
         context = "Recent memories:\n"
-        for memory in memories['short_term_memory'][-5:]:
-            context += f"- {memory.content[:100]}...\n"
+        if 'short_term_memory' in memories and isinstance(memories['short_term_memory'], list):
+            for memory in memories['short_term_memory'][-5:]:
+                # Check if the memory object has a 'content' attribute and is a dictionary or object with 'content' attribute
+                if isinstance(memory, dict) and 'content' in memory:
+                    context += f"- {memory['content'][:100]}...\n"
+                elif hasattr(memory, 'content'):
+                    context += f"- {memory.content[:100]}...\n"
+                else:
+                    context += "- Memory content not available...\n"
+
         context += "\nRecent conversations:\n"
         for conv in recent_conversations[-3:]:
             context += f"- User: {conv['user'][:50]}...\n"
             if 'character' in conv:
                 context += f"  AI: {conv['character'][:50]}...\n"
+
         return context
 
     # Parsing and data handling methods
