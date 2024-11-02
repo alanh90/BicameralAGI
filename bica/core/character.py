@@ -132,7 +132,10 @@ class BicaCharacter:
 
             # Calculate destiny influence and generate relevant destinies
             destiny_influence = self.destiny.get_current_destiny_influence(recalled_memories, recent_convo)
-            relevant_destinies = self.destiny.get_destinies()
+            # Check for conflicts in short-term memory and decide how to influence destiny
+            # Decide on the destiny based on memories or default to abstract paths
+            relevant_destinies = self.decide_destiny()
+
             print("\n--- Destiny Information ---")
             print(f"Relevant destinies: {json.dumps(relevant_destinies, indent=2)}")
             print(f"Destiny influence: {json.dumps(destiny_influence, indent=2)}")
@@ -146,8 +149,7 @@ class BicaCharacter:
                 "updated_context": updated_context,  # Add updated context to the prompt data
                 "character_profile": self.profile.get_profile(),  # Add character profile to the prompt data
                 "relevant_memories": recalled_memories,
-                "relevant_destinies": relevant_destinies,  # Include relevant destinies in context
-                "destiny_influence": destiny_influence  # Add destiny influence to the context
+                "relevant_destinies": relevant_destinies  # Include relevant destinies in context # Add destiny influence to the context
             }
 
             # Check if compiled_data is a string, if so, wrap it in a dictionary
@@ -175,6 +177,31 @@ class BicaCharacter:
             import traceback
             traceback.print_exc()
             return "I apologize, but I encountered an error. Could you please try again?"
+
+    def decide_destiny(self):
+        """
+        Decides on a destiny based on current important memories, or defaults to a typical abstract path.
+        This approach is generic and adapts to any character input without predefined scenarios.
+        """
+        important_memories = self.memory.get_high_importance_memories()
+
+        if important_memories:
+            return self.destiny.generate_destiny_from_memories(important_memories)
+        else:
+            return self.destiny.default_destiny_based_on_context()
+
+
+    def decide_destiny_based_on_memory(self):
+        """
+        If important memories are present, influence destiny based on them.
+        Otherwise, use long-term memories or default to character traits.
+        """
+        important_memories = self.memory.get_high_importance_memories()
+
+        if important_memories:
+            return self.destiny.generate_destiny_from_memories(important_memories)
+        else:
+            return self.destiny.default_destiny_based_on_profile(self.profile)
 
     def get_recent_conversation(self, max_length=5):
         return self._recent_conversation[-max_length:]

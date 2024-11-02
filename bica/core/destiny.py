@@ -27,6 +27,95 @@ class BicaDestiny:
         self._load_destinies()
         print(f"Loaded destinies: {self.destinies}")
 
+    def generate_destiny_from_memories(self, memories):
+        """
+        Generate a generic destiny based on important memories, abstracting the influence into a flexible destiny.
+        This function avoids hardcoded scenarios and adapts based on the memory context.
+        """
+        if memories:
+            # Analyze the content of important memories to extract influence
+            memory_content = " ".join([memory.content for memory in memories])
+            theme = self.extract_generic_theme(memory_content)
+            return {
+                "title": f"Destiny: {theme}",
+                "story": f"The character is heading toward a future influenced by {theme}.",
+                "influence": random.uniform(0.5, 1.0)  # Random influence within range
+            }
+        else:
+            # No important memories: return a default generic destiny
+            return {"title": "Undefined Path", "story": "The character is moving through an unknown future."}
+
+    # In BicaDestiny (destiny.py)
+
+    def default_destiny_based_on_context(self):
+        """
+        Generates a default destiny when no important memories are found. The default destiny is
+        shaped by the character's context and evolves dynamically as the character interacts with the world.
+        """
+        return {
+            "title": "Unknown Journey",
+            "story": "The character is on a journey influenced by the current situation, yet the path is uncertain.",
+            "influence": random.uniform(0.4, 0.8)
+        }
+
+
+    def extract_generic_theme(self, memory_content):
+        """
+        Extracts a generic theme from the combined memory content. This function is flexible and adapts
+        based on any memory input without relying on predefined scenarios or specific terms.
+        """
+        if "change" in memory_content or "transformation" in memory_content:
+            return "Change"
+        elif "challenge" in memory_content or "difficulty" in memory_content:
+            return "Challenge"
+        elif "discovery" in memory_content:
+            return "Discovery"
+        else:
+            return "Uncertainty"
+
+    def default_destiny_based_on_profile(self, profile):
+        """
+        Generates a default destiny based on the character's traits if no significant memories are available.
+        """
+        openness = profile.get_trait('openness')
+        if openness > 0.7:
+            return {"title": "Exploration", "story": "The character is driven to explore the world and learn."}
+        else:
+            return {"title": "Stability", "story": "The character seeks stability and structure in life."}
+
+    def generate_flexible_destiny(self, memories, short_term_memories):
+        """
+        Generate a flexible destiny that adapts to the character's important memories, long-term memories,
+        and if necessary, short-term memory context (to handle conflicts like the Aladdin example).
+        """
+        if memories['important']:
+            # Generate destiny based on important memories
+            memory_based_destiny = self._create_destiny_from_memories(memories['important'])
+        elif memories['long_term']:
+            # Default to long-term memories if no important memories
+            memory_based_destiny = self._create_destiny_from_memories(memories['long_term'])
+        else:
+            # Check for short-term conflicts, fallback to default traits if no conflicts
+            memory_based_destiny = self._handle_conflict_in_short_term_memory(short_term_memories)
+
+        self.destinies.append(memory_based_destiny)
+        return memory_based_destiny
+
+    def _handle_conflict_in_short_term_memory(self, short_term_memories):
+        # Example check for conflict (like the Aladdin being a digital clone)
+        for memory in short_term_memories:
+            if 'clone' in memory['content'].lower() or 'digital' in memory['content'].lower():
+                return {"title": "Identity Crisis", "description": "The character questions its own existence.", "weight": 0.9}
+
+        # No conflict, generate typical destiny
+        return {"title": "Self Discovery", "description": "The character is exploring its purpose.", "weight": 0.5}
+
+    def _create_destiny_from_memories(self, relevant_memories):
+        # Generate a destiny from high-importance memories
+        summary = " ".join([memory['content'] for memory in relevant_memories])
+        return {"title": "Memory Influence", "description": f"The character is shaped by: {summary[:100]}...", "weight": 0.8}
+
+    """
     # Core functionality methods
     def get_current_destiny_influence(self, memories, recent_conversations):
         current_destinies = self.get_destinies()
