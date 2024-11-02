@@ -166,27 +166,68 @@ class TextDataset(Dataset):
         return torch.tensor(seq), torch.tensor(target)
 
 
-# Testing and training code
-def train_and_test():
-    # Load text file
-    with open('sample_text.txt', 'r', encoding='utf-8') as f:
-        text = f.read()
+def generate_text(model, input_text, vocab, inv_vocab, max_length=50, temperature=0.7):
+    """
+    Generate text based on input prompt with improved sampling
+    """
+    model.eval()
 
+    # Convert input text to indices
+    input_indices = [vocab.get(char, 0) for char in input_text]
+    input_tensor = torch.tensor([input_indices], dtype=torch.long)
+
+    # Generate text
+    with torch.no_grad():
+        for _ in range(max_length):
+            # Get model output
+            output = model(input_tensor)
+
+            # Get the last token's predictions
+            last_token_logits = output[0, -1, :] / temperature
+
+            # Filter out unlikely tokens
+            top_k = 40
+            top_k_logits, top_k_indices = torch.topk(last_token_logits, top_k)
+
+            # Apply softmax to get probabilities
+            probabilities = torch.softmax(top_k_logits, dim=0)
+
+            # Sample from the filtered distribution
+            next_token_idx = torch.multinomial(probabilities, 1).item()
+            next_token = top_k_indices[next_token_idx].item()
+
+            # Append the new token
+            input_tensor = torch.cat([input_tensor, torch.tensor([[next_token]])], dim=1)
+
+            # Convert to character
+            next_char = inv_vocab[next_token]
+            input_text += next_char
+
+            # Stop if we generate a period or newline
+            if next_char in ['.', '\n']:
+                break
+
+    return input_text
+
+
+def train_model(text_data):
+    """Train the model with improved parameters"""
     # Create vocabulary
-    vocab = {char: i for i, char in enumerate(sorted(set(text)))}
+    vocab = {char: i for i, char in enumerate(sorted(set(text_data)))}
+    inv_vocab = {i: char for char, i in vocab.items()}
     vocab_size = len(vocab)
 
-    # Model parameters
-    d_model = 64
-    num_heads = 4
-    num_layers = 2
-    d_ff = 256
+    # Improved model parameters
+    d_model = 128  # Increased from 64
+    num_heads = 8  # Increased from 4
+    num_layers = 3  # Increased from 2
+    d_ff = 512  # Increased from 256
     max_seq_length = 100
     seq_length = 50
-    batch_size = 32
+    batch_size = 16  # Reduced for better training
 
     # Create dataset and dataloader
-    dataset = TextDataset(text, seq_length, vocab)
+    dataset = TextDataset(text_data, seq_length, vocab)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
     # Initialize model
@@ -201,48 +242,74 @@ def train_and_test():
 
     # Loss function and optimizer
     criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters())
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)  # Added learning rate
 
-    # Training loop
-    num_epochs = 5
+    # Training loop with more epochs
+    num_epochs = 10  # Increased from 5
     for epoch in range(num_epochs):
         model.train()
         total_loss = 0
 
         for batch_idx, (input_seq, target_seq) in enumerate(dataloader):
             optimizer.zero_grad()
-
-            # Forward pass
             output = model(input_seq)
-
-            # Reshape output and target for loss calculation
             output = output.view(-1, vocab_size)
             target_seq = target_seq.view(-1)
-
-            # Calculate loss
             loss = criterion(output, target_seq)
-
-            # Backward pass and optimize
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), 0.5)  # Added gradient clipping
             optimizer.step()
 
             total_loss += loss.item()
 
-            if batch_idx % 100 == 0:
+            if batch_idx % 10 == 0:
                 print(f'Epoch: {epoch}, Batch: {batch_idx}, Loss: {loss.item():.4f}')
 
         avg_loss = total_loss / len(dataloader)
         print(f'Epoch {epoch} completed, Average Loss: {avg_loss:.4f}')
 
+    return model, vocab, inv_vocab
 
-# Run training and testing if file is run directly
+
+def interactive_session():
+    """Run an interactive session with improved training data"""
+    # Much more training data with better structure
+    training_data = """
+    Hello! How are you today? I'm doing well, thank you for asking.
+    It's a beautiful day outside. The sun is shining and the birds are singing.
+    I enjoy learning about artificial intelligence and machine learning.
+    Python is a powerful programming language used in many applications.
+    The quick brown fox jumps over the lazy dog.
+    Good morning! Would you like some coffee or tea?
+    The temperature today is perfect for a walk in the park.
+    I love reading books in my free time. Fiction is my favorite genre.
+    The cats sleep peacefully in the warm sunshine.
+    Thank you for your help! I really appreciate it.
+    Could you please help me with this question?
+    The meeting starts at 10 AM tomorrow morning.
+    Have a great day! See you later.
+    What time would you like to meet for lunch?
+    The garden is full of beautiful flowers and butterflies.
+    I'm working on an interesting project right now.
+    The music playing in the background is very relaxing.
+    Let's meet at the coffee shop on Main Street.
+    The children are playing happily in the playground.
+    Would you like to join us for dinner tonight?
+    """
+
+    print("Training the model... This may take a few minutes...")
+    model, vocab, inv_vocab = train_model(training_data)
+    print("\nModel training completed!")
+
+    while True:
+        user_input = input("\nEnter some text to complete (or 'quit' to exit): ")
+        if user_input.lower() == 'quit':
+            break
+
+        completed_text = generate_text(model, user_input, vocab, inv_vocab)
+        print("\nCompleted text:")
+        print(completed_text)
+
+
 if __name__ == "__main__":
-    # Create a sample text file if it doesn't exist
-    sample_text = """This is a sample text file for training the transformer model.
-    It contains multiple lines of text that will be used to train the model.
-    The model will learn to predict the next character in the sequence."""
-
-    with open('sample_text.txt', 'w', encoding='utf-8') as f:
-        f.write(sample_text)
-
-    train_and_test()
+    interactive_session()
