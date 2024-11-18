@@ -28,6 +28,7 @@ We're building what aims to be the largest open-source AGI project, focused on c
 ## 📚 Table of Contents
 
 - [Overview](#overview-section)
+- [Volunteer Positions](#positions-section) 
 - [Motivation](#motivation-section)
   - [Science Fiction Inspiration](#science-fiction-section)
   - [Mutualism-Inspired AI Alignment](#mutualism-section)
