@@ -1,0 +1,67 @@
+# thought_pattern_reference.txt
+# Thought Pattern Symbol Reference
+-------------------------------
+
+## Core States (State Markers)
+<♢> : Neutral/Starting state
+[-] : Negative emotional state
+[+] : Positive emotional state
+{@} : Deep focus state
+{~} : Confusion state
+<!> : Insight/realization state
+<?> : Questioning state
+
+## Process Operators (Directional)
+>>> : Forward progression
+<<< : Backward reflection
+==> : Direct causation
+^^^ : Hierarchical ascension
+vvv : Hierarchical descent
+||| : Parallel processing
+... : Processing pause
+
+## Cognitive Functions (Operations)
+#   : Pattern recognition
+&   : Connection making
+^   : Abstraction/generalization
+v   : Specification/detail focus
+*   : Memory access
+$   : Value assessment
+%   : Probability estimation
+=   : Comparison/evaluation
+→   : Causation analysis
+∑   : Integration/synthesis
+∆   : Change/transformation
+
+## Process Markers
+[...] : Extended processing
+{|}  : Decision point
++++  : Building/expanding
+---  : Reducing/simplifying
+<|>  : Critical junction
+:::  : Sequential steps
+(?)  : Investigation/inquiry
+
+## Valid Pattern Examples:
+1. Problem Solving:
+   <♢>>>><?>>>#{@}>>><!>>>[+]
+
+2. Emotional Processing:
+   [-]>>>*>>>[...]>>>^>>>[+]
+
+3. Learning Pattern:
+   <?>>>>{~}>>>#{@}>>>^>>><!>
+
+4. Decision Making:
+   <♢>>>$>>>%>>>{|}>>>[+]
+
+5. Creative Process:
+   {@}>>>*>>>&#>>><!>>>+++
+
+## Pattern Rules:
+1. Must start with a Core State
+2. Must use >>> between elements
+3. Must end with a State Marker
+4. Can include 1-3 Process Operators
+5. Can include 2-5 Cognitive Functions
+6. Can include 0-2 Process Markers
