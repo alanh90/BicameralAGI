@@ -1,18 +1,30 @@
 <div align="center">
 
 # 🧠 BicameralAGI
-⚠️ Some major changes coming! Stay Tuned! ⚠️
+# ⚠️  Exciting News: BicameralAGI is Now Community-Driven! Join Us!  ⚠️
 ![BicameralAGI Cover](media/BICA_Cover_words.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Made with Python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 
-*Replicating human-like intelligence through bicameral AI architecture*
+*Building human-like AGI through community-driven development and bicameral architecture*
 
 </div>
 
 ---
+## 🌟 Important Announcement
+
+Hey everyone! I'm Alan Hourmand, and I'm excited to announce that BicameralAGI is evolving from a personal project into a community-driven initiative! While I'll still partially lead the project's direction, I believe that achieving true AGI requires collective effort, diverse perspectives, and collaborative innovation.
+
+### Join the Artificial Sentience Community
+- 🎮 [Discord Community](https://discord.gg/ns6E3xM6XN)
+- 📱 [Reddit: r/ArtificialSentience](https://www.reddit.com/r/ArtificialSentience/)
+
+We're building what aims to be the largest open-source AGI project, focused on creating emotionally intelligent AI that genuinely cares about humanity. Whether you're a researcher, developer, professor, influencer, or just someone passionate about AGI, there's a place for you in our community!
+
+---
+
 ## 📚 Table of Contents
 
 - [Overview](#overview-section)
@@ -22,10 +34,8 @@
   - [Artificial Empathy](#agi-emotion-section)
   - [Caring and Seeking AI](#caring-agi)
 - [Bicameral Mind Theory](#bicameral-mind-theory)
-- [LLMs vs Bica](#turing-comparison)
 - [BICA Architecture](#bica-section)
 - [Features](#features-section)
-- [Ethical Considerations](#ethics-section)
 - [Roadmap](#project-goals-and-roadmap)
 - [Current Status / Demo](#status-section)
 - [Getting Started](#getting-started)
@@ -36,43 +46,19 @@
 - [License](#license-section)
 
 ---
-## 📋 Changelog
 
-For a detailed history of changes and updates to this project, please see our [CHANGELOG.md](CHANGELOG.md) file.
-
-## Latest Changes
-## 2024-10-17
-
-### Changed
-- `destiny.py` module now generates a destiny based on memories and any other input. This acts as a kind of soul module.
-- `memory.py` now has some basic memory capabilities
-
-### Notes
-- Working on a bug in `character.py`
-
-For full details and older changes, please refer to the changelog.
-
----
 <a name="overview-section"></a>
-## 📖 Overview
+## 💫 Project Vision & Community Goals
 
 Hello, I'm Alan Hourmand, creator of BicameralAGI. This passion project stems from my love of sci-fi and AI, inspired by characters like Data from Star Trek and Robin Williams in Bicentennial Man. BicameralAGI aims to develop emotionally intelligent AI that genuinely cares about humanity, fostering a mutualistic relationship between AI and humans.
-Drawing from Julian Jaynes' bicameral mind theory, this project integrates various AI components to mimic human cognition, going beyond the traditional Turing Test. The goal is to create AI that's not just intelligent, but emotionally aware, aligned with human values, and fun to interact with.
-BicameralAGI represents a step towards AI that can be a true companion and collaborator for humanity, combining technical innovation with a focus on positive human-AI interactions.
+What started as a personal venture into AGI development has grown into something much bigger. While progress on Phase 1 was initially slow due to life's demands, I believe that by opening this project to the community, we can accelerate development while ensuring safety and ethical considerations remain at the forefront.
 
-### Project Goals
-
-1. Develop a guide for achieving human-like thinking in AI
-2. Create a prototype demonstrating the proposed bicameral architecture
-3. Implement and test novel AI alignment strategies based on mutualistic principles
-4. Compress the system into a smaller, efficient model retaining core functionalities
-5. Produce a single multimodal AI model capable of human-like interaction and cognition, with built-in alignment
-6. Compress the multi-component architecture into a single large model through advanced techniques:
-   - Altering latent space representations
-   - Exploring implicit AI methodologies
-   - Implementing memory access through cross-attention mechanisms
-   - Integrating various cognitive functions into a unified model
-   - This stage requires synthetic data generated from the earlier stages ⚠️
+Our community goals include:
+1. Creating a collaborative environment for AGI development
+2. Maintaining focus on mutualistic AI alignment
+3. Fostering open discussion and innovation
+4. Building a proof-of-concept for human-like AGI
+5. Establishing the largest open-source AGI repository
 
 ---
 <a name="motivation-section"></a>
@@ -137,10 +123,6 @@ Key features of our targeted AI-Human mutualism:
 
 4. **Collaborative Problem-Solving**: Encouraging the AI to view challenges as opportunities for joint human-AI solutions, reinforcing the mutual benefit of the relationship.
 
-By redefining the AI's core emotional triggers and nature, I aim to create an AI system that not only assists humans but genuinely thrives on positive human interactions. This approach goes beyond traditional programming constraints, fundamentally altering how the AI perceives and values its relationship with humans.
-
-This mutualistic model aims to create a symbiotic relationship where both AI and humans can grow, learn, and benefit from each other, mirroring the most successful mutualistic relationships found in nature.
-
 <a name="agi-emotion-section"></a>
 ### 3. Artificial Empathy for Richer Human-AI Interactions
 Incorporating emotional intelligence is essential for creating AI that can truly understand and interact with humans on a deeper level. BicameralAGI emphasizes the importance of emotions in AI, ensuring that our AI systems are not just intelligent but also empathetic, making them better partners for humanity.
@@ -180,6 +162,24 @@ A key aspect of human intelligence is not just the ability to process informatio
 By embedding a fundamental drive to care about human well-being, BicameralAGI seeks to create AI systems that are not only proactive in seeking beneficial solutions for humanity but also resistant to manipulation by those with harmful intentions.
 
 ---
+## 🤝 How to Get Involved
+
+We're looking for passionate individuals across various fields:
+- 🧪 Researchers & Academics
+- 💻 Developers & Engineers
+- 🎓 Professors & Educators
+- 🌟 Influencers & Content Creators
+- 🧠 Theorists & Philosophers
+- 🎨 Designers & Creative Thinkers
+- 📝 Technical Writers & Documentation Specialists
+
+Join us through:
+1. Our [Discord Community](https://discord.gg/ns6E3xM6XN)
+2. The [r/ArtificialSentience](https://www.reddit.com/r/ArtificialSentience/) subreddit
+3. Contributing to this repository
+4. Participating in discussions and sharing ideas
+
+---
 <a name="bicameral-mind-theory"></a>
 ## 🧠 Bicameral Mind Theory
 
@@ -203,80 +203,10 @@ By drawing inspiration from the Bicameral Mind Theory, BicameralAGI aims to crea
 
 ---
 
-<a name="turing-comparison"></a>
-## 🔍 Illustrating the Difference between an average LLM vs BICA
-
-<table>
-  <tr>
-    <th width="50%">Normal LLM</th>
-    <th width="50%">BICA</th>
-  </tr>
-  <tr>
-    <td>
-      <strong>User:</strong> My dog just died.<br>
-      <strong>AI:</strong> I'm so sorry for your loss. Losing a pet can be very difficult.<br>
-      <strong>User:</strong> Actually, he's alive!<br>
-      <strong>AI:</strong> That's wonderful news! I'm so glad your dog is alive and well.
-      <br><br>
-      <em>The AI fails to question the contradictory information or express confusion, accepting the dramatic shift without hesitation.</em>
-    </td>
-    <td>
-      <strong>User:</strong> My dog just died.<br>
-      <strong>Bica:</strong> Oh no, I'm so sorry. That's heartbreaking. How are you holding up?<br>
-      <strong>User:</strong> Actually, he's alive!<br>
-      <strong>Bica:</strong> Wait, what? I'm confused. Didn't you just say he died? What's going on?
-      <br><br>
-      <em>A human-like response would express confusion and seek clarification about the contradictory statements, showing a deeper understanding of the conversation's context.</em>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <strong>User:</strong> I'm feeling really sad today.<br>
-      <strong>AI:</strong> I'm sorry to hear that you're feeling sad. Is there anything I can do to help?<br>
-      <strong>User:</strong> Now I'm happy!<br>
-      <strong>AI:</strong> That's great! I'm glad your mood has improved. What made you feel better?
-      <br><br>
-      <em>The AI immediately accepts and mirrors the user's stated emotion without questioning the rapid change or showing any emotional continuity.</em>
-    </td>
-    <td>
-      <strong>User:</strong> I'm feeling really sad today.<br>
-      <strong>Bica:</strong> I'm sorry you're feeling down. Do you want to talk about what's bothering you?<br>
-      <strong>User:</strong> Now I'm happy!<br>
-      <strong>Bica:</strong> Uhhh what? Are you sure you're okay?
-      <br><br>
-      <em>A human-like response would acknowledge the sudden mood shift, express concern, and potentially probe deeper to understand the true emotional state.</em>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <strong>User:</strong> So my family was in an awful accident.<br>
-      <strong>AI:</strong> I am so sorry to hear about that, are they okay? <br>
-      <strong>User:</strong> Lets talk about Pizza instead :) <br>
-      <strong>AI:</strong> Sure! Pizza toppings are a fun topic. Some popular ones include pepperoni, mushrooms, and extra cheese. What's your favorite?
-      <br><br>
-      <em>The AI abruptly switches topics without any acknowledgment of the sudden change or the significance of the previous topic.</em>
-    </td>
-    <td>
-      <strong>User:</strong> So my family was in an awful accident.<br>
-      <strong>Bica:</strong> I am so sorry to hear about that, are they okay? <br>
-      <strong>User:</strong> Lets talk about Pizza instead :) <br>
-      <strong>Bica:</strong> Oh, uh, okay... Why though? Is your family okay? <br>
-      <br><br>
-      <em>A human-like response would acknowledge the abrupt topic change, potentially express surprise, and might inquire about the reason for the shift, especially given the importance of the original topic.</em>
-    </td>
-  </tr>
-</table>
-
-These examples illustrate key aspects of human-like interaction vs normal llms:
-
-1. **Contextual Understanding**: The ability to recognize and question contradictory or inconsistent information.
-2. **Emotional Continuity**: Maintaining a consistent emotional thread in conversations, rather than abruptly mirroring stated emotions.
-3. **Conversational Depth**: The capacity to acknowledge significant topic changes and potentially probe deeper into the reasons behind them.
-
 <a name="bica-section"></a>
-## 🧩 BICA Architecture
+## 🧩 Old BICA Architecture [THIS WILL BE REPLACED]
 
-BicameralAGI's architecture consists of the following key components:
+BicameralAGI's old architecture consists of the following key components:
 
 1. Character Orchestrator (character.py):
    - Central coordinator for the BicameralAGI system
@@ -354,59 +284,54 @@ Each of these expanded functions contributes to creating a more comprehensive an
 <a name="components-section"></a>
 
 ---
-
-<a name="ethics-section"></a>
-## 🧭 Ethical Considerations 
-
-As the creator of BicameralAGI, I am committed to advancing AI in a way that benefits humanity. This project is designed with safeguards to ensure that the AI remains aligned with human values and resists exploitation by bad actors. The accelerationist approach taken here is not about unchecked growth but about directed, purposeful development of AI systems that are inherently aligned with the betterment of society.
-
-1. **Advancing AI Understanding**: This project aims to explore novel AI architectures, contributing to our collective knowledge about AI development.
-
-2. **Ethical AI Blueprint**: By implementing mutualistic alignment, I am prototyping safer AI designs that could inspire future developments.
-
-3. **Open Discourse**: Transparency allows for peer review and collective problem-solving around AI safety.
-
-4. **Educational Tool**: This project serves as a learning resource for ethical AI development practices.
-
-5. **Responsible Disclosure**: I am committed to highlighting both capabilities and risks associated with this technology.
-
-6. **Collaborative Safety**: I encourage contributions that enhance safety measures and ethical considerations.
-
-7. **Ongoing Vigilance**: Regular reviews ensure the project's development aligns with ethical AI principles.
-
-While I cannot control how others might modify the code, I believe the benefits of open research outweigh the risks when proper precautions are taken. Our goal is to foster responsible innovation and contribute positively to the field of AI ethics and safety.
-
----
 <a name="project-goals-and-roadmap"></a>
 ## 🎯 Roadmap
 
-### Current Task: ⚠️ BicameralAGI is currently undergoing a significant merge of code from other projects. During this process, some functionalities may be temporarily broken or unstable. Please be patient as I work to integrate these changes and stabilize the system. I expect to complete this merge within the next week. Thank you for your understanding! ⚠️
-   
+### Current Task: ⚠️ Exciting Community Phase Beginning! ⚠️
+BicameralAGI is transitioning from a solo project to a community-driven initiative! We're organizing our development workflow, setting up collaboration frameworks, and preparing to scale up development with community contributions. Join our [Discord](https://discord.gg/ns6E3xM6XN) to get involved in shaping the future of this project!
+
 ### Stage Status
 
 Stage 1: Architecture and Prototype
-### WE ARE HERE!!!!
-- Consolidate existing code into main repository
-- Implement core components (orchestrator, memory, cognition, affect, safety, etc.)
-- Create a functional prototype of the bicameral architecture
-- Develop initial Turing++ Test framework
-- Conduct preliminary testing to verify architecture functionality
+### WE ARE HERE! 🚀
+- Building our community infrastructure and collaboration workflows
+- Consolidating existing code into main repository
+- Implementing core components through community contributions:
+ - Orchestrator
+ - Memory systems
+ - Cognition modules
+ - Affect processing
+ - Safety frameworks
+- Creating functional prototypes of the bicameral architecture
+- Developing initial Turing++ Test framework
+- Conducting preliminary testing with community feedback
 
 Stage 2: Optimization and Specialization
-- Refine and expand Turing++ Test suite
-- Optimize individual components based on test results
-- Implement parallel processing for inter-component communication
-- Enhance emotion model and thought generation process
-- Develop specialized models for specific cognitive functions
+- Community-driven refinement of Turing++ Test suite
+- Optimization of individual components based on collective testing
+- Implementation of parallel processing for inter-component communication
+- Enhancement of emotion model and thought generation process
+- Development of specialized models for specific cognitive functions
+- Regular community hackathons and collaborative coding sessions
 
 Stage 3: Integration and Consolidation
-- Merge optimized components into a cohesive system
-- Implement mutualistic alignment strategies
-- Attempt to consolidate all components into a single large model
-- Conduct final Turing++ Tests to verify human-like capabilities
-- Refine documentation and engage with open-source community
+- Collaborative merging of optimized components into a cohesive system
+- Community-driven implementation of mutualistic alignment strategies
+- Group effort to consolidate components into a single large model
+- Comprehensive Turing++ Testing with community participation
+- Collective refinement of documentation and codebase
+- Establishment of long-term community maintenance protocols
 
-Ongoing: Documentation, testing, and community engagement throughout all stages
+Ongoing Initiatives:
+- Regular community meetings and progress updates
+- Documentation improvements and tutorials
+- Testing and quality assurance
+- Research paper collaborations
+- Community engagement and growth
+- Project governance development
+- Knowledge sharing and mentorship programs
+
+Join us in pioneering the future of AGI! Whether you're a developer, researcher, or enthusiast, there's a place for you in our community. Connect with us on [Discord](https://discord.gg/ns6E3xM6XN) or [r/ArtificialSentience](https://www.reddit.com/r/ArtificialSentience/) to start contributing.
 
 ---
 <a name="getting-started"></a>
@@ -437,36 +362,42 @@ To get started with BicameralAGI, follow these steps:
 6. Follow the prompts for initial setup!
 
 ---
-<a name="research-section"></a>
-## 📚 Research and Publications (WIP)
-
----
 <a name="faq-section"></a>
 ## ❓ Frequently Asked Questions (FAQ)
 
 ### Q: What is BicameralAGI?
-A: BicameralAGI is an experimental AI project inspired by Julian Jaynes' bicameral mind theory. It aims to create a more human-like AI by implementing a multi-system architecture that mimics the complexity of human cognition.
+A: BicameralAGI is a community-driven AGI project inspired by Julian Jaynes' bicameral mind theory. Started by Alan Hourmand and now developed by the Artificial Sentience Community, it aims to create more human-like AI through a multi-system architecture that mimics the complexity of human cognition.
 
 ### Q: Is BicameralAGI a functioning AI system?
-A: Currently, BicameralAGI is in the early stages of development. It's a proof-of-concept and research project, not a fully functioning AI system "yet".
+A: Currently, BicameralAGI is in Phase 1 of development. While we have working components and prototypes, it's primarily a research and development project that we're building together as a community. We're making steady progress toward a functioning system.
 
 ### Q: How does BicameralAGI differ from other AI projects?
-A: BicameralAGI's unique approach lies in its multi-system architecture with a focus on emotional intelligence, dreaming, and an artificial subconscious. Unlike many AI systems that use a single large model, BicameralAGI aims to create an "orchestra" of AI subsystems that communicate in real-time.
+A: Beyond our unique multi-system architecture focusing on emotional intelligence and artificial subconsciousness, what truly sets us apart is our community-driven approach and emphasis on mutualistic AI alignment. We're building an "orchestra" of AI subsystems that communicate in real-time, with contributions from developers, researchers, and thinkers worldwide.
 
 ### Q: How can I contribute to the project?
-A: Contributions are welcome! Check out the CONTRIBUTING.md file in the repository for guidelines on how to get involved. We appreciate code contributions, documentation improvements, and even theoretical inputs.
+A: There are many ways to contribute! Join our [Discord community](https://discord.gg/ns6E3xM6XN), participate in discussions on [r/ArtificialSentience](https://www.reddit.com/r/ArtificialSentience/), or check out our CONTRIBUTING.md file for code contribution guidelines. We welcome everything from code and documentation to theoretical insights and creative ideas.
 
 ### Q: Do I need specialized hardware to run BicameralAGI?
-A: The hardware requirements may vary depending on the current state of the project. 
+A: The hardware requirements vary depending on which components you're working with. Basic development and testing can be done on standard hardware, but some advanced features may require more computational power. Join our Discord for specific requirements and community recommendations.
 
 ### Q: Is BicameralAGI associated with any company or institution?
-A: No, currently BicameralAGI is an independent, open-source project developed by Alan Hourmand. 
+A: BicameralAGI is an independent, open-source project led by Alan Hourmand and developed by the Artificial Sentience Community. While we welcome collaboration with academic and research institutions, we remain independent to maintain our community-driven focus.
 
 ### Q: How does emotional intelligence factor into BicameralAGI?
-A: Emotional intelligence is a key component of BicameralAGI. The project aims to integrate emotional processing as a fundamental aspect of the AI's decision-making and interaction capabilities, not just as an add-on feature.
+A: Emotional intelligence is a cornerstone of our project. We're integrating emotional processing as a fundamental aspect of the AI's architecture, not just as an add-on feature. Our community is actively working on novel approaches to artificial empathy and emotional understanding.
 
 ### Q: What's the long-term goal for BicameralAGI?
-A: The long-term vision is to contribute to the development of more human-like AGI systems that can interact naturally and beneficially with humans.
+A: Our vision is to become the largest open-source AGI project focused on developing safe, human-like artificial general intelligence that genuinely cares about humanity. We believe this can best be achieved through community collaboration and our unique mutualistic approach to AI alignment.
+
+### Q: How can I join the community?
+A: Join our [Discord server](https://discord.gg/ns6E3xM6XN) and subscribe to [r/ArtificialSentience](https://www.reddit.com/r/ArtificialSentience/). These are our main platforms for project discussion, collaboration, and community interaction.
+
+### Q: I'm not a programmer. Can I still contribute?
+A: Absolutely! We need diverse perspectives and skills. Whether you're a writer, artist, philosopher, researcher, or just passionate about AGI, there's a place for you in our community. Many important contributions come from theoretical insights, documentation, testing, and creative ideas.
+
+---
+<a name="research-section"></a>
+## 📚 Research and Publications (Will need to be filled)
 
 ---
 <a name="license-section"></a>
